@@ -1,8 +1,11 @@
-const express = require('express')
-const router = express.Router()
+const indexRouter = require('./home');
+const staffRouter = require('./staff');
+const loginRouter = require('./login');
 
-router.get('/', (req,res) =>{
-    res.render('index')
-})
+function route (app) {
+    app.use('/',indexRouter)
+    app.use('/staff', staffRouter)
+    app.use('/login', loginRouter)
+}
 
-module.exports = router
+module.exports = route
