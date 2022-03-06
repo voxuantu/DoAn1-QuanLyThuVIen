@@ -1,1 +1,236 @@
-Middle
+<%- contentFor('head')  %> 
+<title>Trang chủ</title>
+<%- contentFor('body') %> 
+<%- include('./particals/header.ejs')  %> 
+<div id="carouselExampleControls" class="carousel slide container" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/Banner/banner1.png" class="d-block w-100" alt="banner1">
+      </div>
+      <div class="carousel-item">
+        <img src="/Banner/banner2.png" class="d-block w-100" alt="banner2">
+      </div>
+      <div class="carousel-item">
+        <img src="/Banner/banner3.png" class="d-block w-100" alt="banner3">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Trước</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Sau</span>
+    </button>
+  </div>
+
+  <div class="container">
+    <div class="timkiem">
+      <div class="title">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <p>Tìm kiếm sách</p>
+      </div>
+      <div class="search_box row">
+        <div class="col-10">
+          <div class="input-group mb-3">
+            <select>
+              <option>Tên sách</option>
+              <option>Tên tác giả</option>
+            </select>
+            <input type="text">
+          </div>
+        </div>
+        <div class="col-2">
+          <button class="btnTimKiem">Tìm kiếm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="left_menu">
+          <div class="theloai">
+            <h5>Thể loại</h5>
+          </div>
+          <div class="dstheloai">
+            <ul>
+              <li><a>Khoa học</a></li>
+              <li><a>Mỹ thuật</a></li>
+              <li><a>Tiếng anh</a></li>
+              <li><a>Toán học</a></li>
+            </ul>
+          </div>
+        </div>
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="/Banner/banner4.png" class="d-block w-100" alt="banner4">
+            </div>
+            <div class="carousel-item">
+              <img src="/Banner/banner5.png" class="d-block w-100" alt="banner5">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="row">
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <div class="img-card">
+                <img class="img-fluid img-card" src="/Book image/BupBeRaggedyAnn.jpg">
+              </div>
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/ChoDenMauGiaoThiDaMuon.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/ChoToiXinMotVeDiTuoiTho.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Cho tôi xin một vé đi tuổi thơ</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/ConChimXanhBiecBayVe.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Con chim xanh biếc bay về</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/ConChuGiDeNho.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Còn chút gì để nhớ</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/ConVe.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Con về</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image//DacNhanTam.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/DoiCoMayTiSaoPhaiNghi.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/ConChuGiDeNho.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Còn chút gì để nhớ</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/ConVe.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Con về</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image//DacNhanTam.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-container col-sm-3">
+            <div class="card-base">
+              <img class="img-fluid img-card" src="/Book image/DoiCoMayTiSaoPhaiNghi.jpg">
+              <div class="btn-base">
+                <p class="text-base">Mượn sách</p>
+              </div>
+              <div class="text-content">
+                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
+                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+              </div>
+            </div>
+          </div>
+          <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('./particals/footer.ejs')  %> 

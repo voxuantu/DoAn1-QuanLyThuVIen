@@ -1,6 +1,7 @@
 class StaffController {
-    index(req,res){
-        res.render('staff');
+    async index(req,res){
+        const currentUser = await req.user
+        res.render('staff',{name: currentUser.displayName});
     }
 }
 

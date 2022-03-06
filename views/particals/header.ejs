@@ -1,0 +1,80 @@
+<header>
+    <div class="container">
+        <div class="header">
+            <nav class="navbar navbar-expand-sm ">
+                <div class="container-fluid">
+                    <!-- Links -->
+                    <div class="col-lg-9 col-md-9">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <img src="icon/home.png" />
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Trang chủ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Giới thiệu</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Liên hệ</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header_right">
+                            <% if(currentUser ==null) { %> 
+                                <a href="/login">Đăng nhập</a>
+                            <% }else{ %>
+                                <i class="fa-solid fa-bell" onclick="toggleNotify()">
+                                    <span class="badge bg-danger text-wrap notifi-counter">7</span>
+                                </i>
+                                <i class="fa-solid fa-basket-shopping">
+                                    <span class="badge bg-danger text-wrap notifi-counter">7</span>
+                                </i>
+                                <i class="fa-solid fa-circle-user" onclick="toggleUserBox()"></i>
+                                <div class="notifi-box" id="notifi-box-id">
+                                    <h2>Thông báo <span>7</span></h2>
+                                    <div class="notifi-item">
+                                        <img src="/icon/avatar.png" alt="avatar">
+                                        <div>
+                                            <h5>Mượn sách</h5>
+                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
+                                        </div>
+                                    </div>
+                                    <div class="notifi-item">
+                                        <img src="/icon/avatar.png" alt="avatar">
+                                        <div>
+                                            <h4>Mượn sách</h4>
+                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
+                                        </div>
+                                    </div>
+                                    <div class="notifi-item">
+                                        <img src="/icon/avatar.png" alt="avatar">
+                                        <div>
+                                            <h4>Mượn sách</h4>
+                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="user-box hide-element" id="userBox">
+                                    <div class="user-box-item" style="border-bottom: 1px solid #eee ;">
+                                        <i class="fa-solid fa-gear"></i>
+                                        <span>Trang cá nhân</span>
+                                    </div>
+                                    <div class="user-box-item">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                        <form action="/logout?_method=DELETE" method="post">
+                                            <button type="submit">Logout</button>
+                                        </form>
+                                    </div>
+                                </div> 
+                            <% } %> 
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>

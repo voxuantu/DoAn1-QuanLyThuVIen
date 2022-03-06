@@ -1,0 +1,48 @@
+.contanier_login{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.wrap_login {
+    width: 1000px;
+    background: #fff;
+    margin-top: 80px;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    box-shadow: 0 3px 20px 0px rgba(0, 0 ,0 ,0.3);
+}
+.wrap_login h3{
+    margin-top: 100px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.login_form{
+    padding: 0 20px;
+}
+
+.login_form a {
+    text-decoration: none;
+    color: black;
+}
+.text_right{
+    text-align: right;
+    margin-bottom: 16px;
+}
+.body{
+    /* background: rgb(130,187,230);
+background: linear-gradient(90deg, rgba(130,187,230,1) 0%, rgba(130,182,242,1) 49%, rgba(42,70,213,1) 100%); */
+background-image: url('/images/nen3.jpg'); 
+background-size: cover; 
+background-attachment: fixed
+}
+.nutdangnhap{
+    display: flex;
+    justify-content: center;
+}
+.anhnen{
+    width: 574px;
+    height: 500px;
+    border-radius: 10px 0px 0px 10px;
+}
