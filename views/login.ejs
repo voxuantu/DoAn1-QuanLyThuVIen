@@ -1,14 +1,53 @@
-<div>
+<!-- <div>
+    <h1>login</h1>
+    <% if(messages.error) { %>
+        <%= messages.error %>
+    <% } %>   
     <form action="/login" method="post">
         <div>
             <label>username</label>
-            <input type="text" name="username" id="">
+            <input type="text" name="username" id="username">
         </div>
         <div>
             <label>password</label>
-            <input type="text" name="password" id="">
+            <input type="text" name="password" id="password">
         </div>
-        
         <button type="submit">submit</button>
     </form>
 </div>
+<a href="/login/register">Register</a> -->
+<%- contentFor('head') %> 
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="/css/login.css">
+<%- contentFor('body') %>
+    <body class="body">
+        <div class="container">
+            <div class="contanier_login">
+                <div class="wrap_login" style="background: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1));">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <img class="anhnen" src="/images/nen2.jpg" alt="BupBeRaggedyAnn">
+                        </div>
+                        <div class="col-sm-5" >
+                            <div class="title">
+                                <h3>Đăng nhập</h3>
+                                <% if(messages.error) { %>
+                                    <%= messages.error %>
+                                <% } %> 
+                            </div>
+                            <form class="login_form" action="/login" method="post">
+                                <input class="form-control mb-3" name="username" type="text" placeholder="Tên đăng nhập">
+                                <input class="form-control mb-3" name="password" type="password" placeholder="Mật khẩu">
+                                <div class="text_right">
+                                    <a href="#">Quên mật khẩu?</a>
+                                </div>
+                                <div class="nutdangnhap">
+                                    <button type="submit" class="nutbam mb-3">Đăng nhập</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>

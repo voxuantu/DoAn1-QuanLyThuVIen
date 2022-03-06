@@ -1,0 +1,427 @@
+/* css header */
+.header{
+    background-color: #31a2fa;
+}
+.container .header a {
+    color: white !important;
+    text-transform: uppercase;
+}
+.container .header .navbar-nav img{
+    width: 24px;
+    height: 24px;
+    margin-top: -12px;
+    
+}
+.header_right{
+    text-align: right;
+    color: white;
+}
+.header_right i{
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 25px;
+}
+.header_right a{
+    text-decoration: none;
+    padding: 8px;
+}
+
+
+/* css o tim kiem */
+.timkiem{
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    padding : 20px;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    background-color: white;
+}
+.timkiem .title {
+    display: flex;
+}
+.timkiem .search_box{
+    width: 100%;
+}
+.timkiem .search_box input{
+    padding: 5px;
+    border: 1.5px solid #31a2fa;
+    border-radius: 5px;
+    width: 85%;
+}
+.timkiem .search_box select {
+    border: 1.5px solid #31a2fa;
+    border-radius: 5px 0 0 5px;
+    padding: 5px;
+    width: 15%;
+}
+.timkiem .search_box .btnTimKiem {
+    padding: 6px;
+    color: white;
+    background-color: #31a2fa;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+.timkiem .search_box .btnTimKiem:hover{
+    color: #31a2fa;
+    background-color: white;
+    border: 2px solid #31a2fa;
+    padding: 4px;
+}
+.timkiem .search_box .col-10 button{
+    border: 1px solid #31a2fa;
+    background-color: white;
+    border-radius: 5px 0 0 5px;
+}
+.container .timkiem i{
+    margin-top: 5px;
+    margin-right: 10px;
+    color: #31a2fa;
+}
+/* Left-bar css */
+.left_menu{
+    background-color: white;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+.left_menu .theloai {
+    background-color: #31a2fa;
+    padding: 10px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}
+.left_menu .theloai h5 {
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+}
+.left_menu .dstheloai{
+    padding: 0px 10px;
+}
+.left_menu ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.left_menu li{
+    padding: 10px;
+    border-bottom: 1px solid #ecebeb;
+    cursor: pointer;
+}
+.dstheloai li:hover{
+    background-color: #dfdfdf;
+}
+
+
+/* card css */
+.card-container{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.card-base{
+    height: 300px;
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    transition: .3s box-shadow, .3s margin-top
+    ease-in-out;
+}
+.card-base:hover{
+    box-shadow: 2px 12px 20px rgba(0, 0, 0, 0.3);
+    margin-top: -10px;
+    cursor: pointer;
+}
+
+.img-card{
+    border-radius: 10px;
+}
+.btn-base{
+    background: #31a2fa;
+    display: flex;
+    width: 100px;
+    height: 40px;
+    border-radius: 50px;
+    margin: 0 auto;
+    margin-top: -20px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    transition: .3s box-shadow ease-in-out;
+}
+.btn-base:hover{
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+}
+.text-base{
+    margin: auto;
+    color: white;
+}
+.text-content{
+    padding: 10px;
+}
+
+/* footer css */
+.footer{
+    margin-top: 20px;
+    color: white; 
+    text-align: center;
+}
+.footer .container p {
+    background-color: #31a2fa;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 0px;
+}
+
+/* notifi-box */
+.display-notifi-box{
+    visibility: visible !important;
+}
+.notifi-box{
+    background-color: white;
+    z-index: 1;
+    visibility: hidden;
+    width: 350px;
+    max-height: 300px;
+    overflow-y: auto;
+    position: absolute;
+    top: 43px;
+    right: 112px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.notifi-box h2{
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    color: #999;
+}
+.notifi-box h2 span{
+    color: #f00;
+}
+.notifi-item{
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding: 15px 5px;
+    height: 100px;
+    cursor: pointer;
+}
+.notifi-item:hover{
+    background-color: #eee;
+}
+.notifi-item img{
+    display: block;
+    width: 70px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+.notifi-item h4{
+    color: #777;
+    font-size: 16px;
+    margin-right: 10px;
+}
+.notifi-item p{
+    color: black;
+}
+.notifi-counter{
+    font-size: 10px !important;
+    position: absolute;
+    margin-left: -10px;
+    margin-top: -5px;
+}
+/* css đường dẫn thư mục */
+.duong-dan-muc{
+    font-size: 16px;
+    padding: 10px 10px 0px 10px;
+}
+.duong-dan-muc a {
+    text-decoration: none;
+    color: #999;
+}
+.duong-dan-muc i{
+    color: #999;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+/* css chi tiết sách */
+.book-introduction{
+    height: 200px !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+.col-sm-8 .muonsach{
+    border: 2px solid #31a2fa;
+    background-color: #31a2fa;
+    color: white;
+    padding: 10px 30px ;
+}
+.col-sm-8 .muonsach:hover{
+    background-color: white;
+    color: #31a2fa;
+    border: 2px solid #31a2fa;
+}
+/* css Trang cá nhân */
+.timkiem .col-sm-8 .title_canhan{
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 0px;
+}
+.timkiem .col-sm-8 .row .mb-3 a{
+    cursor: pointer;
+}
+#nuteditThongTin{
+    visibility: hidden;
+    text-align: right;
+}
+.display-edit-button{
+    visibility: visible !important;
+}
+.anhDaiDien{
+    max-width: 192px;
+    max-height: 192px;
+}
+.thong-tin-the h5{
+    text-align: center;
+}
+.thong-tin-the p{
+    text-align: center;
+    width: 50%;
+}
+.lich-su h5{
+    text-align: center;
+}
+.lich-su .table  tbody i{
+    cursor: pointer;
+    max-height: 300px;
+}
+
+.dang-xu-ly{
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(250, 146, 146);
+    background-color: rgb(247, 184, 184);
+}
+.dang-muon{
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #ffee00;
+    background-color: #f5f0a8;
+    border-radius: 5px;
+}
+.da-tra{
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #00ff37;
+    background-color: #aff7b2;
+    border-radius: 5px;
+}
+.hide-element{
+    display: none !important;
+}
+.gia-han-the{
+    display: flex;
+    justify-content: center;
+}
+.thong-tin-tra-sach{
+    display: flex;
+    justify-content: space-between;
+}
+/* css trang giỏ sách */
+.table img{
+    width: 100px;
+}
+.timkiem h4{
+    text-align: center;
+}
+.action-book{
+    font-size: 20px;
+    cursor: pointer;
+}
+.xoa{
+    color:rgb(250, 53, 53) !important;
+}
+.action-book:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.customer-info{
+    border-radius: 10px; 
+    padding: 20px;
+    height: fit-content;
+}
+.empty-bag{
+    width: 250px;
+    margin-bottom: 20px;
+}
+/* css cho user-box */
+.user-box{
+    top: 45px;
+    right: 0px;
+    position: absolute;
+    width: fit-content;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.user-box-item{
+    color: black;
+    text-align: left;
+    padding: 5px 10px 5px 10px;
+    color: black;
+}
+.user-box-item i{
+    margin-left: 0;
+}
+.user-box-item:hover{
+    cursor: pointer;
+}
+/* css trang giới thiệu */
+.timkiem h3{
+    text-align: center;
+}
+
+/* CSS TRANG YÊU CẦU MƯỢN SÁCH */
+i.fa-regular{
+   font-size: 30px; 
+   cursor: pointer;
+}
+i.fa-circle-check{
+    color: #04d85d !important;
+}
+i.fa-circle-xmark{
+    color: red !important;
+}
+
+/* css trang quản lý sách và thể loại */
+.nut-xac-nhan-them-moi{
+    text-align: right;
+}
+#mota{
+    height: 100px;
+}
+.title_themmoi{
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: large;
+    margin-bottom: 0;
+}
+html{
+    scroll-behavior: smooth;
+}
+.nut-them-moi{
+    text-decoration: none;
+}
+.search_box_qlsach input {
+    width: 50% !important;
+}
+.them-moi-the-loai{
+    justify-content: space-between;
+}
+/* css Trang quản lý người dùng */
+#title-qlnguoidung{
+    text-align: center;
+}
+.table-nguoidung a{
+    text-decoration: none;
+}

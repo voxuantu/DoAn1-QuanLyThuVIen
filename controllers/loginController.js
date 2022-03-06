@@ -1,6 +1,6 @@
 const Account = require('../models/account')
 const Role = require('../models/role')
-const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 class LoginController {
     async index(req, res) {
@@ -11,22 +11,35 @@ class LoginController {
             account: account
         });
     };
-    async login(req, res) {
 
+    //load trang register
+    async register(req, res){
         try {
-            const acc = await Account.find({
-                username : req.body.username,
-                password : req.body.password
-            }).populate('role');
-            if (acc) {
-                var token = jwt.sign({ _id : acc[0]._id}, process.env.SECRET)
-                
-                
-            } else {
-                res.redirect("/login")
-            }
-        } catch (err) {
-            res.json(err)
+            const roles = await Role.find({})
+            res.render('register',{roles : roles})
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async createAccount(req, res){
+        try {
+            const hashPassword = await bcrypt.hash(req.body.password, 10)
+            const account = new Account({
+                username: req.body.username,
+                password: hashPassword,
+                displayName: req.body.displayName,
+                address: req.body.address,
+                phone: req.body.phone,
+                birth: new Date(req.body.birth),
+                email: req.body.email,
+                role: req.body.role
+            })
+            const newAccount = await account.save()
+            res.redirect('/login')
+        } catch (error) {
+            res.redirect('/login/register')
+            console.log(error)
         }
     }
 }
