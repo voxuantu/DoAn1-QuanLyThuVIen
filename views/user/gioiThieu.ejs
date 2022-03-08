@@ -1,0 +1,76 @@
+<%- contentFor('head') %> 
+    <title>Giới thiệu</title>
+<%- contentFor('body') %>
+<%- include('../particals/header') %>
+<div class="container">
+    <div class="duong-dan-muc">
+        <a href="/">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="#">Giới thiệu</a>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="left_menu timkiem" style="padding: 0 !important;">
+                <div class="theloai">
+                    <h5>Giới thiệu</h5>
+                </div>
+                <div class="dstheloai">
+                    <ul>
+                        <li onclick="displayArea(1)"><a>Lịch phục vụ</a></li>
+                        <li onclick="displayArea(2)"><a>Nội quy thư viện</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="timkiem" id="GioiThieuThuVien">
+                <h3>GIỚI THIỆU THƯ VIỆN</h3>
+                <p>Thư viện Trường ĐH CNTT được thành lập theo Quyết định số 32/QĐ-ĐHCNTT-TCHC ngày 07/02/2012 với tổng diện tích sử dụng là 1.266m2 bao gồm 1 trệt, 1 lầu thuộc Khu A Tòa nhà "Giảng đường – Thư viện". Mục tiêu phát triển của Thư viện là trở thành Thư viện hiện đại có khả năng lưu trữ, khai thác, phát triển các dịch vụ và cung cấp thông tin tư liệu đầy đủ, chính xác, hiệu quả phục vụ cho việc giảng dạy, học tập và nghiên cứu khoa học chính yếu trong lĩnh vực Công nghệ thông tin và trong các lĩnh vực có liên quan; Hòa nhập mạng thông tin trong và ngoài trường ĐH CNTT, mở rộng quan hệ trao đổi thông tin trong và ngoài nước.</p>
+                <h3>CHỨC NĂNG</h3>
+                <p>Chức năng tham mưu cho Hiệu trưởng trong việc xây dựng phương hướng, kế hoạch hoạt động dài hạn và ngắn hạn của Thư viện; tổ chức xây dựng, quản lý và điều phối toàn bộ hệ thống thông tin, tư liệu khoa học, kỹ thuật, & phục vụ hiệu quả cho công tác nghiên cứu, giảng dạy và học tập của cán bộ và sinh viên Trường.</p>
+                <h3>NHIỆM VỤ</h3>
+                <p>Tổ chức thực hiện công tác lưu trữ và khai thác tư liệu thông tin, sách báo, tạp chí, giáo trình, tài liệu điện tử, khóa luận tốt nghiệp đại học, luận văn thạc sĩ, luận án tiến sĩ theo đúng quy định phục vụ cho công tác giảng dạy, học tập và nghiên cứu khoa học.</p>
+                <p>Nghiên cứu, đề xuất phương hướng, chủ trương kế hoạch phát triển vốn tư liệu khoa học, kỹ thuật phù hợp với nhiệm vụ đào tạo và NCKH của Nhà trường.</p>
+                <p>Khai thác hiệu quả tài nguyên thông tin của mạng lưới hệ thống thư viện Đại học Quốc gia Tp. Hồ Chí Minh.
+                    Đảm bảo việc thu thập, lưu trữ và cung cấp nguồn thông tin phục vụ hiệu quả cho công tác giảng dạy học tập và NCKH của cán bộ và SV Nhà trường cũng như các bạn đọc bên ngoài có quan tâm.</p>
+                <p>Đáp ứng yêu cầu tra cứu thông tin, tư liệu phục vụ học tập, giảng dạy, nghiên cứu của cán bộ GV, nghiên cứu viên và SV thuộc Trường.</p>
+                <p>Phân loại và sắp xếp tài liệu theo từng chuyên ngành khoa học, kỹ thuật; xây dựng, hoàn thiện hệ thống tra cứu, tìm kiếm phù hợp, hỗ trợ hướng dẫn bạn đọc truy cập, khai thác kho tư liệu một cách thuận lợi và hiệu quả.</p>
+                <p>Bảo quản tốt các loại hình tài liệu hiện có; đồng thời, bổ sung, phát triển nguồn thông tin trong nước và nước ngoài đáp ứng nhu cầu giảng dạy, học tập, nghiên cứu và chuyển giao công nghệ của Nhà trường.
+                    Thu nhận những ấn phẩm do Trường xuất bản, cũng như các khóa luận, luận văn, luận án cao học, nghiên cứu sinh của cán bộ, GV và SV Trường, các công trình NCKH đã được nghiệm thu, tài liệu hội thảo, chương trình đào tạo, giáo trình, tài liệu khác của Nhà trường, các ấn phẩm tài trợ, biếu tặng, tài liệu trao đổi giữa các Thư viện.</p>
+                <p>Xây dựng kế hoạch phát triển Thư viện theo mục tiêu “Thư viện điện tử”. Cải tiến công tác phục vụ bạn đọc theo hướng văn minh lịch sự.</p>
+                <p>Thực hiện công tác tổng hợp về hoạt động của Thư viện, thống kê, báo cáo kịp thời theo yêu cầu của Trường.
+                    Đầu mối quản lý công tác xây dựng và phát triển học liệu của Nhà trường. Trên cơ sở ý kiến của Hội đồng khoa học và đào tạo Trường, chủ trì, phối hợp với Phòng Kế hoạch-Tài chính và các đơn vị có liên quan xác định giáo trình cần in ấn và xuất bản, số lượng bản in.</p>
+                <p>Tiếp nhận, lưu trữ và phục vụ hiệu quả tài liệu là bài giảng môn học, các bài báo khoa học của Thầy/Cô trong Trường được đăng trên các tạp chí trong và ngoài nước.</p>
+            </div>
+            <div class="timkiem hide-element" id="LichPhucVu">
+                <h3>LỊCH PHỤC VỤ</h3>
+                <p>Thư viện đi vào hoạt động từ ngày 18/09/2012 và phục vụ từ thứ Hai đến thứ Bảy. </p>
+                <h5>Thứ Hai đến thứ Sáu:</h5>
+                <p>+ Thời gian mở cửa phục vụ: 7 giờ 30</p>
+                <p>+ Thời gian hết giờ phục vụ: 16 giờ 30</p>
+                <h5>Thứ Bảy:</h5>
+                <p>+ Thời gian mở cửa phục vụ: 8 giờ 00</p>
+                <p>+ Thời gian hết giờ phục vụ: 16 giờ 00</p>
+                <p>- Thư viện phục vụ luôn buổi trưa.</p>
+                <p>- Thư viện không phục vụ vào ngày lễ, tết theo quy định và các ngày nghỉ đột xuất khác (có thông báo).</p>
+            </div>
+            <div class="timkiem hide-element" id="NoiQuyThuVien">
+                <h3>NỘI QUY THƯ VIỆN</h3>
+                <h5>​Nhằm xây dựng môi trường học tập, nghiên cứu thân thiện, tiện lợi và văn minh, mỗi người khi vào Thư viện cần thực hiện các nội quy sau:</h5>
+                <ul>
+                    <li type="1"><p>Xất trình thẻ cán bộ / thẻ sinh viên / thẻ học viên / thẻ thư viện để thực hiện các thủ tục cần thiết. Tuyệt đối không dùng thẻ của người khác, không cho người khác mượn thẻ.</p></li>
+                    <li type="1"><p>Gửi túi xách, vật dụng cá nhân theo đúng nơi quy định. Bạn đọc tự bảo quản những tư trang cá nhân có giá trị, Thư viện không chịu trách nhiệm bảo quản tài sản cá nhân, tư trang của bạn đọc.</p></li>
+                    <li type="1"><p>Không ồn ào, mất trật tự trong phạm vi Thư viện.</p></li>
+                    <li type="1"><p>Giữ gìn vệ sinh chung. Không mang thức ăn, nước uống vào Thư viện.</p></li>
+                    <li type="1"><p>Thực hiện và nhắc nhở người khác trong việc giữ gìn tài liệu, trang thiết bị của Thư viện.</p></li>
+                    <li type="1"><p>Không được tráo đổi, tự ý di chuyển trang thiết bị của Thư viện khi chưa được cho phép.</p></li>
+                    <li type="1"><p>Không được mang ra khỏi Thư viện các tài liệu: sách, giáo trình, báo, tạp chí, băng đĩa, luận văn, luận án,…nếu chưa thông qua thủ tục mượn.</p></li>
+                    <li type="1"><p>Tuân thủ luật bản quyền khi sử dụng các tài liệu của Thư viện.</p></li>
+                    <li type="1"><p>Tuân thủ các quy định, hướng dẫn khác của Thư viện và nội quy cơ quan Trường ĐH CNTT.</p></li>
+                    <li type="1"><p>Cán bộ, nhân viên Thư viện phải có thái độ hòa nhã, tác phong làm việc khoa học, tận tình phục vụ và giúp đỡ bạn đọc khi cần thiết.</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../particals/footer') %>

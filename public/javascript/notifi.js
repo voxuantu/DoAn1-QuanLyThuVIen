@@ -2,10 +2,10 @@
     
     function toggleNotify(){
         if(down){
-            document.getElementById('notifi-box-id').classList.remove("display-notifi-box");
+            document.getElementById('notifi-box-id').classList.remove("hide-element");
             down=false;
         }else{
-            document.getElementById('notifi-box-id').classList.add("display-notifi-box");
+            document.getElementById('notifi-box-id').classList.add("hide-element");
             down=true;
         }
     }

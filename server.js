@@ -10,11 +10,18 @@ const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
+const cloudinary = require('cloudinary').v2;
 
-const initializePassport = require('./passport-config')
+const initializePassport = require('./utils/passport-config')
 initializePassport(passport)
 
 const route = require('./routes/index')
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
