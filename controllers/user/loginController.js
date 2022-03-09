@@ -1,12 +1,12 @@
-const Account = require('../models/account')
-const Role = require('../models/role')
+const Account = require('../../models/account')
+const Role = require('../../models/role')
 const bcrypt = require('bcrypt')
 
 class LoginController {
     async index(req, res) {
         const account = new Account()
         const roles = await Role.find({})
-        res.render('login', {
+        res.render('user/login', {
             roles: roles,
             account: account
         });

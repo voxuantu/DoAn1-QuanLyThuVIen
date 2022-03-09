@@ -33,6 +33,10 @@ const accountSchema = new mongoose.Schema({
     birth: {
         type: Date,
         required: true
+    },
+    img: {
+        type: String,
+        required: true
     }
 })
 

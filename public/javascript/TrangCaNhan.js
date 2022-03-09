@@ -60,3 +60,14 @@ function OpenModalTraSach() {
         }
     )
 }
+
+function ShowImage(event){
+    var avatar = document.getElementById('avatar')
+    avatar.src = URL.createObjectURL(event.target.files[0])
+}
+
+function OpenImgDialog(){
+    $(document).ready(function(){
+        $('#imgUpload').trigger('click');
+    })
+}

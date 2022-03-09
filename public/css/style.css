@@ -12,20 +12,32 @@
     margin-top: -12px;
     
 }
+.header .fa-house{
+    font-size: 25px;
+}
 .header_right{
     text-align: right;
     color: white;
+    justify-content: space-between;
+    align-items: center;
+}
+.header_right ul{
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 0;
+    padding: 0;
+}
+.header_right li{
+    list-style: none;
 }
 .header_right i{
-    margin-left: 20px;
+    margin: 0 1rem 0 1rem ;
     cursor: pointer;
     font-size: 25px;
 }
 .header_right a{
-    text-decoration: none;
     padding: 8px;
 }
-
 
 /* css o tim kiem */
 .timkiem{
@@ -173,20 +185,16 @@
 }
 
 /* notifi-box */
-.display-notifi-box{
-    visibility: visible !important;
-}
 .notifi-box{
     background-color: white;
     z-index: 1;
-    visibility: hidden;
     width: 350px;
     max-height: 300px;
     overflow-y: auto;
     position: absolute;
     top: 43px;
-    right: 112px;
-    border-radius: 10px;
+    right: 144px;
+    border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 .notifi-box h2{
@@ -356,25 +364,38 @@
 /* css cho user-box */
 .user-box{
     top: 45px;
-    right: 0px;
+    right: 26px;
+    z-index: 1;
     position: absolute;
     width: fit-content;
-    border-radius: 10px;
+    border-radius: 5px;
+    padding: 5px 0 5px 0;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.user-box-item{
-    color: black;
+.user-box ul{
+    display: flex;
+    flex-direction: column;
+}
+.user-box li{
+    list-style: none;
+}
+.user-box button{
+    width: 100%;
     text-align: left;
-    padding: 5px 10px 5px 10px;
-    color: black;
+    border-width: 0;
+    background-color: white;
 }
-.user-box-item i{
-    margin-left: 0;
+.user-box button i{
+    margin: 5px;
 }
-.user-box-item:hover{
-    cursor: pointer;
+.user-box ul li:first-child{
+    border-bottom: #ccc solid 1px;
 }
+.user-box button:hover{
+    background: #ccc;
+}
+
 /* css trang giới thiệu */
 .timkiem h3{
     text-align: center;
