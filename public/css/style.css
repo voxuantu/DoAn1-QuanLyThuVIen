@@ -86,7 +86,7 @@
 .left_menu .theloai {
     background-color: #31a2fa;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
     justify-content: center;
     align-items: center;
 }
@@ -96,8 +96,9 @@
     text-transform: uppercase;
     margin: 0;
 }
-.left_menu .dstheloai{
-    padding: 0px 10px;
+.left_menu .dstheloai a{
+    text-decoration: none;
+    padding: 0 5px;
 }
 .left_menu ul {
     list-style-type: none;
@@ -408,6 +409,10 @@ i.fa-circle-xmark{
 }
 html{
     scroll-behavior: smooth;
+}
+.anhBiaSach{
+    max-height: 280px;
+    max-width: 300px;
 }
 .nut-them-moi{
     text-decoration: none;

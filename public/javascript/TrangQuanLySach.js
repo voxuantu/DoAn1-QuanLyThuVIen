@@ -32,3 +32,12 @@ function OpenEditTheLoaiModal() {
         }
     )
 }
+function OpenImgDialog(){
+    $(document).ready(function(){
+        $('#imgUpload').trigger('click');
+    })
+}
+function ShowImage(event){
+    var image = document.getElementById('anhBia');
+	image.src = URL.createObjectURL(event.target.files[0]);
+}
