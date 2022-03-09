@@ -26,7 +26,7 @@ function initialize(passport){
 
 async function getUserByUsername(username){
     try {
-        const acc = await Account.findOne({username : username})
+        const acc = await Account.findOne({username : username}).populate('role').exec()
         return acc
     } catch (error) {
         console.log("get user by username error")
@@ -35,7 +35,7 @@ async function getUserByUsername(username){
 
 async function getUserById(id){
     try {
-        const acc = await Account.findById(id)
+        const acc = await Account.findById(id).populate('role').exec()
         return acc
     } catch (error) {
         console.log("get user by id error")

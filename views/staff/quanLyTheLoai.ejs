@@ -1,0 +1,85 @@
+<%- contentFor('head') %>
+    <title>Quản lý thể loại</title>
+<%- contentFor('body') %>
+<%- include('../particals/header') %>
+    <div class="container" style="min-height: 500px;">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left_menu timkiem" style="padding: 0 !important;">
+                    <div class="theloai">
+                        <h5>Quản lý</h5>
+                    </div>
+                    <div class="dstheloai">
+                        <ul>
+                            <li><a href="/quanlysach/1">Sách</a></li>
+                            <li><a href="/quanlytheloai">Thể loại</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div id="ql-theloai">
+                    <div class="timkiem mb-2">
+                        <div class="input-group them-moi-the-loai">
+                            <a onclick="HienFormSuaTheLoai()" class="nut-them-moi">
+                                <button class="nutbam">Thêm thể loại mới</button>
+                            </a>
+                            <form action="/quanlytheloai/create" method="post">
+                                <div class="input-group hide-element" id="themtheloai" style="width: 500px;">
+                                    <input class="form-control" placeholder="Tên thể loại..."
+                                        name="categoryName" style="width: 300px;">
+                                    <button type="submit" class="nutbam">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên thể loại</th>
+                                    <th scope="col">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for( let index = 0; index < categories.length; index++ ) { %>
+                                    <tr>
+                                        <th scope="row"><%= index + 1 %></th>
+                                        <td><%= categories[index].name %></td>
+                                        <td>
+                                            <i class="fa-solid fa-trash-can action-book xoa"></i>
+                                            <a onclick="OpenEditTheLoaiModal()"><i
+                                                    class="fa-solid fa-pen-to-square action-book"></i></a>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Chỉnh sửa thể loại</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <labelclass="form-label">Tên thể loại</label>
+                                <input type="text" class="form-control" placeholder="Tên thể loại...">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="nutbam">Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/javascript/TrangQuanLySach.js"></script>
+    <%- include('../particals/footer') %>
