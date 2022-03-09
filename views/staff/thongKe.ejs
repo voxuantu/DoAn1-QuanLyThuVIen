@@ -1,0 +1,25 @@
+<%- contentFor('head') %> 
+    <title>Thống kê</title>
+<%- contentFor('body') %>
+<%- include('../particals/header') %>
+<div class="container">
+    <div class="duong-dan-muc">
+        <a href="/">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="">Thống kê</a>
+    </div>
+    <div class="timkiem">
+        <div class="row" >
+            <div class="col-sm-6" style="max-height: 400px;">
+                <h5>Thống kê số lượt mượn sách</h5>
+                <canvas id="BieuDoSoLuotMuonSach"></canvas>
+            </div>
+            <div class="col-sm-6" style="max-height: 400px;">
+                <h5>Thống kê số tiền phạt</h5>
+                <canvas id="BieuDoSoTienPhat"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/javascript/BieuDo.js"></script>
+<%- include('../particals/footer') %>

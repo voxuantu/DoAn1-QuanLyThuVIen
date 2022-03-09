@@ -20,7 +20,7 @@ async function checkNotAuthenticated(req, res, next){
       res.redirect('/')
     }
     next()
-  }
+}
 
 module.exports ={
     checkAuthenticated,
