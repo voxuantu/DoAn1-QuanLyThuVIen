@@ -18,15 +18,15 @@ const {checkPermissions} = require('../middleware/baseAuth');
 
 function route (app) {
     app.use('/', indexRouter)
-    app.use('/login', loginRouter)
-    app.use('/quanlysach',checkAuthenticated, checkPermissions(['ADMIN']), quanLySachRouter)
-    app.use('/quanlytheloai', checkAuthenticated, checkPermissions(['ADMIN']), quanLyTheLoaiRouter)
+    app.use('/dangNhap', loginRouter)
+    app.use('/quanLySach',checkAuthenticated, checkPermissions(['ADMIN']), quanLySachRouter)
+    app.use('/quanLyTheLoai', checkAuthenticated, checkPermissions(['ADMIN']), quanLyTheLoaiRouter)
     app.use('/muonTraSach', muonTraSachRouter)
     app.use('/gioiThieu', gioiThieuRouter)
     app.use('/lienHe', lienHeRouter)
     app.use('/quenMatKhau', quenMatKhauRouter)
     app.use('/thongKe', thongKeRouter)
-    app.use('/trangCaNhan',trangCaNhanRouter)
+    app.use('/trangCaNhan',checkAuthenticated ,trangCaNhanRouter)
 }
 
 module.exports = route

@@ -5,7 +5,7 @@ class IndexController {
     }
     logout(req, res){
         req.logOut()
-        res.redirect('/login')
+        res.redirect('/dangNhap')
     }
 }
 

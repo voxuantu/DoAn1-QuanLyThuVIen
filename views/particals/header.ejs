@@ -11,6 +11,17 @@
                                     <i class="fa-solid fa-house"></i>
                                 </a>
                             </li>
+                            <li class="nav-item dropdown" >
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Quản lý
+                                </a>
+                                <ul id="quanLyId" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                  <li><a class="dropdown-item" href="/quanLySach">Quản lý sách</a></li>
+                                  <li><a class="dropdown-item" href="/quanLyTacGia">Quản lý tác giả</a></li>
+                                  <li><a class="dropdown-item" href="/quanLyTheLoai">Quản lý thể loại</a></li>
+                                  <li><a class="dropdown-item" href="/quanLyNhaXuatBan">Quản lý nhà xuất bản</a></li>
+                                </ul>
+                              </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/muonTraSach">Mượn trả sách</a>
                             </li>
@@ -28,7 +39,7 @@
                     <div class="col-lg-3 col-md-3">
                         <div class="header_right">
                             <% if(currentUser ==null) { %> 
-                                <a href="/login">Đăng nhập</a>
+                                <a href="/dangNhap">Đăng nhập</a>
                             <% }else{ %>
                                 <ul>
                                     <li>
@@ -80,7 +91,7 @@
                                            </form>
                                         </li>
                                        <li>
-                                           <form action="/logout?_method=DELETE" method="post">
+                                           <form action="/dangXuat?_method=DELETE" method="post">
                                                 <button>
                                                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                                     <span>Đăng xuất</span>

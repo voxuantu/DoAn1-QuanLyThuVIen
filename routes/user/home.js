@@ -4,6 +4,6 @@ const router = express.Router();
 
 
 router.get('/', indexController.index)
-router.delete('/logout', indexController.logout)
+router.delete('/dangXuat', indexController.logout)
 
 module.exports = router;

@@ -8,10 +8,8 @@ const {checkNotAuthenticated} = require('../../middleware/baseAuth')
 router.get('/',checkNotAuthenticated, loginController.index)
 router.post('/',checkNotAuthenticated, passport.authenticate('local',{
     successRedirect: '/',
-    failureRedirect: '/login',
+    failureRedirect: '/dangNhap',
     failureFlash: true
 }))
-// router.get('/register',checkNotAuthenticated, loginController.register)
-// router.post('/register',checkNotAuthenticated, loginController.createAccount)
 
 module.exports = router;
