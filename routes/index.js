@@ -19,7 +19,8 @@ const {checkAuthenticated} = require('../middleware/baseAuth')
 const {checkPermissions} = require('../middleware/baseAuth');
 
 function route (app) {
-    app.use('/login', loginRouter)
+    app.use('/', indexRouter)
+    app.use('/dangNhap', loginRouter)
     app.use('/quanLySach',checkAuthenticated, checkPermissions(['ADMIN']), quanLySachRouter)
     app.use('/quanLyTheLoai', checkAuthenticated, checkPermissions(['ADMIN']), quanLyTheLoaiRouter)
     app.use('/quanLyNhaXuatBan', checkAuthenticated, checkPermissions(['ADMIN']), quanLyNhaXuatBanRouter)
@@ -29,8 +30,7 @@ function route (app) {
     app.use('/lienHe', lienHeRouter)
     app.use('/quenMatKhau', quenMatKhauRouter)
     app.use('/thongKe', thongKeRouter)
-    app.use('/trangCaNhan',trangCaNhanRouter)
-    app.use('/', indexRouter)
+    app.use('/trangCaNhan',checkAuthenticated ,trangCaNhanRouter)
 
 }
 

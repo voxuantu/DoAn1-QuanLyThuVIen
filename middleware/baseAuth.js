@@ -4,7 +4,7 @@ async function checkAuthenticated(req,res,next){
     if(currentUser){
         return next()
     }
-    res.redirect('/login')
+    res.redirect('/dangNhap')
 }
 const checkPermissions = permissions => {
   return async (req, res, next) => {
