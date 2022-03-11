@@ -1,5 +1,5 @@
 <%- contentFor('head') %>
-    <title>Quản lý thể loại</title>
+    <title>Quản lý tác giả</title>
 <%- contentFor('body') %>
 <%- include('../particals/header') %>
     <div class="container" style="min-height: 500px;">
@@ -13,7 +13,7 @@
                         <ul>
                             <li><a href="/quanlysach/1">Sách</a></li>
                             <li><a href="/quanLyTheLoai">Thể loại</a></li>
-                            <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
+                            <li><a href="/quanLyNhaXuatBan">tác giả</a></li>
                             <li><a href="/quanLyTacGia">tác giả</a></li>
                         </ul>
                     </div>
@@ -24,12 +24,12 @@
                     <div class="timkiem mb-2">
                         <div class="input-group them-moi-the-loai">
                             <a onclick="HienFormSuaTheLoai()" class="nut-them-moi">
-                                <button class="nutbam">Thêm thể loại mới</button>
+                                <button class="nutbam">Thêm tác giả mới</button>
                             </a>
-                            <form action="/quanLyTheLoai" method="post">
+                            <form action="/quanLyTacGia" method="post">
                                 <div class="input-group hide-element" id="themtheloai" style="width: 500px;">
-                                    <input class="form-control" placeholder="Tên thể loại..."
-                                        name="categoryName" style="width: 300px;">
+                                    <input class="form-control" placeholder="Tên tác giả..."
+                                        name="tentacgia" style="width: 300px;">
                                     <button type="submit" class="nutbam">Lưu</button>
                                 </div>
                             </form>
@@ -39,15 +39,15 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Tên thể loại</th>
+                                    <th scope="col">Tên tác giả</th>
                                     <th scope="col">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% for( let index = 0; index < categories.length; index++ ) { %>
+                                <% for( let index = 0; index < authors.length; index++ ) { %>
                                     <tr>
                                         <th scope="row"><%= index + 1 %></th>
-                                        <td><%= categories[index].name %></td>
+                                        <td><%= authors[index].name %></td>
                                         <td>
                                             <i class="fa-solid fa-trash-can action-book xoa"></i>
                                             <a onclick="OpenEditTheLoaiModal()"><i
@@ -65,14 +65,14 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Chỉnh sửa thể loại</h5>
+                        <h5 class="modal-title">Chỉnh tác giả loại</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div>
-                            <labelclass="form-label">Tên thể loại</label>
-                                <input type="text" class="form-control" placeholder="Tên thể loại...">
+                            <labelclass="form-label">Tên tác giả</label>
+                                <input type="text" class="form-control" placeholder="Tên tác giả...">
                         </div>
                     </div>
                     <div class="modal-footer">

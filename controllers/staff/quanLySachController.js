@@ -63,7 +63,7 @@ class QuanLySachController {
                 coverImage: secure_url
             })
             await book.save();
-            res.redirect('/quanlysach')
+            res.redirect('/quanLySach/1')
         } catch (error) {
             res.json(error)
         }

@@ -1,12 +1,12 @@
-const BookPublisher = require('../../models/bookPublisher')
+const Author = require('../../models/author')
 
 class QuanLyNhaXuatBanControler{
     async index(req, res){
         try{
-            const bookPublishers = await BookPublisher.find({});
+            const authors = await Author.find({});
             const currentUser = await req.user
-            res.render('staff/quanLyNhaXuatBan',{
-                bookPublishers : bookPublishers,
+            res.render('staff/quanLyTacGia',{
+                authors : authors,
                 currentUser : currentUser
             })
         } catch (err){
@@ -15,11 +15,11 @@ class QuanLyNhaXuatBanControler{
     }
     async create(req, res){
         try {
-            const bookPublisher = new BookPublisher({
-                name : req.body.tenNhaXB
+            const author = new Author({
+                name : req.body.tentacgia
             })
-            await bookPublisher.save()
-            res.redirect('/quanLyNhaXuatBan')
+            await author.save()
+            res.redirect('/quanLyTacGia')
         } catch (error) {
             res.json(error)
         }

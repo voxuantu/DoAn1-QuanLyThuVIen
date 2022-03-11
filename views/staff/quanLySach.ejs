@@ -11,8 +11,10 @@
                     </div>
                     <div class="dstheloai">
                         <ul>
-                            <li><a href="/quanlysach/1">Sách</a></li>
-                            <li><a href="/quanlytheloai">Thể loại</a></li>
+                            <li><a href="/quanLySach/1">Sách</a></li>
+                            <li><a href="/quanLyTheLoai">Thể loại</a></li>
+                            <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
+                            <li><a href="/quanLyTacGia">tác giả</a></li>
                         </ul>
                     </div>
                 </div>
@@ -22,7 +24,7 @@
                     <div class="timkiem mb-2">
                         <div class="row">
                             <div class="col-sm-3">
-                                <a href="/quanlysach/create" class="nut-them-moi">
+                                <a href="/quanLySach/create" class="nut-them-moi">
                                     <button class="nutbam">Thêm sách mới</button>
                                 </a>
                             </div>
@@ -79,7 +81,7 @@
                                             <span aria-hidden="true">&laquo;</span></a>
                                         </li>
                                     <% } else { %>
-                                        <li><a class="page-link" href="/quanlysach/1">
+                                        <li><a class="page-link" href="/quanLySach/1">
                                             <span aria-hidden="true">&laquo;</span></a>
                                         </li>
                                     <% } %>
@@ -91,7 +93,7 @@
                                         <% if (i == current) { %>
                                             <li class="page-item active"><a class="page-link"><%= i %></a></li>
                                         <% } else { %>
-                                            <li><a class="page-link" href="/quanlysach/<%= i %>"><%= i %></a></li>
+                                            <li><a class="page-link" href="/quanLySach/<%= i %>"><%= i %></a></li>
                                         <% } %>
                                         <% if (i == Number(current) + 4 && i < pages) { %>
                                             <li class="page-item active"><a class="page-link">...</a></li>
@@ -102,7 +104,7 @@
                                             <span aria-hidden="true">&raquo;</span></a>
                                         </li>
                                     <% } else { %>
-                                        <li><a class="page-link" href="/quanlysach/<%= pages %>">
+                                        <li><a class="page-link" href="/quanLySach/<%= pages %>">
                                             <span aria-hidden="true">&raquo;</span></a>
                                         </li>
                                     <% } %>
