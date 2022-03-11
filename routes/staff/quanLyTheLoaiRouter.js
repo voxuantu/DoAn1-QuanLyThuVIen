@@ -3,6 +3,6 @@ const quanLyTheLoaiController = require('../../controllers/staff/quanLyTheLoaiCo
 const router = express.Router();
 
 router.get('/', quanLyTheLoaiController.index)
-router.post('/create', quanLyTheLoaiController.create)
+router.post('/', quanLyTheLoaiController.create)
 
 module.exports = router

@@ -48,10 +48,9 @@
           </div>
           <div class="dstheloai">
             <ul>
-              <li><a>Khoa học</a></li>
-              <li><a>Mỹ thuật</a></li>
-              <li><a>Tiếng anh</a></li>
-              <li><a>Toán học</a></li>
+              <% categories.forEach(element => { %>
+                <li><a><%= element.name %> </a></li>
+              <% }) %>
             </ul>
           </div>
         </div>
@@ -68,159 +67,58 @@
       </div>
       <div class="col-sm-9">
         <div class="row">
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <div class="img-card">
-                <img class="img-fluid img-card" src="/Book image/BupBeRaggedyAnn.jpg">
-              </div>
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/ChoDenMauGiaoThiDaMuon.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
+          <% books.forEach(element => { %>
+            <div class="card-container col-sm-3">
+              <div class="card-base">
+                <img class="img-fluid img-card" src="<%= element.coverImage %>">
+                <div class="btn-base">
+                  <p class="text-base">Mượn sách</p>
+                </div>
+                <div class="text-content">
+                  <div><i class="fa-solid fa-book"></i> <%= element.name %></div>
+                  <div><i class="fa-solid fa-user"></i> <%= element.author.name %></div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/ChoToiXinMotVeDiTuoiTho.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Cho tôi xin một vé đi tuổi thơ</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/ConChimXanhBiecBayVe.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Con chim xanh biếc bay về</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/ConChuGiDeNho.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Còn chút gì để nhớ</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/ConVe.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Con về</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image//DacNhanTam.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/DoiCoMayTiSaoPhaiNghi.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/ConChuGiDeNho.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Còn chút gì để nhớ</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/ConVe.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Con về</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image//DacNhanTam.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <div class="card-container col-sm-3">
-            <div class="card-base">
-              <img class="img-fluid img-card" src="/Book image/DoiCoMayTiSaoPhaiNghi.jpg">
-              <div class="btn-base">
-                <p class="text-base">Mượn sách</p>
-              </div>
-              <div class="text-content">
-                <div><i class="fa-solid fa-book"></i> Búp bê của Rangged Ann</div>
-                <div><i class="fa-solid fa-user"></i> Nguyễn Nhật Ánh</div>
-              </div>
-            </div>
-          </div>
-          <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
-          </ul>
+          <% }) %>
+          <div>
+            <% if (pages > 0) { %>
+                <ul class="pagination justify-content-center">
+                    <% if (current == 1) { %>
+                        <li class="disabled"><a class="page-link">
+                            <span aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    <% } else { %>
+                        <li><a class="page-link" href="/1">
+                            <span aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <li class="page-item active"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <li class="page-item active"><a class="page-link"><%= i %></a></li>
+                        <% } else { %>
+                            <li><a class="page-link" href="/<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="page-item active"><a class="page-link">...</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <li class="disabled"><a class="page-link">
+                            <span aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    <% } else { %>
+                        <li><a class="page-link" href="/<%= pages %>">
+                            <span aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    <% } %>
+                </ul>
+            <% } %>
+        </div>
         </div>
       </div>
     </div>

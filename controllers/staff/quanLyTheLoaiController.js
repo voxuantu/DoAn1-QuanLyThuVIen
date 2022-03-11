@@ -15,7 +15,7 @@ class QuanLyTheLoaiController {
                 name : req.body.categoryName
             })
             await category.save()
-            res.json('Them Thanh Cong')
+            res.redirect('/quanLyTheLoai')
         } catch (error) {
             res.json(error)
         }

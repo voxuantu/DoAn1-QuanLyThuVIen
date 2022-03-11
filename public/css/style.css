@@ -12,6 +12,9 @@
     margin-top: -12px;
     
 }
+#quanLyId a{
+    color: black !important;
+}
 .header .fa-house{
     font-size: 25px;
 }
