@@ -46,9 +46,15 @@
                                         <i class="fa-solid fa-circle-user" onclick="toggleUserBox()"></i>
                                     </li>
                                     <li>
-                                        <i class="fa-solid fa-basket-shopping">
-                                            <span class="badge bg-danger text-wrap notifi-counter">7</span>
-                                        </i>
+                                        <a href="/gioSach">
+                                            <i class="fa-solid fa-basket-shopping">
+                                                <% if (cart) { %>
+                                                    <span class="badge bg-danger text-wrap notifi-counter" id="cartQuantity"><%= cart.length %> </span>
+                                                <% }else{%>
+                                                    <span class="badge bg-danger text-wrap notifi-counter" id="cartQuantity">0</span>
+                                                <% } %> 
+                                            </i>
+                                        </a>
                                     </li>
                                     <li>
                                         <i class="fa-solid fa-bell" onclick="toggleNotify()">

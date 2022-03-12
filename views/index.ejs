@@ -70,10 +70,8 @@
           <% books.forEach(element => { %>
             <div class="card-container col-sm-3">
               <div class="card-base">
-                <img class="img-fluid img-card" src="<%= element.coverImage %>">
-                <div class="btn-base">
-                  <p class="text-base">Mượn sách</p>
-                </div>
+                <a href="/chiTietSach/<%= element.id %>"><img class="img-fluid img-card" src="<%= element.coverImage %>"></a>
+                <button class="btn-base js-muon-sach" data-id-book="<%= element.id %>">Mượn sách</button>
                 <div class="text-content">
                   <div><i class="fa-solid fa-book"></i> <%= element.name %></div>
                   <div><i class="fa-solid fa-user"></i> <%= element.author.name %></div>
@@ -123,4 +121,5 @@
       </div>
     </div>
   </div>
-  <%- include('./particals/footer.ejs')  %> 
+  <%- include('./particals/footer.ejs')  %>
+  <script src="/javascript/TrangChu.js"></script>
