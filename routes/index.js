@@ -14,7 +14,13 @@ const quenMatKhauRouter = require('./user/quenMatKhauRouter')
 const trangCaNhanRouter = require('./user/trangCaNhanRouter')
 const quanLyNhaXuatBanRouter = require('./staff/quanLyNhaXuatBanRouter')
 const quanLyTacGiaRouter = require('./staff/quanLyTacGiaRouter')
+const chiTietSachRouter = require('./user/chiTietSachRouter')
+const gioSachRouter = require('./user/gioSachRouter')
 
+//AJAX API Controller
+const apiRouter = require('./apiRouter')
+
+//Authentication
 const {checkAuthenticated} = require('../middleware/baseAuth')
 const {checkPermissions} = require('../middleware/baseAuth');
 
@@ -30,7 +36,11 @@ function route (app) {
     app.use('/quenMatKhau', quenMatKhauRouter)
     app.use('/thongKe', thongKeRouter)
     app.use('/trangCaNhan',checkAuthenticated ,trangCaNhanRouter)
+    app.use('/chiTietSach', chiTietSachRouter)
+    app.use('/gioSach',checkAuthenticated, gioSachRouter)
+    app.use('/api',checkAuthenticated, apiRouter)
     app.use('/trangChu', indexRouter)
+
 }
 
 module.exports = route

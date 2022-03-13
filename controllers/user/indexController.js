@@ -9,6 +9,7 @@ class IndexController {
 
         const categories = await Category.find({})
         const currentUser = await req.user
+        var cart = req.session.cart
 
         Book.find({})
             .populate('author')
@@ -18,6 +19,7 @@ class IndexController {
                 Book.count().exec(function (err, count) {
                     if (err) return next(err)
                     res.render('index', {
+                        cart: cart,
                         currentUser: currentUser,
                         books: books,
                         categories : categories,
@@ -56,6 +58,7 @@ class IndexController {
     }
     logout(req, res){
         req.logOut()
+        req.session.destroy();
         res.redirect('/dangNhap')
     }
     async search(req, res){

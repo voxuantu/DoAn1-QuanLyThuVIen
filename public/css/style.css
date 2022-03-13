@@ -145,7 +145,7 @@
 .card-base:hover{
     box-shadow: 2px 12px 20px rgba(0, 0, 0, 0.3);
     margin-top: -10px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .img-card{
@@ -162,6 +162,8 @@
     position: relative;
     justify-content: center;
     align-items: center;
+    border-width: 0px;
+    color: white;
     transition: .3s box-shadow ease-in-out;
 }
 .btn-base:hover{
@@ -185,6 +187,7 @@
 .ten-sach{
     -webkit-line-clamp: 2;
 }
+
 /* footer css */
 .footer{
     margin-top: 20px;

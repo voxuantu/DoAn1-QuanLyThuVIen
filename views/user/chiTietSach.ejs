@@ -1,0 +1,98 @@
+<%- contentFor('head') %> 
+    <title>Chi tiết sách</title>
+<%- contentFor('body') %>
+<%- include('../particals/header') %>
+<div class="container">
+    <div class="duong-dan-muc">
+        <a href="/1">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="">Chi tiết sách</a>
+    </div>
+    <div class="timkiem">
+        <div class="row mb-3">
+            <div class="col-sm-4">
+                <img class="img-fluid" src="<%= book.coverImage %>" alt="<%= book.name %>">
+            </div>
+            <div class="col-sm-8">
+                <h4><%= book.name %></h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h6>Nhà cung cấp : <span style="color: blue;"><%= book.bookPublisher.name %></span></h6>
+                        <h6>Tác giả : <span style="color: blue;"><%= book.author.name %> </span></h6>
+                        <h6>Giá bìa : <span style="color: red;"><%= numberWithDot(book.coverPrice) %> đ</span></h6>
+                    </div>
+                    <div class="col-sm-6">
+                        <h6>Số trang : <span><%= book.pageCount %></span></h6>
+                        <h6>Năm xuất bản : <span><%= book.publishedYear%></span></h6>
+                    </div>
+                </div>
+                
+                <h6>Giới thiệu về sách :</h6>
+                <div class="book-introduction">
+                    <p><%= book.description %> </p>
+                </div>
+                <button id="btnAddBookToCart" type="button" data-id-book="<%= book.id %>"  class="btn btn-primary muonsach js-muon-sach">Mượn sách</button>
+            </div>
+        </div>
+        <!-- Tab giới thiệu và bình luận -->
+        <!-- <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#introduction">Giới thiệu về sách</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#comment-page">Bình Luận</a>
+            </li>
+        </ul> -->
+
+        <!-- Tab panes -->
+        <!-- <div class="tab-content">
+            <div class="tab-pane container active" id="introduction">
+                <p>Búp bê Raggedy Ann là một tựa sách kinh điển cũng xưa như chính tuổi đời của cô nàng búp bê vải
+                    Raggedy thân thuộc với biết bao bạn nhỏ khắp nơi trên toàn thế giới. Những chuyến phiêu lưu đầy
+                    mộng
+                    mơ nhưng cũng không kém phần tinh nghịch của các cô cậu búp bê, mà đứng đầu là cô nàng Raggedy
+                    Ann,
+                    đã đem đến cho độc giả những giây phút thư giãn, nhẹ nhàng; truyền tải những thông điệp ý nghĩa
+                    về
+                    thời thơ ấu, về tình bạn, tình yêu thương con người.</p>
+            </div>
+            <div class="tab-pane container fade" id="comment-page">
+                <p>Búp bê Raggedy Ann là một tựa sách kinh điển cũng xưa như chính tuổi đời của cô nàng búp bê vải
+                    Raggedy thân thuộc với biết bao bạn nhỏ khắp nơi trên toàn thế giới. Những chuyến phiêu lưu đầy
+                    mộng
+                    mơ nhưng cũng không kém phần tinh nghịch của các cô cậu búp bê, mà đứng đầu là cô nàng Raggedy
+                    Ann,
+                    đã đem đến cho độc giả những giây phút thư giãn, nhẹ nhàng; truyền tải những thông điệp ý nghĩa
+                    về
+                    thời thơ ấu, về tình bạn, tình yêu thương con người.</p>
+            </div>
+        </div> -->
+    </div>
+
+    <!-- Gợi ý sách cùng thể loại -->
+    <div class="container">
+        <div class="row timkiem">
+            <h4 style="padding-bottom: 10px;">Những cuốn sách cùng thể loại</h4>
+            <% relatedBooks.forEach(book => { %>
+                <div class="card-container col-sm-3">
+                    <div class="card-base" style="height: 360px !important;">
+                        <a href="/chiTietSach/<%= book.id %> "><img class="img-fluid img-card" src="<%= book.coverImage %> "></a>
+                        <!-- <div class="btn-base">
+                            <p class="text-base addToCart">Mượn sách</p>
+                        </div> -->
+                        <button class="btn-base js-muon-sach" data-id-book="<%= book.id %>">Mượn sách</button>
+                        <div class="text-content">
+                            <div class="limit-text ten-sach"><i class="fa-solid fa-book"></i> <%= book.name %> </div>
+                            <div class="limit-text tac-gia"><i class="fa-solid fa-user"></i> <%= book.author.name %> </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+<%- include('../particals/footer') %>
+<% function numberWithDot(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+} %> 
+<script src="/javascript/TrangChu.js"></script>

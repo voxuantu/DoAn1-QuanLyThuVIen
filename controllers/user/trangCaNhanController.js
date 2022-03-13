@@ -4,7 +4,11 @@ const Account = require('../../models/account')
 class TrangCaNhanController {
     async index(req, res) {
         const currentUser = await req.user
-        res.render('user/trangCaNhan', { currentUser: currentUser });
+        var cart = req.session.cart
+        res.render('user/trangCaNhan', { 
+            currentUser: currentUser,
+            cart: cart
+        });
     }
 
     //update user
