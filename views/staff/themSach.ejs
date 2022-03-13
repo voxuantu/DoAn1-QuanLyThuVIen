@@ -1,0 +1,40 @@
+<%- contentFor('head') %>
+    <title>Thêm mới sách</title>
+<%- contentFor('body') %>
+<%- include('../particals/header') %>
+    
+    <div class="container">
+        <div class="duong-dan-muc">
+            <a href="/trangChu/1">Trang chủ</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="/quanLySach/1">Quản lý sách</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="">Thêm sách mới</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left_menu timkiem" style="padding: 0 !important;">
+                    <div class="theloai">
+                        <h5>Quản lý</h5>
+                    </div>
+                    <div class="dstheloai">
+                        <ul>
+                            <li><a href="/quanlysach/1">Sách</a></li>
+                            <li><a href="/quanLyTheLoai">Thể loại</a></li>
+                            <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
+                            <li><a href="/quanLyTacGia">Tác giả</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="timkiem mb-2" id="themsuasach">
+                    <form action="/quanlysach/create" method="post" enctype="multipart/form-data">
+                        <%- include('./formFieldSach') %> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/javascript/TrangQuanLySach.js"></script>
+<%- include('../particals/footer') %>

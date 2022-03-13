@@ -2,7 +2,13 @@
     <title>Quản lý sách</title>
 <%- contentFor('body') %>
 <%- include('../particals/header') %>
+    
     <div class="container" style="min-height: 500px;">
+        <div class="duong-dan-muc">
+            <a href="/trangChu/1">Trang chủ</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="/quanLySach/1">Quản lý sách</a>
+        </div>
         <div class="row">
             <div class="col-sm-3">
                 <div class="left_menu timkiem" style="padding: 0 !important;">
@@ -14,14 +20,14 @@
                             <li><a href="/quanLySach/1">Sách</a></li>
                             <li><a href="/quanLyTheLoai">Thể loại</a></li>
                             <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
-                            <li><a href="/quanLyTacGia">tác giả</a></li>
+                            <li><a href="/quanLyTacGia">Tác giả</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-sm-9">
                 <div id="ql-sach">
-                    <div class="timkiem mb-2">
+                    <div class="timkiem mb-2" style="min-height: 500px; position: relative;">
                         <div class="row">
                             <div class="col-sm-3">
                                 <a href="/quanLySach/create" class="nut-them-moi">
@@ -30,17 +36,18 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="search_box_qlsach row">
-
                                     <div class="col">
-                                        <div class="input-group mb-3">
-                                            <select class="form-select">
-                                                <option>Tên sách</option>
-                                                <option>Tên tác giả</option>
-                                            </select>
-                                            <input class="form-control" type="text"
-                                                placeholder="Nhập từ khóa tìm kiếm...">
-                                            <button class="nutbam">Tìm</button>
-                                        </div>
+                                        <form method="get" action="/quanLySach/timKiem">
+                                            <div class="input-group mb-3">
+                                                <select class="form-select" id="kieuTim" name="kieuTim">
+                                                    <option value="1">Tên sách</option>
+                                                    <option value="2">Tên tác giả</option>
+                                                </select>
+                                                <input class="form-control" type="text" id="searchBox" name="tuKhoa"
+                                                    placeholder="Nhập từ khóa tìm kiếm...">
+                                                <button class="nutbam">Tìm</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -66,14 +73,14 @@
                                         <td><%= books[i].author.name %></td>
                                         <td><%= books[i].quantity %></td>
                                         <td>
-                                            <i class="fa-solid fa-trash-can action-book xoa"></i>
-                                            <i class="fa-solid fa-pen-to-square action-book"></i>
+                                            <a class="delete-book" data-id-book="<%= books[i].id %>"><i class="fa-solid fa-trash-can action-book xoa"></i></a>
+                                            <a href="/quanLySach/edit/<%= books[i].id %>"><i class="fa-solid fa-pen-to-square action-book"></i></a>
                                         </td>
                                     </tr>
                                 <% } %>
                             </tbody>
                         </table>
-                        <div>
+                        <div class="phan-trang">
                             <% if (pages > 0) { %>
                                 <ul class="pagination justify-content-center">
                                     <% if (current == 1) { %>
@@ -115,27 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Chỉnh sửa thể loại</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <labelclass="form-label">Tên thể loại</label>
-                                <input type="text" class="form-control" placeholder="Tên thể loại...">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="nutbam">Lưu</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <script src="/javascript/TrangQuanLySach.js"></script>
+    <script src="/javascript/trangChu.js"></script>
     <%- include('../particals/footer') %>

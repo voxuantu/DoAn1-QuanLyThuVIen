@@ -24,6 +24,25 @@ class QuanLyNhaXuatBanControler{
             res.json(error)
         }
     }
+    async edit(req, res){
+        try {
+            var idTacGia = req.body.idTacGia
+            var tenTacGia = req.body.tenTacGia
+            await Author.findOneAndUpdate({_id : idTacGia}, {name : tenTacGia})
+            res.redirect('/quanLyTacGia')
+        } catch (error) {
+            res.json(error)
+        }
+    }
+    async delete(req,res){
+        try {
+            var idTacGia = req.body.id
+            await Author.deleteOne({_id : idTacGia})
+            res('1')
+        } catch (err) {
+            res.json(err)
+        }
+    }
 }
 
 module.exports = new QuanLyNhaXuatBanControler

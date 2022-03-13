@@ -39,7 +39,8 @@ function route (app) {
     app.use('/chiTietSach', chiTietSachRouter)
     app.use('/gioSach',checkAuthenticated, gioSachRouter)
     app.use('/api',checkAuthenticated, apiRouter)
-    app.use('/', indexRouter)
+    app.use('/trangChu', indexRouter)
+
 }
 
 module.exports = route

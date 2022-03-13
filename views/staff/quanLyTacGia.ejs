@@ -2,7 +2,13 @@
     <title>Quản lý tác giả</title>
 <%- contentFor('body') %>
 <%- include('../particals/header') %>
+    
     <div class="container" style="min-height: 500px;">
+        <div class="duong-dan-muc">
+            <a href="/trangChu/1">Trang chủ</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="/quanLyTacGia">Quản lý tác giả</a>
+        </div>
         <div class="row">
             <div class="col-sm-3">
                 <div class="left_menu timkiem" style="padding: 0 !important;">
@@ -13,8 +19,8 @@
                         <ul>
                             <li><a href="/quanlysach/1">Sách</a></li>
                             <li><a href="/quanLyTheLoai">Thể loại</a></li>
-                            <li><a href="/quanLyNhaXuatBan">tác giả</a></li>
-                            <li><a href="/quanLyTacGia">tác giả</a></li>
+                            <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
+                            <li><a href="/quanLyTacGia">Tác giả</a></li>
                         </ul>
                     </div>
                 </div>
@@ -23,7 +29,7 @@
                 <div id="ql-theloai">
                     <div class="timkiem mb-2">
                         <div class="input-group them-moi-the-loai">
-                            <a onclick="HienFormSuaTheLoai()" class="nut-them-moi">
+                            <a onclick="HienFormThemTacGia()" class="nut-them-moi">
                                 <button class="nutbam">Thêm tác giả mới</button>
                             </a>
                             <form action="/quanLyTacGia" method="post">
@@ -49,8 +55,9 @@
                                         <th scope="row"><%= index + 1 %></th>
                                         <td><%= authors[index].name %></td>
                                         <td>
-                                            <i class="fa-solid fa-trash-can action-book xoa"></i>
-                                            <a onclick="OpenEditTheLoaiModal()"><i
+                                            <a class="delete-author" data-id-tacgia="<%= authors[index].id %>"><i class="fa-solid fa-trash-can action-book xoa"></i></a>
+                                            <a class="edit-author" data-ten-tacgia="<%= authors[index].name %>"
+                                            data-id-tacgia="<%= authors[index].id %>"><i
                                                     class="fa-solid fa-pen-to-square action-book"></i></a>
                                         </td>
                                     </tr>
@@ -65,23 +72,26 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Chỉnh tác giả loại</h5>
+                        <h5 class="modal-title">Chỉnh sửa tác giả</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div>
-                            <labelclass="form-label">Tên tác giả</label>
-                                <input type="text" class="form-control" placeholder="Tên tác giả...">
+                    <form action="/quanLyTacGia?_method=PUT" method="post">
+                        <div class="modal-body">
+                            <div>
+                                <labelclass="form-label">Tên tác giả</label>
+                                    <input type="text" name="idTacGia" id="idTacGia" class="form-control" style="display: none;">
+                                    <input type="text" name="tenTacGia" id="tenTacGia" class="form-control" placeholder="Tên tác giả...">
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="nutbam">Lưu</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="nutbam">Lưu</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/javascript/TrangQuanLySach.js"></script>
+    <script src="/javascript/quanLyTacGia.js"></script>
     <%- include('../particals/footer') %>

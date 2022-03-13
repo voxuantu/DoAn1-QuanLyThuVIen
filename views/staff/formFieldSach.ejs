@@ -1,0 +1,131 @@
+<div class="row">
+    <div class="col-sm-4 position-relative">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <% if (book.coverImage != null) { %>
+                <img id="anhBia" class="anhBiaSach" src="<%= book.coverImage %>"
+                alt="Bìa sách mặc định">
+            <% } else { %>
+                <img id="anhBia" class="anhBiaSach" src="/images/BiaSachMau.png"
+                alt="Bìa sách mặc định">
+            <% }%>
+        </div>
+        <input type="file" id="imgUpload" style="display: none;" name="anh"
+            onchange="ShowImage(event)" accept="image/png, image/jpeg">
+        <button id="chonAnh" onclick="OpenImgDialog()" type="button"
+            class="nutbam position-absolute bottom-0 start-50 translate-middle-x">Chọn
+            ảnh</button>
+    </div>
+    <div class="col-sm-8" id="themsuasach">
+        <div class="row">
+            <div class="position-relative mb-3">
+                <% if (book != null) { %>
+                    <p class="title_themmoi">Chỉnh sửa sách</p>
+                <% } else { %>
+                    <p class="title_themmoi">Thêm sách mới</p>
+                <% } %> 
+            </div>
+            <div class="thongtincanhan">
+
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Tên sách</label>
+                    <div class="col-sm-10">
+                        <% if (book.name != null) { %>
+                            <input type="text" class="form-control" id="tensach"
+                            name="tensach" placeholder="Búp bê Rangged Ann" value="<%= book.name %>">
+                        <% } else { %>
+                            <input type="text" class="form-control" id="tensach"
+                                name="tensach" placeholder="Búp bê Rangged Ann">
+                        <% } %> 
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Tác giả</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" id="tacgia" name="tacgia">
+                            <option id="default" disabled selected hidden>Chọn tác giả
+                            </option>
+                            <% authors.forEach(element=> { %>
+                                <% if (book.author == element.id) { %>
+                                    <option value="<%=element.id%>" selected><%= element.name %></option>
+                                <% }  else { %>
+                                <option value="<%=element.id%>"><%= element.name %></option>
+                                <% } %> 
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">NXB</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" id="nhaxuatban" name="nhaxuatban">
+                            <option id="default" disabled selected hidden>Chọn nhà xuất
+                                bản</option>
+                            <% bookPublishers.forEach(element=> { %>
+                                <% if (book.bookPublisher == element.id) { %>
+                                    <option value="<%=element.id%>" selected><%= element.name %></option>
+                                <% }  else { %>
+                                <option value="<%=element.id%>"><%= element.name %></option>
+                                <% } %> 
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Thể loại</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" id="theloai" name="theloai">
+                            <option id="default" disabled selected hidden>Chọn thể
+                                loại</option>
+                            <% categories.forEach(element=> { %>
+                                <% if (book.category == element.id) { %>
+                                    <option value="<%=element.id%>" selected><%= element.name %></option>
+                                <% }  else { %>
+                                <option value="<%=element.id%>"><%= element.name %></option>
+                                <% } %> 
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Số trang</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="sotrang" min="1"
+                            name="sotrang" placeholder="Nhập số lượng" value="<%= book.pageCount %>">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Năm XB</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="namxuatban"
+                            min="1" name="namxuatban" placeholder="Nhập năm xuất bản" value="<%= book.publishedYear %>">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Giá bìa</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="giabia" min="1"
+                            name="giabia" placeholder="Nhập giá bìa" value="<%= book.coverPrice %>">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Số lượng</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="soluong" min="1"
+                            name="soluong" placeholder="Nhập số lượng" value="<%= book.quantity %>">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Mô tả</label>
+                    <div class="col-sm-10">
+                        <textarea type="text" class="form-control" id="mota" name="mota"
+                            placeholder="Nhập mô tả"><%= book.description %> </textarea>
+                    </div>
+                </div>
+                <div class="nut-xac-nhan-them-moi">
+                    <button type="submit" class="nutbam">Lưu</button>
+                    <button type="button" class="nutbamred">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
