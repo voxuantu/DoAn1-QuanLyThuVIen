@@ -2,7 +2,13 @@
     <title>Quản lý nhà xuất bản</title>
 <%- contentFor('body') %>
 <%- include('../particals/header') %>
+
     <div class="container" style="min-height: 500px;">
+        <div class="duong-dan-muc">
+            <a href="/trangChu/1">Trang chủ</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="/quanLyNhaXuatBan">Quản lý nhà xuất bản</a>
+        </div>
         <div class="row">
             <div class="col-sm-3">
                 <div class="left_menu timkiem" style="padding: 0 !important;">
@@ -14,7 +20,7 @@
                             <li><a href="/quanlysach/1">Sách</a></li>
                             <li><a href="/quanLyTheLoai">Thể loại</a></li>
                             <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
-                            <li><a href="/quanLyTacGia">tác giả</a></li>
+                            <li><a href="/quanLyTacGia">Tác giả</a></li>
                         </ul>
                     </div>
                 </div>
@@ -23,11 +29,11 @@
                 <div id="ql-theloai">
                     <div class="timkiem mb-2">
                         <div class="input-group them-moi-the-loai">
-                            <a onclick="HienFormSuaTheLoai()" class="nut-them-moi">
+                            <a onclick="HienFormThemNBX()" class="nut-them-moi">
                                 <button class="nutbam">Thêm nhà xuất bản mới</button>
                             </a>
                             <form action="/quanLyNhaXuatBan" method="post">
-                                <div class="input-group hide-element" id="themtheloai" style="width: 500px;">
+                                <div class="input-group hide-element" id="themNBX" style="width: 500px;">
                                     <input class="form-control" placeholder="Tên thể loại..."
                                         name="tenNhaXB" style="width: 300px;">
                                     <button type="submit" class="nutbam">Lưu</button>
@@ -49,9 +55,9 @@
                                         <th scope="row"><%= index + 1 %></th>
                                         <td><%= bookPublishers[index].name %></td>
                                         <td>
-                                            <i class="fa-solid fa-trash-can action-book xoa"></i>
-                                            <a onclick="OpenEditTheLoaiModal()"><i
-                                                    class="fa-solid fa-pen-to-square action-book"></i></a>
+                                            <a class="delete-publisher" data-id-nbx="<%= bookPublishers[index].id %>"><i class="fa-solid fa-trash-can action-book xoa"></i></a>
+                                            <a class="edit-publisher" data-ten-nbx="<%= bookPublishers[index].name %>"
+                                                data-id-nbx="<%= bookPublishers[index].id %>"><i class="fa-solid fa-pen-to-square action-book"></i></a>
                                         </td>
                                     </tr>
                                 <% } %>
@@ -65,23 +71,26 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Chỉnh nhà xuất bản loại</h5>
+                        <h5 class="modal-title">Chỉnh sửa nhà xuất bản</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div>
-                            <labelclass="form-label">Tên nhà xuất bản</label>
-                                <input type="text" class="form-control" placeholder="Tên nhà xuất bản...">
+                    <form action="/quanLyNhaXuatBan?_method=PUT" method="post">
+                        <div class="modal-body">
+                            <div>
+                                <labelclass="form-label">Tên nhà xuất bản</label>
+                                <input type="text" id="idNbx" name="idNbx" class="form-control" style="display: none;">
+                                <input type="text" id="tenNbx" name="tenNbx" class="form-control" placeholder="Tên nhà xuất bản...">
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="nutbam">Lưu</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="nutbam">Lưu</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/javascript/TrangQuanLySach.js"></script>
+    <script src="/javascript/quanLyNhaXuatBan.js"></script>
     <%- include('../particals/footer') %>
