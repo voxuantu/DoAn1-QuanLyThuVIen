@@ -1,6 +1,6 @@
 $(document).ready(
-    $('.edit-category').each(function(i,obj){
-        $(this).click(function(){
+    $('.edit-category').each(function (i, obj) {
+        $(this).click(function () {
             var idTheLoai = $(this).attr('data-id-theloai')
             var tenTheLoai = $(this).attr('data-ten-theloai')
             $('.modal-body #tenLoai').val(tenTheLoai)
@@ -11,30 +11,46 @@ $(document).ready(
 )
 
 $(document).ready(
-    $('.delete-category').each(function(i,obj){
-        $(this).click(function(){
+    $('.delete-category').each(function (i, obj) {
+        $(this).click(function () {
             var idTheLoai = $(this).attr('data-id-theloai')
-            if(confirm('Xác nhận xóa thể loại') == true){
-                $.ajax({
-                    url : '/quanLyTheLoai/delete',
-                    dataType : 'json',
-                    type : 'post',
-                    data : {
-                        id : idTheLoai
-                    }, 
-                    success : function(data){
-                        alert("Xóa thành công")
-                        window.location.replace("/quanLyTheLoai");
-                    },
-                    error : function(err){
-                      console.log(err)
-                    } 
-                })
-            }
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: true
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Bạn có muốn xóa không?',
+                text: "Bạn sẽ không khôi phục lại được sau khi xóa!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Không',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/quanLyTheLoai/delete',
+                        dataType: 'json',
+                        type: 'post',
+                        data: {
+                            id: idTheLoai
+                        },
+                        success: function (data) {
+                            window.location.replace("/quanLyTheLoai");
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    })
+                }
+            })
         })
     })
 )
 
-function HienFormThemTheLoai(){
+function HienFormThemTheLoai() {
     document.getElementById('themtheloai').classList.remove('hide-element');
 }
