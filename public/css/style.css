@@ -174,7 +174,17 @@
 .text-content{
     padding: 10px;
 }
-
+.limit-text{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.tac-gia{
+    -webkit-line-clamp: 1;
+}
+.ten-sach{
+    -webkit-line-clamp: 2;
+}
 /* footer css */
 .footer{
     margin-top: 20px;
@@ -186,6 +196,13 @@
     width: 100%;
     padding: 20px;
     margin-bottom: 0px;
+}
+
+/* css phân trang */
+.phan-trang{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 /* notifi-box */

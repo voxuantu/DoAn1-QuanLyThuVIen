@@ -2,7 +2,13 @@
     <title>Quản lý thể loại</title>
 <%- contentFor('body') %>
 <%- include('../particals/header') %>
+    
     <div class="container" style="min-height: 500px;">
+        <div class="duong-dan-muc">
+            <a href="/trangChu/1">Trang chủ</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="/quanLyTheLoai">Quản Lý thể loại</a>
+        </div>
         <div class="row">
             <div class="col-sm-3">
                 <div class="left_menu timkiem" style="padding: 0 !important;">
@@ -14,7 +20,7 @@
                             <li><a href="/quanlysach/1">Sách</a></li>
                             <li><a href="/quanLyTheLoai">Thể loại</a></li>
                             <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
-                            <li><a href="/quanLyTacGia">tác giả</a></li>
+                            <li><a href="/quanLyTacGia">Tác giả</a></li>
                         </ul>
                     </div>
                 </div>
@@ -23,7 +29,7 @@
                 <div id="ql-theloai">
                     <div class="timkiem mb-2">
                         <div class="input-group them-moi-the-loai">
-                            <a onclick="HienFormSuaTheLoai()" class="nut-them-moi">
+                            <a onclick="HienFormThemTheLoai()" class="nut-them-moi">
                                 <button class="nutbam">Thêm thể loại mới</button>
                             </a>
                             <form action="/quanLyTheLoai" method="post">
@@ -49,9 +55,9 @@
                                         <th scope="row"><%= index + 1 %></th>
                                         <td><%= categories[index].name %></td>
                                         <td>
-                                            <i class="fa-solid fa-trash-can action-book xoa"></i>
-                                            <a onclick="OpenEditTheLoaiModal()"><i
-                                                    class="fa-solid fa-pen-to-square action-book"></i></a>
+                                            <a class="delete-category" data-id-theloai="<%= categories[index].id %>"><i class="fa-solid fa-trash-can action-book xoa"></i></a>
+                                            <a class="edit-category" data-ten-theloai="<%= categories[index].name %>"
+                                                data-id-theloai="<%= categories[index].id %>"><i class="fa-solid fa-pen-to-square action-book"></i></a>
                                         </td>
                                     </tr>
                                 <% } %>
@@ -69,19 +75,22 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div>
-                            <labelclass="form-label">Tên thể loại</label>
-                                <input type="text" class="form-control" placeholder="Tên thể loại...">
+                    <form action="/quanLyTheLoai?_method=PUT" method="post">
+                        <div class="modal-body">
+                            <div>
+                                <labelclass="form-label">Tên thể loại</label>
+                                    <input type="text" id="idLoai" name="idLoai" class="form-control" style="display: none;">
+                                    <input type="text" id="tenLoai" name="tenLoai" class="form-control" placeholder="Tên thể loại...">
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="nutbam">Lưu</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="nutbam">Lưu</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/javascript/TrangQuanLySach.js"></script>
+    <script src="/javascript/quanLyTheLoai.js"></script>
     <%- include('../particals/footer') %>
