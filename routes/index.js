@@ -43,7 +43,7 @@ function route (app) {
     app.use('/quyDinh',checkAuthenticated, checkPermissions(['ADMIN']), quyDinhRouter)
     app.use('/api',checkAuthenticated, apiRouter)
     app.use('/trangChu', indexRouter)
-
+    
 }
 
 module.exports = route

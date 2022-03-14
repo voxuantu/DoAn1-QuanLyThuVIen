@@ -276,35 +276,36 @@
     <div class="modal modal-change-password fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Đổi mật khẩu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="oldpass" class="form-label">Mật khẩu cũ</label>
-                        <input type="password" class="form-control" id="oldpass" placeholder="Mật khẩu cũ...">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Đổi mật khẩu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="newpass" class="form-label">Mật khẩu mới</label>
-                        <input type="password" class="form-control" id="newpass" placeholder="Mật khẩu mới...">
-                    </div>
-                    <div class="mb-3">
-                        <label for="renewpass" class="form-label">Nhập lại mật khẩu mới</label>
-                        <input type="password" class="form-control" id="renewpass" placeholder="Mật khẩu cũ...">
-                    </div>
-                    <div class="mb-3">
-                        <label for="code" class="form-label">Mã bảo mật</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="code" placeholder="Nhập mã...">
-                            <button class="nutbamgreen">Lấy mã</button>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="oldpass" class="form-label">Mật khẩu cũ</label>
+                            <input type="password" class="form-control" id="oldpass" placeholder="Mật khẩu cũ...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newpass" class="form-label">Mật khẩu mới</label>
+                            <input type="text" style="display: none;" id="userId" name="userId" value="<%= currentUser.id%>">
+                            <input type="password" class="form-control" name="newpass" id="newpass" placeholder="Mật khẩu mới...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="renewpass" class="form-label">Nhập lại mật khẩu mới</label>
+                            <input type="password" class="form-control" id="renewpass" placeholder="Mật khẩu cũ...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="code" class="form-label">Mã bảo mật</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="code" name="code" placeholder="Nhập mã...">
+                                <button type="button" id="layMa" data-id-user="<%= currentUser.id%>" class="nutbamgreen">Lấy mã</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="nutbam">Thay đổi</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" id="ThayDoi" class="nutbam">Thay đổi</button>
+                    </div>
             </div>
         </div>
     </div>
