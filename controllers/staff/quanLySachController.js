@@ -16,7 +16,7 @@ class QuanLySachController {
         req.session.themThanhCong = false
         req.session.suaThanhCong = false
         req.session.xoaThanhCong = false
-
+      
         var cart = req.session.cart
         const currentUser = await req.user
         Book.find({})
@@ -27,6 +27,7 @@ class QuanLySachController {
                 Book.count().exec(function (err, count) {
                     if (err) return next(err)
                     res.render('staff/quanLySach', {
+                        cart: cart,
                         currentUser: currentUser,
                         books: books,
                         current: page,
@@ -70,7 +71,8 @@ class QuanLySachController {
         const bookPublishers = await BookPublisher.find({})
         const authors = await Author.find({})
         res.render('staff/themSach.ejs', {
-            book: book,
+            cart: cart,
+            book : book,
             currentUser: currentUser,
             categories: categories,
             bookPublishers: bookPublishers,
@@ -132,7 +134,8 @@ class QuanLySachController {
             const bookPublishers = await BookPublisher.find({})
             const authors = await Author.find({})
             res.render('staff/suaSach.ejs', {
-                book: book,
+                cart: cart,
+                book : book,
                 currentUser: currentUser,
                 categories: categories,
                 bookPublishers: bookPublishers,

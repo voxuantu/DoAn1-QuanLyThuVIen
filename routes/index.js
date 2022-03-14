@@ -1,3 +1,5 @@
+//Route Admin
+const quyDinhRouter = require('./admin/quyDinhRouter')
 
 //Route Staff
 const muonTraSachRouter = require('./staff/muonTraSachRouter')
@@ -38,6 +40,7 @@ function route (app) {
     app.use('/trangCaNhan',checkAuthenticated ,trangCaNhanRouter)
     app.use('/chiTietSach', chiTietSachRouter)
     app.use('/gioSach',checkAuthenticated, gioSachRouter)
+    app.use('/quyDinh',checkAuthenticated, checkPermissions(['ADMIN']), quyDinhRouter)
     app.use('/api',checkAuthenticated, apiRouter)
     app.use('/trangChu', indexRouter)
 

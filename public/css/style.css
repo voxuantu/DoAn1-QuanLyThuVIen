@@ -370,15 +370,11 @@ a {
 .timkiem h4{
     text-align: center;
 }
-.action-book{
+.delete-item-cart{
     font-size: 20px;
-    cursor: pointer;
 }
-.xoa{
-    color:rgb(250, 53, 53) !important;
-}
-.action-book:hover{
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+.delete-item-cart:hover{
+    color: red !important;
 }
 .customer-info{
     border-radius: 10px; 
