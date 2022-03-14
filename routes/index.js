@@ -38,9 +38,9 @@ function route (app) {
     app.use('/trangCaNhan',checkAuthenticated ,trangCaNhanRouter)
     app.use('/chiTietSach', chiTietSachRouter)
     app.use('/gioSach',checkAuthenticated, gioSachRouter)
-    app.use('/api',checkAuthenticated, apiRouter)
+    app.use('/api', apiRouter)
     app.use('/trangChu', indexRouter)
-
+    
 }
 
 module.exports = route
