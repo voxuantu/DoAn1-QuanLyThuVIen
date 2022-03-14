@@ -3,11 +3,13 @@ const BookPublisher = require('../../models/bookPublisher')
 class QuanLyNhaXuatBanControler{
     async index(req, res){
         try{
+            var cart = req.session.cart
             const bookPublishers = await BookPublisher.find({});
             const currentUser = await req.user
             res.render('staff/quanLyNhaXuatBan',{
                 bookPublishers : bookPublishers,
-                currentUser : currentUser
+                currentUser : currentUser,
+                cart: cart
             })
         } catch (err){
             res.json(error)

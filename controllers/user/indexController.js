@@ -34,6 +34,7 @@ class IndexController {
         var perPage = 12
         var page = req.params.page || 1
 
+        var cart = req.session.cart
         var categoryName = req.params.category
         const categories = await Category.find({})
         const currentUser = await req.user
@@ -46,6 +47,7 @@ class IndexController {
                 Book.find({category : category._id}).count().exec(function (err, count) {
                     if (err) return next(err)
                     res.render('index', {
+                        cart: cart,
                         currentUser: currentUser,
                         books: books,
                         categories : categories,

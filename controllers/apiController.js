@@ -1,4 +1,5 @@
 class APIController {
+    //Thêm sách vào giỏ
     addBookToCart(req,res){
         var isExist = false
         var cart = []; 
@@ -32,6 +33,20 @@ class APIController {
             }) 
         }
         //console.log(req)
+    }
+
+    //Xóa sách ra khỏi giỏ
+    deleteBookFromCart(req,res){
+        var cart = req.session.cart
+        const index = cart.indexOf(req.body.id)
+        if(index > -1){
+            cart.splice(index,1)
+            req.session.cart = cart
+            req.session.isDeleted = true
+            res.json('Thanh cong')
+        }else{
+            res.json('That bai')
+        }
     }
 }
 

@@ -8,14 +8,14 @@
         <i class="fa-solid fa-angle-right"></i>
         <a href="">Giỏ sách</a>
     </div>
-    <% if (!cart) { %>
+    <% if (cart.length == 0 || !cart) { %>
         <div class="container">
             <div class="row">
                 <div class="timkiem" style="border-radius: 10px;text-align: center; margin-top: 20px;">
                     <img class="empty-bag" src="/icon/empty-bag.png" alt="empty-bag">
                     <p>Hiện tại giỏ sách đang trống.</p>
                     <p>Hãy quay lại trang chủ và chọn sách để mượn</p>
-                    <button type="button" class="btn btn-primary">Quay lại trang chủ</button>
+                    <a href="/trangChu/1">Quay lại trang chủ</a>
                 </div>
             </div>
         </div>
@@ -33,24 +33,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% cart.forEach(itemCart => { %>
+                           <% for( let index = 0; index < bookCart.length; index++ ) { %>
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td><img src="<%= itemCart.coverImage %>" alt="<%= itemCart.name %>" class="img-fluid"></td>
-                                    <td><%= itemCart.name %></td>
-                                    <td><i class="fa-solid fa-trash-can delete-book"></i></td>
+                                    <th scope="row"><%= index+1 %></th>
+                                    <td><img src="<%= bookCart[index].coverImage %>" alt="<%= bookCart[index].name %>" class="img-fluid"></td>
+                                    <td><%= bookCart[index].name %></td>
+                                    <td><a class="js-delete-item-cart" data-id-book="<%= bookCart[index].id %>" ="" href=""><i class="fa-solid fa-trash-can delete-item-cart"></i></a></td>
                                 </tr>
-                            <% }) %>
+                           <% } %>
                         </tbody>
                     </table>
                 </div>
         
                 <div class="timkiem col-sm-4 customer-info">
                     <h4>Thông tin người mượn sách</h4>
-                    <p>Họ và tên : <span>Võ Xuân Tú</span></p>
-                    <p>Số điện thoại : <span>0988835462</span></p>
-                    <p>Email : <span>voxuantu1235@gmail.com</span></p>
-                    <p>Địa chỉ : <span>Khối 4B, thị trấn Eaknop, huyện Eakar, tỉnh ĐăkLăk</span></p>
+                    <p>Họ và tên : <span><%= currentUser.displayName %></span></p>
+                    <p>Số điện thoại : <span><%= currentUser.phone %></span></p>
+                    <p>Email : <span><%= currentUser.email %></span></p>
+                    <p>Địa chỉ : <span><%= currentUser.address %></span></p>
                     <div class="mb-2" style="text-align: center;">
                         <button type="button" class="btn btn-primary">Mượn sách</button>
                         <button type="button" class="btn btn-danger" id="deleteAll">Xóa tất cả</button>
@@ -62,3 +62,41 @@
     <% } %> 
 </div>
 <%- include('../particals/footer') %>
+
+<% if (isDeleted) { %>
+    <script>
+        Swal.fire({ icon: 'success', 
+                    title: 'Thành công', 
+                    text: 'Xóa sách khỏi giỏ thành công!'
+                })
+    </script>
+<% } %>
+<script>
+$(document).ready(function(){
+    $('.js-delete-item-cart').each(function(i,obj){
+        $(this).click(function(){
+            $.ajax({
+                url:'/api/xoaSachKhoiGio',
+                type:'post',
+                data: {
+                    id: $(this).attr('data-id-book')
+                },
+                success: function(data, status){
+                    if(data == "Thanh cong"){
+                        window.location.replace('/gioSach')
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Thất bại',
+                            text: 'Xóa sách khỏi giỏ trong giỏ',
+                        })
+                    }
+                },
+                error : function(err){
+                    console.error(err)
+                }
+            })
+        })
+    })
+})
+</script>

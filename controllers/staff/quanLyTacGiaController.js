@@ -3,9 +3,11 @@ const Author = require('../../models/author')
 class QuanLyNhaXuatBanControler{
     async index(req, res){
         try{
+            var cart = req.session.cart
             const authors = await Author.find({});
             const currentUser = await req.user
             res.render('staff/quanLyTacGia',{
+                cart: cart,
                 authors : authors,
                 currentUser : currentUser
             })

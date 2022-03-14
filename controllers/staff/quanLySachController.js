@@ -29,6 +29,7 @@ class QuanLySachController {
         var perPage = 5
         var page = req.params.page || 1
 
+        var cart = req.session.cart
         const currentUser = await req.user
         Book.find({})
             .populate('author')
@@ -38,6 +39,7 @@ class QuanLySachController {
                 Book.count().exec(function (err, count) {
                     if (err) return next(err)
                     res.render('staff/quanLySach', {
+                        cart: cart,
                         currentUser: currentUser,
                         books: books,
                         current: page,
@@ -69,12 +71,14 @@ class QuanLySachController {
         }
     }
     async renderCreatePage(req, res) {
+        var cart = req.session.cart
         const book = new Book()
         const currentUser = await req.user
         const categories = await Category.find({})
         const bookPublishers = await BookPublisher.find({})
         const authors = await Author.find({})
         res.render('staff/themSach.ejs', {
+            cart: cart,
             book : book,
             currentUser: currentUser,
             categories: categories,
@@ -128,6 +132,7 @@ class QuanLySachController {
     }
     async renderEditPage(req, res) {
         try {
+            var cart = req.session.cart
             var id = req.params.id
             const book = await Book.findById(id)
             const currentUser = await req.user
@@ -135,6 +140,7 @@ class QuanLySachController {
             const bookPublishers = await BookPublisher.find({})
             const authors = await Author.find({})
             res.render('staff/suaSach.ejs', {
+                cart: cart,
                 book : book,
                 currentUser: currentUser,
                 categories: categories,

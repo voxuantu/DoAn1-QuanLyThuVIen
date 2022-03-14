@@ -1,0 +1,53 @@
+<%- contentFor('head') %> 
+    <title>Mượn trả sách</title>
+<%- contentFor('body') %> 
+<link rel="stylesheet" href="/css/cssButton.css">
+<%- include('../particals/header') %>
+<div class="container">
+    <div class="duong-dan-muc">
+        <a href="/index.html">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="/lien-he.html">Quy định</a>
+    </div>
+    <div class="timkiem">
+        <div class="row">
+            <div class="col-sm-4" style="text-align: center;">
+                <img src="/icon/quy-dinh.png" style="width: 200px;" alt="quy-dinh">
+            </div>
+            <div class="col-sm-8">
+                <h5>Thay đổi quy định</h5>
+                    <% regulations.forEach(regula => { %>
+                        <form action="/quyDinh/thayDoiQuyDinh/<%= regula.id %>" method="post">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <label ><%= regula.name %> :</label>
+                                    <input type="number" name="value" class="form-control"  value="<%= regula.value %>">
+                                </div>
+                                <div class="col-sm-4 mt-4">
+                                    <button class="nutbam" type="submit">Chỉnh sửa</button>
+                                </div>
+                            </div>
+                        </form>
+                    <% }) %>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div>
+    <form action="/quyDinh" method="post">
+        <label>ten quy dinh</label>
+        <input type="text" name="name">
+        <label>gia tri</label>
+        <input type="number" name="value">
+        <button type="submit">submit</button>
+    </form>
+</div> -->
+<%- include('../particals/footer') %>
+<% if (suaThanhCong) { %>
+    <script>
+        Swal.fire({ icon: 'success', 
+                    title: 'Thành công', 
+                    text: 'Thay đổi quy định thành công!'
+                })
+    </script>
+<% } %>
