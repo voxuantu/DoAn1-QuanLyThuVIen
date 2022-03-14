@@ -1,3 +1,7 @@
+a {
+    text-decoration: none !important;
+}
+
 /* css header */
 .header{
     background-color: #31a2fa;

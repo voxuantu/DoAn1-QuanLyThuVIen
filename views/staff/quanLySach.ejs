@@ -73,8 +73,14 @@
                                         <td><%= books[i].author.name %></td>
                                         <td><%= books[i].quantity %></td>
                                         <td>
-                                            <a class="delete-book" data-id-book="<%= books[i].id %>"><i class="fa-solid fa-trash-can action-book xoa"></i></a>
-                                            <a href="/quanLySach/edit/<%= books[i].id %>"><i class="fa-solid fa-pen-to-square action-book"></i></a>
+                                            <a class="delete-book" data-id-book="<%= books[i].id %>">
+                                                <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Xóa sách"></i>
+                                            </a>
+                                            <a href="/quanLySach/edit/<%= books[i].id %>">
+                                                <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Chỉnh sửa sách"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 <% } %>
@@ -122,7 +128,24 @@
                 </div>
             </div>
         </div>
+        <% if (themThanhCong) { %>
+            <script>
+                Swal.fire('Thêm thành công!','Thêm nhà xuất bản thành công!','success')
+            </script> 
+        <% } %>
+        <% if (suaThanhCong) { %>
+            <script>
+                Swal.fire('Sửa thành công!','Chỉnh sửa nhà xuất bản thành công!','success')
+            </script> 
+        <% } %>
+        <% if (xoaThanhCong) { %>
+            <script>
+                Swal.fire('Xóa thành công!','Xóa nhà xuất bản thành công!','success')
+            </script> 
+        <% } %>
     </div>
     <script src="/javascript/TrangQuanLySach.js"></script>
     <script src="/javascript/trangChu.js"></script>
+    <script src="/javascript/showToolTip.js"></script>
+
     <%- include('../particals/footer') %>
