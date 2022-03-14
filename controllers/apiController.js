@@ -94,6 +94,19 @@ class APIController {
             console.log(error)
         }
     }
+    //Xóa sách ra khỏi giỏ
+    deleteBookFromCart(req,res){
+        var cart = req.session.cart
+        const index = cart.indexOf(req.body.id)
+        if(index > -1){
+            cart.splice(index,1)
+            req.session.cart = cart
+            req.session.isDeleted = true
+            res.json('Thanh cong')
+        }else{
+            res.json('That bai')
+        }
+    }
 }
 
 module.exports = new APIController
