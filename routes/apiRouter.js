@@ -6,6 +6,7 @@ router.post('/themSachVaoGio', apiController.addBookToCart)
 router.post('/layMa', apiController.LayMa)
 router.post('/doiMatKhau', apiController.DoiMatKhau)
 router.post('/xoaSachKhoiGio', apiController.deleteBookFromCart)
+router.post('/xoaHetSachKhoiGio', apiController.deleteAllBookFromCart)
 
 
 module.exports = router;

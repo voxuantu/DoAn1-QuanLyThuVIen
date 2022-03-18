@@ -2,37 +2,59 @@ const Token = require('../models/token');
 const Account = require('../models/account');
 const sendEmail = require('../utils/sendEmail');
 const bcrypt = require('bcrypt')
+const Regulation = require('../models/regulation')
 
 class APIController {
-    addBookToCart(req, res) {
+    //Thêm sách vào giỏ
+    async addBookToCart(req,res){
+        let MaxBookBorrow
+        try {
+            MaxBookBorrow = await Regulation.findOne({name: 'Số sách mươn tối đa/1 lần mượn'})
+        } catch (error) {
+            console.log(error)
+        }
         var isExist = false
-        var cart = [];
-        if (!req.session.cart) {
+        var isMaxBook = false
+        var cart = []; 
+        if(!req.session.cart){
             cart.push(req.body.id)
             req.session.cart = cart
-        } else {
-            req.session.cart.forEach(itemCart => {
-                if (itemCart == req.body.id) {
-                    isExist = true
+        }else{
+            if(req.session.cart.length < MaxBookBorrow.value){
+                req.session.cart.forEach(itemCart => {
+                    if(itemCart == req.body.id){
+                        isExist = true
+                    }
+                    cart.push(itemCart)
+                });
+                if(isExist == false){
+                    cart.push(req.body.id);
                 }
-                cart.push(itemCart)
-            });
-            if (isExist == false) {
-                cart.push(req.body.id);
+                req.session.cart = cart
+            }else{
+                isMaxBook = true
             }
-            req.session.cart = cart
+            
         }
         console.log(req.session.cart)
         console.log(req.session.cart.length)
+        console.log(MaxBookBorrow.value)
         //res.redirect('back')
-        if (isExist == true) {
+        if(!isMaxBook){
+            if(isExist == true){
+                res.json({
+                    message: 'That bai',
+                    cartQuantity: req.session.cart.length
+                })
+            }else{
+                res.json({
+                    message: 'Thanh cong',
+                    cartQuantity: req.session.cart.length
+                }) 
+            }
+        }else{
             res.json({
-                message: 'That bai',
-                cartQuantity: req.session.cart.length
-            })
-        } else {
-            res.json({
-                message: 'Thanh cong',
+                message: 'Gio da day',
                 cartQuantity: req.session.cart.length
             })
         }
@@ -44,7 +66,6 @@ class APIController {
             if (!user) {
                 return res.status(400).send("Người dùng này không tồn tại!")
             }
-
             let token = await Token.findOne({ user: user._id })
             if (!token) {
                 token = await new Token({
@@ -94,7 +115,7 @@ class APIController {
             console.log(error)
         }
     }
-    //Xóa sách ra khỏi giỏ
+    //Xóa 1 sách ra khỏi giỏ
     deleteBookFromCart(req,res){
         var cart = req.session.cart
         const index = cart.indexOf(req.body.id)
@@ -106,6 +127,14 @@ class APIController {
         }else{
             res.json('That bai')
         }
+    }
+
+    //Xóa hết sách ra khỏi giỏ
+    deleteAllBookFromCart(req,res){
+        var cart = []
+        req.session.cart = cart
+        req.session.isDeleted = true
+        res.redirect('/gioSach')
     }
 }
 
