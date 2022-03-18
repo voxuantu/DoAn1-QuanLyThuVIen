@@ -51,9 +51,17 @@
                     <p>Số điện thoại : <span><%= currentUser.phone %></span></p>
                     <p>Email : <span><%= currentUser.email %></span></p>
                     <p>Địa chỉ : <span><%= currentUser.address %></span></p>
-                    <div class="mb-2" style="text-align: center;">
-                        <button type="button" class="btn btn-primary">Mượn sách</button>
-                        <button type="button" class="btn btn-danger" id="deleteAll">Xóa tất cả</button>
+                    <div class="row mb-2" style="text-align: center;">
+                        <div class="col-sm-6">
+                            <form action="" method="post">
+                                <button type="button" class="btn btn-primary">Mượn sách</button>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <form action="/api/xoaHetSachKhoiGio" method="post">
+                                <button type="submit" class="btn btn-danger">Xóa tất cả</button>
+                            </form>
+                        </div>
                     </div>
                     <a href="#">Nếu thông tin sai hãy nhấn vào đây để chỉnh sửa</a>
                 </div>

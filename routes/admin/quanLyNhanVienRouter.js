@@ -1,0 +1,9 @@
+const express = require('express');
+const quanLyNhanVienController = require('../../controllers/admin/quanLyNhanVienController');
+const router = express.Router();
+
+router.get('/themNhanVien', quanLyNhanVienController.loadCreate)
+router.get('/:page', quanLyNhanVienController.index)
+router.post('/themNhanVien', quanLyNhanVienController.create)
+
+module.exports = router;
