@@ -35,21 +35,16 @@
                                 </a>
                             </div>
                             <div class="col-sm-9">
-                                <div class="search_box_qlsach row">
-                                    <div class="col">
-                                        <form method="get" action="/quanLySach/timKiem">
-                                            <div class="input-group mb-3">
-                                                <select class="form-select" id="kieuTim" name="kieuTim">
-                                                    <option value="1">Tên sách</option>
-                                                    <option value="2">Tên tác giả</option>
-                                                </select>
-                                                <input class="form-control" type="text" id="searchBox" name="tuKhoa"
-                                                    placeholder="Nhập từ khóa tìm kiếm...">
-                                                <button class="nutbam">Tìm</button>
-                                            </div>
-                                        </form>
+                                <form method="get" action="/quanLySach/timKiem">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <select class="field" name="kieuTim" id="kieuTim" style="margin: 0; width: 24%; padding: 0.5px 1rem;">
+                                        <option value="1">Tên sách</option>
+                                        <option value="2">Tên tác giả</option>
+                                        </select>
+                                        <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0; width: 52%; padding: 0.5px 1rem;">
+                                        <button type="submit" class="nutbam">Tìm kiếm</button>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                         <table class="table">

@@ -1,0 +1,19 @@
+.field{
+	width: 100%;
+	border: 2px solid rgba(0, 0, 0, 0);
+	outline: none;
+	background-color: rgb(232, 240, 254);
+	padding: 0.5rem 1rem;
+	font-size: 1.1rem;
+	margin-bottom: 5px;
+	transition: .3s;
+}
+
+.field:hover{
+	background-color: rgb(232, 240, 254);
+}
+
+.field:focus{
+    border: 2px solid rgba(30,85,250,0.47);
+    background-color: #fff;
+}

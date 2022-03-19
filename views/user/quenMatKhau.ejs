@@ -1,33 +1,40 @@
-<%- contentFor('head') %> 
-    <title>Đăng nhập</title>
-    <link rel="stylesheet" href="/css/login.css">
+<%- contentFor('head') %>
+<title>Đăng nhập</title>
+<link rel="stylesheet" href="/css/login.css">
+<link rel="stylesheet" href="/css/cssInput.css">
+
 <%- contentFor('body') %>
-<body class="body">
+
+<body>
 	<div class="container">
-        <div class="contanier_login">
-            <div class="wrap_login" style="background: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1));">
-                <div class="row">
-                    <div class="col-sm-7">
-                        <img class="anhnen" src="/images/nen2.jpg" alt="BupBeRaggedyAnn">
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="title">
-                            <h3 style="margin-bottom: 20px;">QUÊN MẬT KHẨU</h3>
+		<div class="contact-box">
+			<div class="left"></div>
+			<div class="right">
+				<div class="container_login">
+                    <h3>QUÊN MẬT KHẨU</h3>
+                    <form id="form1">
+                        <input type="text" class="field" id="userId" style="display: none;">
+                        <input type="text" class="field" id="username" placeholder="Tên đăng nhập..." required>
+                        <div class="nutdangnhap">
+                            <button class="nutbam" id="next" type="button">Tiếp</button>
                         </div>
-                        <form class="login_form">
-                            <input class="form-control mb-3" type="text" placeholder="Tên đăng nhập">
-                        <div class="input-group mb-3">
-                            <input class="form-control" type="text" placeholder="Mã bảo mật">
-                            <button class="nutbamgreen">Lấy mã</button>
+                    </form>
+            
+                    <form id="form2">
+                        <input type="password" class="field" id="newpass" placeholder="Mật khẩu mới...">
+                        <input type="password" class="field" placeholder="Nhập lại mật khẩu mới...">
+                        <div class="input-row mb-3">
+                            <input class="field type="text" id="code" placeholder="Mã bảo mật...">
+                            <button type="button" class="nutbamgreen" id="layMa">Lấy mã</button>
                         </div>
-                        <input class="form-control mb-3" type="password" placeholder="Mật khẩu mới">
-                        <input class="form-control mb-3" type="password" placeholder="Nhập lại mật khẩu mới">
-                        
-                        <button type="button" class="nutbam mb-3" style="width: 100%">Xác nhận</button>
-                        </form>
-                    </div>
+                        <div class="nutdangnhap">
+                            <button class="nutbam" id="back" type="button">Quay lại</button>
+                            <button class="nutbam" id="xacnhan" type="button">Xác nhận</button>
+                        </div>
+                    </form>
                 </div>
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 </body>
+<script src="/javascript/quenMatKhau.js"></script>

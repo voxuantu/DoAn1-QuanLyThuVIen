@@ -107,6 +107,19 @@ class APIController {
             res.json('That bai')
         }
     }
+    async kiemTraNguoiDung(req, res){
+        try {
+            const user = await Account.findOne({username : req.body.username})
+            if(user){
+                res.json(user._id)
+            } else {
+                res.json("Không tìm thấy user")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
 }
 
 module.exports = new APIController
