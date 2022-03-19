@@ -83,6 +83,7 @@ class QuanLySachController {
     async search(req, res) {
         var perPage = 5
         var page = req.params.page || 1
+        var cart = req.session.cart
 
         const currentUser = await req.user
 
@@ -100,8 +101,12 @@ class QuanLySachController {
                         res.render('staff/quanLySach', {
                             currentUser: currentUser,
                             books: books,
+                            cart : cart,
                             current: page,
-                            pages: Math.ceil(count / perPage)
+                            pages: Math.ceil(count / perPage),
+                            themThanhCong : false,
+                            suaThanhCong : false,
+                            xoaThanhCong : false
                         });
                     })
                 })
@@ -118,7 +123,10 @@ class QuanLySachController {
                             currentUser: currentUser,
                             books: books,
                             current: page,
-                            pages: Math.ceil(count / perPage)
+                            pages: Math.ceil(count / perPage),
+                            themThanhCong : false,
+                            suaThanhCong : false,
+                            xoaThanhCong : false
                         });
                     })
                 })

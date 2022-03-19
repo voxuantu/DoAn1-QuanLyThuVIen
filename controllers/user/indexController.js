@@ -66,6 +66,7 @@ class IndexController {
     async search(req, res){
         var perPage = 12
         var page = req.params.page || 1
+        var cart = req.session.cart
 
         const categories = await Category.find({})
         const currentUser = await req.user
@@ -82,6 +83,7 @@ class IndexController {
                 Book.find({name : {$regex: tuKhoa, $options: 'i'}}).count().exec(function (err, count) {
                     if (err) return next(err)
                     res.render('index', {
+                        cart : cart,
                         currentUser: currentUser,
                         books: books,
                         categories : categories,

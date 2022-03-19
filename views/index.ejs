@@ -24,17 +24,13 @@
       </div>
       <form method="get" action="/trangChu/timKiem">
         <div class="search_box row">
-          <div class="col-10">
-            <div class="input-group mb-3">
-              <select class="form-select" name="kieuTim" id="kieuTim">
-                <option value="1">Tên sách</option>
-                <option value="2">Tên tác giả</option>
-              </select>
-              <input id="searchBox" type="text" class="form-control" name="tuKhoa">
-            </div>
-          </div>
-          <div class="col-2">
-            <button type="submit" class="btnTimKiem">Tìm kiếm</button>
+          <div style="display: flex; justify-content: space-between;">
+            <select class="field" name="kieuTim" id="kieuTim" style="margin: 0;">
+              <option value="1">Tên sách</option>
+              <option value="2">Tên tác giả</option>
+            </select>
+            <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0;">
+            <button type="submit" class="nutbam">Tìm kiếm</button>
           </div>
         </div>
       </form>

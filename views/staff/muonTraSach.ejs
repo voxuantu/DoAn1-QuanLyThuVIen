@@ -14,18 +14,14 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <h5>Tìm kiếm phiếu mượn</h5>
             </div>
-            <div class="search_box row">
-                <div class="col-10">
-                    <div class="input-group mb-3">
-                        <select style="width: 18%;">
-                            <option>Tên người mượn</option>
-                            <option>Mã mượn sách</option>
-                        </select>
-                        <input style="width: 82%;" type="text">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <button class="btnTimKiem">Tìm kiếm</button>
+            <div class="search_box row mb-3">
+                <div style="display: flex; justify-content: space-between;">
+                    <select class="field" name="kieuTim" id="kieuTim" style="margin: 0; width: 18%;">
+                      <option value="1">Tên người mượn</option>
+                      <option value="2">Mã mượn sách</option>
+                    </select>
+                    <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0; width: 68%;">
+                    <button type="submit" class="nutbam">Tìm kiếm</button>
                 </div>
             </div>
             <table class="table">
@@ -107,17 +103,13 @@
                 <h5>Tìm kiếm phiếu trả sách</h5>
             </div>
             <div class="search_box row">
-                <div class="col-10">
-                    <div class="input-group mb-3">
-                        <select style="width: 18%;">
-                            <option>Tên người mượn</option>
-                            <option>Mã mượn sách</option>
-                        </select>
-                        <input style="width: 82%;" type="text">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <button class="btnTimKiem">Tìm kiếm</button>
+                <div style="display: flex; justify-content: space-between;">
+                    <select class="field" name="kieuTim" id="kieuTim" style="margin: 0; width: 18%;">
+                      <option value="1">Tên người mượn</option>
+                      <option value="2">Mã mượn sách</option>
+                    </select>
+                    <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0; width: 68%;">
+                    <button type="submit" class="nutbam">Tìm kiếm</button>
                 </div>
             </div>
             <table class="table">

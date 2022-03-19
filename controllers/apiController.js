@@ -129,6 +129,18 @@ class APIController {
         }
     }
 
+    async kiemTraNguoiDung(req, res){
+        try {
+            const user = await Account.findOne({username : req.body.username})
+            if(user){
+                res.json(user._id)
+            } else {
+                res.json("Không tìm thấy user")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     //Xóa hết sách ra khỏi giỏ
     deleteAllBookFromCart(req,res){
         var cart = []

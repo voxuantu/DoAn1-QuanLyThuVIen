@@ -2,118 +2,119 @@
     <title>Quản lý nhà xuất bản</title>
 <%- contentFor('body') %>
 <%- include('../particals/header') %>
-<div class="container" style="min-height: 500px;">
-    <div class="duong-dan-muc">
-        <a href="/trangChu/1">Trang chủ</a>
-        <i class="fa-solid fa-angle-right"></i>
-        <a href="/quanLyNhaXuatBan">Quản lý nhà xuất bản</a>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="left_menu timkiem" style="padding: 0 !important;">
-                <div class="theloai">
-                    <h5>Quản lý</h5>
-                </div>
-                <div class="dstheloai">
-                    <ul>
-                        <li><a href="/quanlysach/1">Sách</a></li>
-                        <li><a href="/quanLyTheLoai">Thể loại</a></li>
-                        <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
-                        <li><a href="/quanLyTacGia">Tác giả</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-9">
-            <div id="ql-theloai">
-                <div class="timkiem mb-2">
-                    <div class="input-group them-moi-the-loai">
-                        <a onclick="HienFormThemNBX()" class="nut-them-moi">
-                            <button class="nutbam">Thêm nhà xuất bản mới</button>
-                        </a>
-                        <form action="/quanLyNhaXuatBan" method="post">
-                            <div class="input-group hide-element" id="themNBX" style="width: 500px;">
-                                <input class="form-control" placeholder="Tên thể loại..."
-                                    name="tenNhaXB" style="width: 300px;">
-                                <button type="submit" class="nutbam">Lưu</button>
-                            </div>
-                        </form>
-                    </div>
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Tên nhà xuất bản</th>
-                                <th scope="col">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for( let index = 0; index < bookPublishers.length; index++ ) { %>
-                                <tr>
-                                    <th scope="row"><%= index + 1 %></th>
-                                    <td><%= bookPublishers[index].name %></td>
-                                    <td>
-                                        <a class="delete-publisher" data-id-nbx="<%= bookPublishers[index].id %>">
-                                            <i class="fa-solid fa-trash-can action-book xoa"
-                                            data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Xóa nhà xuất bản"></i>
-                                        </a>
-                                        <a class="edit-publisher" data-ten-nbx="<%= bookPublishers[index].name %>"
-                                            data-id-nbx="<%= bookPublishers[index].id %>">
-                                            <i class="fa-solid fa-pen-to-square action-book"
-                                            data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Chỉnh sửa nhà xuất bản"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+    <div class="container" style="min-height: 500px;">
+        <div class="duong-dan-muc">
+            <a href="/trangChu/1">Trang chủ</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="/quanLyNhaXuatBan">Quản lý nhà xuất bản</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left_menu timkiem" style="padding: 0 !important;">
+                    <div class="theloai">
+                        <h5>Quản lý</h5>
+                    </div>
+                    <div class="dstheloai">
+                        <ul>
+                            <li><a href="/quanlysach/1">Sách</a></li>
+                            <li><a href="/quanLyTheLoai">Thể loại</a></li>
+                            <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
+                            <li><a href="/quanLyTacGia">Tác giả</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Chỉnh sửa nhà xuất bản</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <form action="/quanLyNhaXuatBan?_method=PUT" method="post">
-                    <div class="modal-body">
-                        <div>
-                            <labelclass="form-label">Tên nhà xuất bản</label>
-                            <input type="text" id="idNbx" name="idNbx" class="form-control" style="display: none;">
-                            <input type="text" id="tenNbx" name="tenNbx" class="form-control" placeholder="Tên nhà xuất bản...">
+            <div class="col-sm-9">
+                <div id="ql-theloai">
+                    <div class="timkiem mb-2">
+                        <div class="input-group them-moi-the-loai">
+                            <a onclick="HienFormThemNBX()" class="nut-them-moi">
+                                <button class="nutbam">Thêm nhà xuất bản mới</button>
+                            </a>
+                            <form action="/quanLyNhaXuatBan" method="post">
+                                <div class="input-row hide-element" id="themNBX" style="width: 500px;">
+                                    <input class="field type="text" id="code" placeholder="Tên nhà xuất bản..." 
+                                    name="tenNhaXB" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
+                                    <button type="submit" class="nutbam">Lưu</button>
+                                </div>
+                            </form>
                         </div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên nhà xuất bản</th>
+                                    <th scope="col">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for( let index = 0; index < bookPublishers.length; index++ ) { %>
+                                    <tr>
+                                        <th scope="row"><%= index + 1 %></th>
+                                        <td><%= bookPublishers[index].name %></td>
+                                        <td>
+                                            <a class="delete-publisher" data-id-nbx="<%= bookPublishers[index].id %>">
+                                                <i class="fa-solid fa-trash-can action-book xoa"
+                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Xóa nhà xuất bản"></i>
+                                            </a>
+                                            <a class="edit-publisher" data-ten-nbx="<%= bookPublishers[index].name %>"
+                                                data-id-nbx="<%= bookPublishers[index].id %>">
+                                                <i class="fa-solid fa-pen-to-square action-book"
+                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Chỉnh sửa nhà xuất bản"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="nutbam">Lưu</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
+        <div class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Chỉnh sửa nhà xuất bản</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="/quanLyNhaXuatBan?_method=PUT" method="post">
+                        <div class="modal-body">
+                            <div>
+                                <labelclass="form-label">Tên nhà xuất bản</label>
+                                <input type="text" id="idNbx" name="idNbx" class="form-control" style="display: none;">
+                                <input type="text" id="tenNbx" name="tenNbx" class="form-control" placeholder="Tên nhà xuất bản...">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="nutbam">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <% if (themThanhCong) { %>
+            <script>
+                Swal.fire('Thêm thành công!','Thêm nhà xuất bản thành công!','success')
+            </script> 
+        <% } %>
+        <% if (suaThanhCong) { %>
+            <script>
+                Swal.fire('Sửa thành công!','Chỉnh sửa nhà xuất bản thành công!','success')
+            </script> 
+        <% } %>
+        <% if (xoaThanhCong) { %>
+            <script>
+                Swal.fire('Xóa thành công!','Xóa nhà xuất bản thành công!','success')
+            </script> 
+        <% } %>
     </div>
-    <% if (themThanhCong) { %>
-        <script>
-            Swal.fire('Thêm thành công!','Thêm nhà xuất bản thành công!','success')
-        </script> 
-    <% } %>
-    <% if (suaThanhCong) { %>
-        <script>
-            Swal.fire('Sửa thành công!','Chỉnh sửa nhà xuất bản thành công!','success')
-        </script> 
-    <% } %>
-    <% if (xoaThanhCong) { %>
-        <script>
-            Swal.fire('Xóa thành công!','Xóa nhà xuất bản thành công!','success')
-        </script> 
-    <% } %>
-</div>
-<script src="/javascript/showToolTip.js"></script>
-<script src="/javascript/quanLyNhaXuatBan.js"></script>
-<%- include('../particals/footer') %>
+    <script src="/javascript/showToolTip.js"></script>
+    <script src="/javascript/quanLyNhaXuatBan.js"></script>
+    <%- include('../particals/footer') %>

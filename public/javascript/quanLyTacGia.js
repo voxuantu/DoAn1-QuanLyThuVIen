@@ -53,5 +53,5 @@ $(document).ready(
 )
 
 function HienFormThemTacGia() {
-    document.getElementById('themtheloai').classList.remove('hide-element');
+    document.getElementById('themtacgia').classList.remove('hide-element');
 }
