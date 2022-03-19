@@ -18,6 +18,10 @@ const accountSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    gender:{
+        type: Number,
+        required: true
+    },
     address:{
         type:String,
         required: true
@@ -37,6 +41,11 @@ const accountSchema = new mongoose.Schema({
     img: {
         type: String,
         required: true
+    },
+    isBlock:{
+        type: Boolean,
+        required: true,
+        default: false
     }
 })
 

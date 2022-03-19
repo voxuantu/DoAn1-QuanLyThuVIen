@@ -1,0 +1,95 @@
+<%- contentFor('head') %>
+    <title>Thêm nhân viên</title>
+<%- contentFor('body') %>
+<%- include('../particals/header') %>
+    
+    <div class="container" style="min-height: 510px;">
+        <div class="duong-dan-muc">
+            <a href="/trangChu/1">Trang chủ</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="/quanLyDocGia">Quản lý độc giả</a>
+            <i class="fa-solid fa-angle-right"></i>
+            <a href="">Thêm độc giả mới</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left_menu timkiem" style="padding: 0 !important;">
+                    <div class="theloai">
+                        <h5>Quản lý</h5>
+                    </div>
+                    <div class="dstheloai">
+                        <ul>
+                            <li><a href="/quanLyDocGia/1">Độc giả</a></li>
+                            <li><a href="/quanLyNhanVien/1">Nhân viên</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="timkiem mb-2" id="themsuasach">
+                    <h3 class="text-center">Thêm nhân viên</h3>
+                    <form action="/quanLyNhanVien/themNhanVien" method="post">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="mb-2">
+                                    <label class="form-label" for="username">Tên đăng nhập :</label>
+                                    <input class="form-control" type="text" name="username" id="username">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label" for="password">Mật khẩu :</label>
+                                    <input class="form-control" type="password" name="password" id="password">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label" for="displayName">Họ và tên :</label>
+                                    <input class="form-control" type="text" name="displayName" id="displayName">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="address">Địa chỉ :</label>
+                                    <textarea class="form-control" name="address" id="address" rows="2"></textarea>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">Chức vụ :</label>
+                                    <select class="form-select" name="role" aria-label="Default select example">
+                                        <option id="default" disabled selected hidden>Chọn chức vụ</option>
+                                        <% roles.forEach(role => { %>
+                                            <% if (role.name == 'ADMIN') { %>
+                                                <option value="<%= role.id %>">Quản trị viên</option>
+                                            <% }else if (role.name == 'MOD1'){ %>
+                                                <option value="<%= role.id %>">Thủ kho</option>
+                                            <% }else if (role.name == 'MOD2'){%>
+                                                <option value="<%= role.id %>">Thủ thư</option>
+                                            <% } %>  
+                                        <% }) %>
+                                      </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-2">
+                                    <label class="form-label">Giới tính :</label>
+                                    <select class="form-select" name="gender" aria-label="Default select example">
+                                        <option id="default" disabled selected hidden>Chọn giới tính</option>
+                                        <option value="0">Nữ</option>
+                                        <option value="1">Nam</option>
+                                      </select>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label" for="phone">Số điện thoại :</label>
+                                    <input class="form-control" type="tel" name="phone" id="phone">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label" for="email">Email :</label>
+                                    <input class="form-control" type="email" name="email" id="email">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label" for="birth">Ngày sinh :</label>
+                                    <input class="form-control" type="date" name="birth" id="birth">
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-5">Thêm mới</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('../particals/footer') %>

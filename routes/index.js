@@ -1,5 +1,7 @@
 //Route Admin
 const quyDinhRouter = require('./admin/quyDinhRouter')
+const quanLyDocGiaRouter = require('./admin/quanLyDocGiaRouter')
+const quanLyNhanVienRouter = require('./admin/quanLyNhanVienRouter')
 
 //Route Staff
 const muonTraSachRouter = require('./staff/muonTraSachRouter')
@@ -41,7 +43,12 @@ function route (app) {
     app.use('/chiTietSach', chiTietSachRouter)
     app.use('/gioSach',checkAuthenticated, gioSachRouter)
     app.use('/quyDinh',checkAuthenticated, checkPermissions(['ADMIN']), quyDinhRouter)
+
     app.use('/api', apiRouter)
+
+    app.use('/quanLyDocGia',checkAuthenticated, checkPermissions(['ADMIN']), quanLyDocGiaRouter)
+    app.use('/quanLyNhanVien',checkAuthenticated, checkPermissions(['ADMIN']), quanLyNhanVienRouter)
+
     app.use('/trangChu', indexRouter)
     
 }
