@@ -1,7 +1,13 @@
 <%- contentFor('head') %>
     <title>Quản lý độc giả</title>
 <%- contentFor('body') %>
-<%- include('../particals/header') %>
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD1') { %>
+    <%- include('../particals/headerMod1') %>
+<% } %> 
+
 <% 
     function addDays(date, days) {
         var result = new Date(date);

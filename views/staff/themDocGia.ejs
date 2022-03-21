@@ -1,106 +1,112 @@
 <%- contentFor('head') %>
     <title>Thêm độc giả</title>
 <%- contentFor('body') %>
-<%- include('../particals/header') %>
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD1') { %>
+    <%- include('../particals/headerMod1') %>
+<% } %> 
+
     
-    <div class="container" style="min-height: 510px;">
-        <div class="duong-dan-muc">
-            <a href="/trangChu/1">Trang chủ</a>
-            <i class="fa-solid fa-angle-right"></i>
-            <a href="/quanLyDocGia">Quản lý độc giả</a>
-            <i class="fa-solid fa-angle-right"></i>
-            <a href="">Thêm độc giả mới</a>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="left_menu timkiem" style="padding: 0 !important;">
-                    <div class="theloai">
-                        <h5>Quản lý</h5>
-                    </div>
-                    <div class="dstheloai">
-                        <ul>
-                            <li><a href="/quanlysach/1">Độc giả</a></li>
-                            <li><a href="/quanLyTheLoai">Nhân viên</a></li>
-                        </ul>
-                    </div>
+<div class="container" style="min-height: 510px;">
+    <div class="duong-dan-muc">
+        <a href="/trangChu/1">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="/quanLyDocGia">Quản lý độc giả</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="">Thêm độc giả mới</a>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="left_menu timkiem" style="padding: 0 !important;">
+                <div class="theloai">
+                    <h5>Quản lý</h5>
+                </div>
+                <div class="dstheloai">
+                    <ul>
+                        <li><a href="/quanlysach/1">Độc giả</a></li>
+                        <li><a href="/quanLyTheLoai">Nhân viên</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-sm-9">
-                <div class="timkiem mb-2" id="themsuasach">
-                    <h3 class="text-center">Thêm độc giả</h3>
-                    <form id="FormThemMoi" action="/quanLyDocGia/themDocGia" method="post">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="mb-2">
-                                    <label class="form-label" for="username">Tên đăng nhập :</label>
-                                    <div class="form-group">
-                                        <input class="field" type="text" name="username" id="username">
-                                        <span class="errorMessage"></span>
-                                    </div>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="password">Mật khẩu :</label>
-                                    <div class="form-group">
-                                        <input class="field" type="password" name="password" id="password">
-                                        <span class="errorMessage"></span>
-                                    </div>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="displayName">Họ và tên :</label>
-                                    <div class="form-group">
-                                        <input class="field" type="text" name="displayName" id="displayName">
-                                        <span class="errorMessage"></span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="form-label" for="address">Địa chỉ :</label>
-                                    <div class="form-group">
-                                        <textarea class="field" name="address" id="address" rows="2"></textarea>
-                                        <span class="errorMessage"></span>
-                                    </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="timkiem mb-2" id="themsuasach">
+                <h3 class="text-center">Thêm độc giả</h3>
+                <form id="FormThemMoi" action="/quanLyDocGia/themDocGia" method="post">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-2">
+                                <label class="form-label" for="username">Tên đăng nhập :</label>
+                                <div class="form-group">
+                                    <input class="field" type="text" name="username" id="username">
+                                    <span class="errorMessage"></span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="mb-2">
-                                    <label class="form-label">Giới tính :</label>
-                                    <div class="form-group">
-                                        <select class="field" id="gender" name="gender" aria-label="Default select example">
-                                            <option id="default" value="" disabled selected hidden>Chọn giới tính</option>
-                                            <option value="0">Nữ</option>
-                                            <option value="1">Nam</option>
-                                        </select>
-                                        <span class="errorMessage"></span>
-                                    </div>
+                            <div class="mb-2">
+                                <label class="form-label" for="password">Mật khẩu :</label>
+                                <div class="form-group">
+                                    <input class="field" type="password" name="password" id="password">
+                                    <span class="errorMessage"></span>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="phone">Số điện thoại :</label>
-                                    <div class="form-group">
-                                        <input class="field" type="tel" name="phone" id="phone">
-                                        <span class="errorMessage"></span>
-                                    </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label" for="displayName">Họ và tên :</label>
+                                <div class="form-group">
+                                    <input class="field" type="text" name="displayName" id="displayName">
+                                    <span class="errorMessage"></span>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="email">Email :</label>
-                                    <div class="form-group">
-                                        <input class="field" type="email" name="email" id="email">
-                                        <span class="errorMessage"></span>
-                                    </div>
+                            </div>
+                            <div>
+                                <label class="form-label" for="address">Địa chỉ :</label>
+                                <div class="form-group">
+                                    <textarea class="field" name="address" id="address" rows="2"></textarea>
+                                    <span class="errorMessage"></span>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="birth">Ngày sinh :</label>
-                                    <div class="form-group">
-                                        <input class="field" type="date" name="birth" id="birth">
-                                        <span class="errorMessage"></span>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary mt-5">Thêm mới</button>
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-sm-6">
+                            <div class="mb-2">
+                                <label class="form-label">Giới tính :</label>
+                                <div class="form-group">
+                                    <select class="field" id="gender" name="gender" aria-label="Default select example">
+                                        <option id="default" value="" disabled selected hidden>Chọn giới tính</option>
+                                        <option value="0">Nữ</option>
+                                        <option value="1">Nam</option>
+                                    </select>
+                                    <span class="errorMessage"></span>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label" for="phone">Số điện thoại :</label>
+                                <div class="form-group">
+                                    <input class="field" type="tel" name="phone" id="phone">
+                                    <span class="errorMessage"></span>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label" for="email">Email :</label>
+                                <div class="form-group">
+                                    <input class="field" type="email" name="email" id="email">
+                                    <span class="errorMessage"></span>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label" for="birth">Ngày sinh :</label>
+                                <div class="form-group">
+                                    <input class="field" type="date" name="birth" id="birth">
+                                    <span class="errorMessage"></span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-5">Thêm mới</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 <%- include('../particals/footer') %>
 <script src="/javascript/validator.js"></script>
 <script src="/javascript/quanLyDocGia.js"></script>

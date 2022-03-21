@@ -1,111 +1,116 @@
 <%- contentFor('head') %>
     <title>Quản lý tác giả</title>
 <%- contentFor('body') %>
-<%- include('../particals/header') %>
-    
-    <div class="container" style="min-height: 500px;">
-        <div class="duong-dan-muc">
-            <a href="/trangChu/1">Trang chủ</a>
-            <i class="fa-solid fa-angle-right"></i>
-            <a href="/quanLyTacGia">Quản lý tác giả</a>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="left_menu timkiem" style="padding: 0 !important;">
-                    <div class="theloai">
-                        <h5>Quản lý</h5>
-                    </div>
-                    <div class="dstheloai">
-                        <ul>
-                            <li><a href="/quanlysach/1">Sách</a></li>
-                            <li><a href="/quanLyTheLoai">Thể loại</a></li>
-                            <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
-                            <li><a href="/quanLyTacGia">Tác giả</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-9">
-                <div id="ql-theloai">
-                    <div class="timkiem mb-2">
-                        <div class="input-group them-moi-the-loai">
-                            <a onclick="HienFormThemTacGia()" class="nut-them-moi">
-                                <button class="nutbam">Thêm tác giả mới</button>
-                            </a>
-                            <form id="FormThemMoi" action="/quanLyTacGia" method="post">
-                                <div class="form-group">
-                                    <div class="input-row hide-element" id="themtacgia" style="width: 500px;">
-                                        <input class="field" type="text" placeholder="Tên tác giả..." id="tentacgia"
-                                        name="tentacgia" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
-                                        <button type="submit" class="nutbam">Lưu</button>
-                                    </div>
-                                    <span class="errorMessage"></span>
-                                </div>
-                            </form>
-                        </div>
 
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Tên tác giả</th>
-                                    <th scope="col">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for( let index = 0; index < authors.length; index++ ) { %>
-                                    <tr>
-                                        <th scope="row"><%= index + 1 %></th>
-                                        <td><%= authors[index].name %></td>
-                                        <td>
-                                            <a class="delete-author" data-id-tacgia="<%= authors[index].id %>">
-                                                <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                title="Xóa tác giả"></i>
-                                            </a>
-                                            <a class="edit-author" data-ten-tacgia="<%= authors[index].name %>"
-                                            data-id-tacgia="<%= authors[index].id %>">
-                                                <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                title="Chỉnh sửa"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD1') { %>
+    <%- include('../particals/headerMod1') %>
+<% } %> 
+    
+<div class="container" style="min-height: 500px;">
+    <div class="duong-dan-muc">
+        <a href="/trangChu/1">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="/quanLyTacGia">Quản lý tác giả</a>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="left_menu timkiem" style="padding: 0 !important;">
+                <div class="theloai">
+                    <h5>Quản lý</h5>
+                </div>
+                <div class="dstheloai">
+                    <ul>
+                        <li><a href="/quanlysach/1">Sách</a></li>
+                        <li><a href="/quanLyTheLoai">Thể loại</a></li>
+                        <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
+                        <li><a href="/quanLyTacGia">Tác giả</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Chỉnh sửa tác giả</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <form id="FormChinhSua" action="/quanLyTacGia?_method=PUT" method="post">
-                        <div class="modal-body">
-                            <div>
-                                <labelclass="form-label">Tên tác giả</label>
-                                <input type="text" name="idTacGia" id="idTacGia" class="form-control" style="display: none;">
-                                <div class="form-group">
-                                    <input type="text" name="tenTacGia" id="tenTacGia" class="field" placeholder="Tên tác giả...">
-                                    <span class="errorMessage"></span>
+        <div class="col-sm-9">
+            <div id="ql-theloai">
+                <div class="timkiem mb-2">
+                    <div class="input-group them-moi-the-loai">
+                        <a onclick="HienFormThemTacGia()" class="nut-them-moi">
+                            <button class="nutbam">Thêm tác giả mới</button>
+                        </a>
+                        <form id="FormThemMoi" action="/quanLyTacGia" method="post">
+                            <div class="form-group">
+                                <div class="input-row hide-element" id="themtacgia" style="width: 500px;">
+                                    <input class="field" type="text" placeholder="Tên tác giả..." id="tentacgia"
+                                    name="tentacgia" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
+                                    <button type="submit" class="nutbam">Lưu</button>
                                 </div>
+                                <span class="errorMessage"></span>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
-                            <button type="submit" class="nutbam">Lưu</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Tên tác giả</th>
+                                <th scope="col">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let index = 0; index < authors.length; index++ ) { %>
+                                <tr>
+                                    <th scope="row"><%= index + 1 %></th>
+                                    <td><%= authors[index].name %></td>
+                                    <td>
+                                        <a class="delete-author" data-id-tacgia="<%= authors[index].id %>">
+                                            <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            title="Xóa tác giả"></i>
+                                        </a>
+                                        <a class="edit-author" data-ten-tacgia="<%= authors[index].name %>"
+                                        data-id-tacgia="<%= authors[index].id %>">
+                                            <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            title="Chỉnh sửa"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/javascript/validator.js"></script>
-    <script src="/javascript/quanLyTacGia.js"></script>
-    <script src="/javascript/showToolTip.js"></script>
+    <div class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chỉnh sửa tác giả</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form id="FormChinhSua" action="/quanLyTacGia?_method=PUT" method="post">
+                    <div class="modal-body">
+                        <div>
+                            <labelclass="form-label">Tên tác giả</label>
+                            <input type="text" name="idTacGia" id="idTacGia" class="form-control" style="display: none;">
+                            <div class="form-group">
+                                <input type="text" name="tenTacGia" id="tenTacGia" class="field" placeholder="Tên tác giả...">
+                                <span class="errorMessage"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="nutbam">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/javascript/validator.js"></script>
+<script src="/javascript/quanLyTacGia.js"></script>
+<script src="/javascript/showToolTip.js"></script>
 
-    <%- include('../particals/footer') %>
+<%- include('../particals/footer') %>

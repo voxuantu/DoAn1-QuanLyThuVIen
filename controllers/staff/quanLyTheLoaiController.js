@@ -3,14 +3,12 @@ const urlHelper = require('../../utils/url')
 
 class QuanLyTheLoaiController {
     async index(req, res) {
-        var cart = req.session.cart
         const currentUser = await req.user
         const categories = await Category.find({})
 
         res.render('staff/quanLyTheLoai', {
             currentUser: currentUser,
-            categories: categories,
-            cart: cart
+            categories: categories
         })
     }
     async create(req, res) {

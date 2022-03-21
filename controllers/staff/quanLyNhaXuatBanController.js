@@ -6,14 +6,12 @@ class QuanLyNhaXuatBanControler{
 
     async index(req, res){
         try{
-            var cart = req.session.cart
             const bookPublishers = await BookPublisher.find({});
             const currentUser = await req.user
 
             res.render('staff/quanLyNhaXuatBan',{
                 bookPublishers : bookPublishers,
-                currentUser : currentUser,
-                cart : cart
+                currentUser : currentUser
             })
             
         } catch (err){

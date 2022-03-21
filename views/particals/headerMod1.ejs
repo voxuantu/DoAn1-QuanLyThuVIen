@@ -11,6 +11,28 @@
                                     <i class="fa-solid fa-house"></i>
                                 </a>
                             </li>
+                            <li class="nav-item dropdown" >
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Sách
+                                </a>
+                                <ul id="quanLyId" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                  <li><a class="dropdown-item" href="/quanLySach/1">Quản lý sách</a></li>
+                                  <li><a class="dropdown-item" href="/quanLyTacGia">Quản lý tác giả</a></li>
+                                  <li><a class="dropdown-item" href="/quanLyTheLoai">Quản lý thể loại</a></li>
+                                  <li><a class="dropdown-item" href="/quanLyNhaXuatBan">Quản lý nhà xuất bản</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown" >
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Quản lý
+                                </a>
+                                <ul id="quanLyId" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                  <li><a class="dropdown-item" href="/quanLyDocGia/1">Quản lý độc giả</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/thongKe">Thống kê</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/gioiThieu">Giới thiệu</a>
                             </li>
@@ -28,47 +50,7 @@
                                     <li>
                                         <i class="fa-solid fa-circle-user" onclick="toggleUserBox()"></i>
                                     </li>
-                                    <li>
-                                        <a href="/gioSach">
-                                            <i class="fa-solid fa-basket-shopping">
-                                                <% if (cart) { %>
-                                                    <span class="badge bg-danger text-wrap notifi-counter" id="cartQuantity"><%= cart.length %> </span>
-                                                <% }else{%>
-                                                    <span class="badge bg-danger text-wrap notifi-counter" id="cartQuantity">0</span>
-                                                <% } %> 
-                                            </i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-bell" onclick="toggleNotify()">
-                                            <span class="badge bg-danger text-wrap notifi-counter">7</span>
-                                        </i>
-                                    </li>
                                 </ul>
-                                <div class="notifi-box hide-element" id="notifi-box-id">
-                                    <h2>Thông báo <span>7</span></h2>
-                                    <div class="notifi-item">
-                                        <img src="/icon/avatar.png" alt="avatar">
-                                        <div>
-                                            <h5>Mượn sách</h5>
-                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
-                                        </div>
-                                    </div>
-                                    <div class="notifi-item">
-                                        <img src="/icon/avatar.png" alt="avatar">
-                                        <div>
-                                            <h4>Mượn sách</h4>
-                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
-                                        </div>
-                                    </div>
-                                    <div class="notifi-item">
-                                        <img src="/icon/avatar.png" alt="avatar">
-                                        <div>
-                                            <h4>Mượn sách</h4>
-                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="user-box hide-element" id="userBox">
                                    <ul>
                                        <li>

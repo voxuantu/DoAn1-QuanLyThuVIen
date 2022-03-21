@@ -8,7 +8,6 @@ class QuanLyNhanVienController {
         var perPage = 10
         var page = req.params.page || 1
 
-        var cart = req.session.cart
         const currentUser = await req.user
         Account.aggregate()
             .lookup({
@@ -76,12 +75,10 @@ class QuanLyNhanVienController {
                 .count('countRecord').exec(function (err, count) {
                         if (err) return next(err)
                         res.render('admin/quanLyNhanVien', {
-                            cart: cart,
                             currentUser: currentUser,
                             staffs: staffs,
                             current: page,
-                            pages: Math.ceil(count[0].countRecord/ perPage),
-                            cart: cart
+                            pages: Math.ceil(count[0].countRecord/ perPage)
                         });
                         //res.json(count[0].countRecord)
                     })
@@ -89,11 +86,9 @@ class QuanLyNhanVienController {
     }
     //Load trang thêm nhân viên
     async loadCreate(req, res) {
-        var cart = req.session.cart
         const currentUser = await req.user
         const roles = await Role.find({})
         res.render('admin/themNhanVien', {
-            cart: cart,
             currentUser: currentUser,
             roles: roles
         })

@@ -26,19 +26,19 @@ const apiRouter = require('./apiRouter')
 
 //Authentication
 const {checkAuthenticated} = require('../middleware/baseAuth')
-const {checkPermissions} = require('../middleware/baseAuth');
+const {checkPermissions} = require('../middleware/baseAuth')
 
 function route (app) {
     app.use('/dangNhap', loginRouter)
-    app.use('/quanLySach',checkAuthenticated, checkPermissions(['ADMIN']), quanLySachRouter)
-    app.use('/quanLyTheLoai', checkAuthenticated, checkPermissions(['ADMIN']), quanLyTheLoaiRouter)
-    app.use('/quanLyNhaXuatBan', checkAuthenticated, checkPermissions(['ADMIN']), quanLyNhaXuatBanRouter)
-    app.use('/quanLyTacGia', checkAuthenticated, checkPermissions(['ADMIN']), quanLyTacGiaRouter)
-    app.use('/muonTraSach', muonTraSachRouter)
+    app.use('/quanLySach',checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), quanLySachRouter)
+    app.use('/quanLyTheLoai', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), quanLyTheLoaiRouter)
+    app.use('/quanLyNhaXuatBan', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), quanLyNhaXuatBanRouter)
+    app.use('/quanLyTacGia', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), quanLyTacGiaRouter)
+    app.use('/muonTraSach', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1', 'MOD2']), muonTraSachRouter)
     app.use('/gioiThieu', gioiThieuRouter)
     app.use('/lienHe', lienHeRouter)
     app.use('/quenMatKhau', quenMatKhauRouter)
-    app.use('/thongKe', thongKeRouter)
+    app.use('/thongKe', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), thongKeRouter)
     app.use('/trangCaNhan',checkAuthenticated ,trangCaNhanRouter)
     app.use('/chiTietSach', chiTietSachRouter)
     app.use('/gioSach',checkAuthenticated, gioSachRouter)

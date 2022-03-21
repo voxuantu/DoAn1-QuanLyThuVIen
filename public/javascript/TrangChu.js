@@ -49,7 +49,14 @@ $(function(){
                             title: 'Thất bại',
                             text: 'Sách này đã có trong giỏ',
                         })
-                    }else{
+                    }else if(data == "Ban khong co quyen"){
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Thất bại',
+                          text: 'Bạn không thể mượn sách với vai trò quản trị viên, kỹ thuật viên, hoặc thủ thư',
+                      })
+                    }
+                    else{
                         window.location.replace('/dangNhap')
                     }
                 },

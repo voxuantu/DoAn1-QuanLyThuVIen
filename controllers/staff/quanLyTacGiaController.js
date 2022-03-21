@@ -9,8 +9,7 @@ class QuanLyNhaXuatBanControler {
             const currentUser = await req.user
             res.render('staff/quanLyTacGia', {
                 authors: authors,
-                currentUser: currentUser,
-                cart: cart
+                currentUser: currentUser
             })
         } catch (err) {
             res.json(error)
