@@ -28,63 +28,92 @@
             <div class="col-sm-9">
                 <div class="timkiem mb-2" id="themsuasach">
                     <h3 class="text-center">Thêm nhân viên</h3>
-                    <form action="/quanLyNhanVien/themNhanVien" method="post">
+                    <form id="FormThemMoi" action="/quanLyNhanVien/themNhanVien" method="post">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="mb-2">
                                     <label class="form-label" for="username">Tên đăng nhập :</label>
-                                    <input class="form-control" type="text" name="username" id="username">
+                                    <div class="form-group">
+                                        <input class="field" type="text" name="username" id="username">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="password">Mật khẩu :</label>
-                                    <input class="form-control" type="password" name="password" id="password">
+                                    <div class="form-group">
+                                        <input class="field" type="password" name="password" id="password">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="displayName">Họ và tên :</label>
-                                    <input class="form-control" type="text" name="displayName" id="displayName">
+                                    <div class="form-group">
+                                        <input class="field" type="text" name="displayName" id="displayName">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
-                                <div>
+                                <div class="mb-2">
                                     <label class="form-label" for="address">Địa chỉ :</label>
-                                    <textarea class="form-control" name="address" id="address" rows="2"></textarea>
+                                    <div class="form-group">
+                                        <textarea class="field" name="address" id="address" rows="2"></textarea>
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Chức vụ :</label>
-                                    <select class="form-select" name="role" aria-label="Default select example">
-                                        <option id="default" disabled selected hidden>Chọn chức vụ</option>
-                                        <% roles.forEach(role => { %>
-                                            <% if (role.name == 'ADMIN') { %>
-                                                <option value="<%= role.id %>">Quản trị viên</option>
-                                            <% }else if (role.name == 'MOD1'){ %>
-                                                <option value="<%= role.id %>">Thủ kho</option>
-                                            <% }else if (role.name == 'MOD2'){%>
-                                                <option value="<%= role.id %>">Thủ thư</option>
-                                            <% } %>  
-                                        <% }) %>
-                                      </select>
+                                    <div class="form-group">
+                                        <select class="field" id="role" name="role" aria-label="Default select example">
+                                            <option id="default" value="" disabled selected hidden>Chọn chức vụ</option>
+                                            <% roles.forEach(role => { %>
+                                                <% if (role.name == 'ADMIN') { %>
+                                                    <option value="<%= role.id %>">Quản trị viên</option>
+                                                <% }else if (role.name == 'MOD1'){ %>
+                                                    <option value="<%= role.id %>">Thủ kho</option>
+                                                <% }else if (role.name == 'MOD2'){%>
+                                                    <option value="<%= role.id %>">Thủ thư</option>
+                                                <% } %>  
+                                            <% }) %>
+                                        </select>
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="mb-2">
                                     <label class="form-label">Giới tính :</label>
-                                    <select class="form-select" name="gender" aria-label="Default select example">
-                                        <option id="default" disabled selected hidden>Chọn giới tính</option>
-                                        <option value="0">Nữ</option>
-                                        <option value="1">Nam</option>
-                                      </select>
+                                    <div class="form-group">
+                                        <select class="field" id="gender" name="gender" aria-label="Default select example">
+                                            <option id="default" value="" disabled selected hidden>Chọn giới tính</option>
+                                            <option value="0">Nữ</option>
+                                            <option value="1">Nam</option>
+                                        </select>
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="phone">Số điện thoại :</label>
-                                    <input class="form-control" type="tel" name="phone" id="phone">
+                                    <div class="form-group">
+                                        <input class="field" type="tel" name="phone" id="phone">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="email">Email :</label>
-                                    <input class="form-control" type="email" name="email" id="email">
+                                    <div class="form-group">
+                                        <input class="field" type="email" name="email" id="email">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="birth">Ngày sinh :</label>
-                                    <input class="form-control" type="date" name="birth" id="birth">
+                                    <div class="form-group">
+                                        <input class="field" type="date" name="birth" id="birth">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-5">Thêm mới</button>
+                                <div style="display: flex; justify-content: flex-end;">
+                                    <button type="submit" class="nutbam" >Thêm mới</button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -93,3 +122,5 @@
         </div>
     </div>
 <%- include('../particals/footer') %>
+<script src="/javascript/validator.js"></script>
+<script src="/javascript/quanLyNhanVien.js"></script>

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-4 position-relative">
+    <div class="col-sm-4 position-relative form-group">
         <div class="position-absolute top-50 start-50 translate-middle">
             <% if (book.coverImage != null) { %>
                 <img id="anhBia" class="anhBiaSach" src="<%= book.coverImage %>"
@@ -11,6 +11,8 @@
         </div>
         <input type="file" id="imgUpload" style="display: none;" name="anh"
             onchange="ShowImage(event)" accept="image/png, image/jpeg">
+        <span class="errorMessage"></span>
+        
         <button id="chonAnh" onclick="OpenImgDialog()" type="button"
             class="nutbam position-absolute bottom-0 start-50 translate-middle-x">Chọn
             ảnh</button>
@@ -25,24 +27,19 @@
                 <% } %> 
             </div>
             <div class="thongtincanhan">
-
                 <div class="row">
                     <label class="col-sm-2 col-form-label">Tên sách</label>
-                    <div class="col-sm-10">
-                        <% if (book.name != null) { %>
-                            <input type="text" class="field" id="tensach"
+                    <div class="col-sm-10 form-group">
+                        <input type="text" class="field" id="tensach"
                             name="tensach" placeholder="Búp bê Rangged Ann" value="<%= book.name %>">
-                        <% } else { %>
-                            <input type="text" class="field" id="tensach"
-                                name="tensach" placeholder="Búp bê Rangged Ann">
-                        <% } %> 
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-2 col-form-label">Tác giả</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 form-group">
                         <select class="field" id="tacgia" name="tacgia">
-                            <option id="default" disabled selected hidden>Chọn tác giả
+                            <option id="default" value="" disabled selected hidden>Chọn tác giả
                             </option>
                             <% authors.forEach(element=> { %>
                                 <% if (book.author == element.id) { %>
@@ -52,13 +49,14 @@
                                 <% } %> 
                             <% }) %>
                         </select>
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-2 col-form-label">NXB</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 form-group">
                         <select class="field" id="nhaxuatban" name="nhaxuatban">
-                            <option id="default" disabled selected hidden>Chọn nhà xuất
+                            <option id="default" value="" disabled selected hidden>Chọn nhà xuất
                                 bản</option>
                             <% bookPublishers.forEach(element=> { %>
                                 <% if (book.bookPublisher == element.id) { %>
@@ -68,13 +66,14 @@
                                 <% } %> 
                             <% }) %>
                         </select>
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-2 col-form-label">Thể loại</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 form-group">
                         <select class="field" id="theloai" name="theloai">
-                            <option id="default" disabled selected hidden>Chọn thể
+                            <option id="default" value="" disabled selected hidden>Chọn thể
                                 loại</option>
                             <% categories.forEach(element=> { %>
                                 <% if (book.category == element.id) { %>
@@ -84,41 +83,47 @@
                                 <% } %> 
                             <% }) %>
                         </select>
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-2 col-form-label">Số trang</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 form-group">
                         <input type="number" class="field" id="sotrang" min="1"
                             name="sotrang" placeholder="Nhập số lượng" value="<%= book.pageCount %>">
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-2 col-form-label">Năm XB</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 form-group">
                         <input type="number" class="field" id="namxuatban"
                             min="1" name="namxuatban" placeholder="Nhập năm xuất bản" value="<%= book.publishedYear %>">
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-2 col-form-label">Giá bìa</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 form-group">
                         <input type="number" class="field" id="giabia" min="1"
                             name="giabia" placeholder="Nhập giá bìa" value="<%= book.coverPrice %>">
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-2 col-form-label">Số lượng</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 form-group">
                         <input type="number" class="field" id="soluong" min="1"
                             name="soluong" placeholder="Nhập số lượng" value="<%= book.quantity %>">
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-2 col-form-label">Mô tả</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 form-group">
                         <textarea type="text" class="field" id="mota" name="mota"
                             placeholder="Nhập mô tả"><%= book.description %> </textarea>
+                        <span class="errorMessage"></span>
                     </div>
                 </div>
                 <div class="nut-xac-nhan-them-moi">
@@ -129,3 +134,4 @@
         </div>
     </div>
 </div>
+<script src="/javascript/validator.js"></script>

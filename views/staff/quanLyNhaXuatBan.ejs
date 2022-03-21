@@ -32,11 +32,14 @@
                             <a onclick="HienFormThemNBX()" class="nut-them-moi">
                                 <button class="nutbam">Thêm nhà xuất bản mới</button>
                             </a>
-                            <form action="/quanLyNhaXuatBan" method="post">
-                                <div class="input-row hide-element" id="themNBX" style="width: 500px;">
-                                    <input class="field type="text" id="code" placeholder="Tên nhà xuất bản..." 
-                                    name="tenNhaXB" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
-                                    <button type="submit" class="nutbam">Lưu</button>
+                            <form id="FormThemMoi" action="/quanLyNhaXuatBan" method="post">
+                                <div class="form-group">
+                                    <div class="input-row hide-element" id="themNBX" style="width: 500px;">
+                                        <input class="field type="text" id="tenNbx" placeholder="Tên nhà xuất bản..." 
+                                        name="tenNhaXB" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
+                                        <button type="submit" class="nutbam">Lưu</button>
+                                    </div>
+                                    <span class="errorMessage"></span>
                                 </div>
                             </form>
                         </div>
@@ -83,12 +86,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action="/quanLyNhaXuatBan?_method=PUT" method="post">
+                    <form id="FormChinhSua" action="/quanLyNhaXuatBan?_method=PUT" method="post">
                         <div class="modal-body">
                             <div>
                                 <labelclass="form-label">Tên nhà xuất bản</label>
-                                <input type="text" id="idNbx" name="idNbx" class="form-control" style="display: none;">
-                                <input type="text" id="tenNbx" name="tenNbx" class="form-control" placeholder="Tên nhà xuất bản...">
+                                <input type="text" id="idNbx" name="idNbx" class="form-control" hidden>
+                                <div class="form-group">
+                                    <input type="text" id="tenNbx" name="tenNbx" class="field" placeholder="Tên nhà xuất bản...">
+                                    <span class="errorMessage"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -99,22 +105,8 @@
                 </div>
             </div>
         </div>
-        <% if (themThanhCong) { %>
-            <script>
-                Swal.fire('Thêm thành công!','Thêm nhà xuất bản thành công!','success')
-            </script> 
-        <% } %>
-        <% if (suaThanhCong) { %>
-            <script>
-                Swal.fire('Sửa thành công!','Chỉnh sửa nhà xuất bản thành công!','success')
-            </script> 
-        <% } %>
-        <% if (xoaThanhCong) { %>
-            <script>
-                Swal.fire('Xóa thành công!','Xóa nhà xuất bản thành công!','success')
-            </script> 
-        <% } %>
     </div>
+    <script src="/javascript/validator.js"></script>
     <script src="/javascript/showToolTip.js"></script>
     <script src="/javascript/quanLyNhaXuatBan.js"></script>
     <%- include('../particals/footer') %>
