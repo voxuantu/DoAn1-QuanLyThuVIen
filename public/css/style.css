@@ -9,6 +9,18 @@ a {
     border-color: red;
 }
 
+.invalid select {
+    border-color: red;
+}
+
+.invalid textarea {
+    border-color: red;
+}
+
+.invalid img {
+    border-color: red;
+}
+
 .input-row {
     display: flex;
     justify-content: space-between;
@@ -450,6 +462,7 @@ html{
     scroll-behavior: smooth;
 }
 .anhBiaSach{
+    border: 2px solid white;
     max-height: 280px;
     max-width: 300px;
 }

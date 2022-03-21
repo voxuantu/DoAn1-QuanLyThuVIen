@@ -18,7 +18,7 @@ class QuanLyDocGiaController {
             .exec(function (err, readers) {
                 LibraryCard.count().exec(function (err, count) {
                     if (err) return next(err)
-                    res.render('admin/quanLyDocGia', {
+                    res.render('staff/quanLyDocGia', {
                         cart: cart,
                         currentUser: currentUser,
                         readers: readers,
@@ -33,7 +33,7 @@ class QuanLyDocGiaController {
     async loadCreate(req,res){
         var cart = req.session.cart
         const currentUser = await req.user
-       res.render('admin/themDocGia',{
+       res.render('staff/themDocGia',{
            cart: cart,
            currentUser: currentUser
        })

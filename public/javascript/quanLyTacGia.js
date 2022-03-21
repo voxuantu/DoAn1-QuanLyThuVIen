@@ -40,7 +40,7 @@ $(document).ready(
                             id: idTacGia
                         },
                         success: function (data) {
-                            window.location.replace("/quanLyTacGia");
+                            window.location.replace(data);
                         },
                         error: function (err) {
                             console.log(err)
@@ -55,3 +55,21 @@ $(document).ready(
 function HienFormThemTacGia() {
     document.getElementById('themtacgia').classList.remove('hide-element');
 }
+
+Validator({
+    form : '#FormThemMoi',
+    formGroupSelector : '.form-group',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#FormThemMoi #tentacgia')
+    ]
+});
+
+Validator({
+    form : '#FormChinhSua',
+    formGroupSelector : '.form-group',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#FormChinhSua #tenTacGia')
+    ]
+});

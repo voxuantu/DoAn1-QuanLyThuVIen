@@ -1,6 +1,5 @@
 //Route Admin
 const quyDinhRouter = require('./admin/quyDinhRouter')
-const quanLyDocGiaRouter = require('./admin/quanLyDocGiaRouter')
 const quanLyNhanVienRouter = require('./admin/quanLyNhanVienRouter')
 
 //Route Staff
@@ -8,6 +7,7 @@ const muonTraSachRouter = require('./staff/muonTraSachRouter')
 const thongKeRouter = require('./staff/thongKeRouter')
 const quanLySachRouter = require('./staff/quanLySachRouter');
 const quanLyTheLoaiRouter = require('./staff/quanLyTheLoaiRouter');
+const quanLyDocGiaRouter = require('./staff/quanLyDocGiaRouter')
 
 //Route User
 const indexRouter = require('./user/home')
@@ -46,7 +46,7 @@ function route (app) {
 
     app.use('/api', apiRouter)
 
-    app.use('/quanLyDocGia',checkAuthenticated, checkPermissions(['ADMIN']), quanLyDocGiaRouter)
+    app.use('/quanLyDocGia',checkAuthenticated, checkPermissions(['ADMIN','MOD1']), quanLyDocGiaRouter)
     app.use('/quanLyNhanVien',checkAuthenticated, checkPermissions(['ADMIN']), quanLyNhanVienRouter)
 
     app.use('/trangChu', indexRouter)

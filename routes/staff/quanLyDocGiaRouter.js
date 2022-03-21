@@ -1,5 +1,5 @@
 const express = require('express');
-const quanLyDocGiaController = require('../../controllers/admin/quanLyDocGiaController');
+const quanLyDocGiaController = require('../../controllers/staff/quanLyDocGiaController');
 const router = express.Router();
 
 router.get('/themDocGia', quanLyDocGiaController.loadCreate)

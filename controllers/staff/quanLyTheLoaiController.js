@@ -1,4 +1,5 @@
 const Category = require('../../models/category')
+const urlHelper = require('../../utils/url')
 
 class QuanLyTheLoaiController {
     async index(req, res) {
@@ -6,21 +7,10 @@ class QuanLyTheLoaiController {
         const currentUser = await req.user
         const categories = await Category.find({})
 
-        const them = req.session.themThanhCong
-        const sua = req.session.suaThanhCong
-        const xoa = req.session.xoaThanhCong
-
-        req.session.themThanhCong = false
-        req.session.suaThanhCong = false
-        req.session.xoaThanhCong = false
-
         res.render('staff/quanLyTheLoai', {
             currentUser: currentUser,
             categories: categories,
-            cart: cart,
-            themThanhCong: them,
-            suaThanhCong: sua,
-            xoaThanhCong: xoa
+            cart: cart
         })
     }
     async create(req, res) {
@@ -29,8 +19,12 @@ class QuanLyTheLoaiController {
                 name: req.body.categoryName
             })
             await category.save()
-            req.session.themThanhCong = true
-            res.redirect('/quanLyTheLoai')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Thêm thể loại thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             res.json(error)
         }
@@ -40,8 +34,12 @@ class QuanLyTheLoaiController {
             var idTheLoai = req.body.idLoai
             var tenTheLoai = req.body.tenLoai
             await Category.findOneAndUpdate({ _id: idTheLoai }, { name: tenTheLoai })
-            req.session.suaThanhCong = true
-            res.redirect('/quanLyTheLoai')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Sửa thể loại thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             res.json(error)
         }
@@ -51,7 +49,12 @@ class QuanLyTheLoaiController {
             var id = req.body.id
             await Category.deleteOne({ _id: id })
             req.session.xoaThanhCong = true
-            res('1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Xóa thể loại thành công!'
+            })
+            res.json(redirectUrl)
         } catch (err) {
             res.json(err)
         }

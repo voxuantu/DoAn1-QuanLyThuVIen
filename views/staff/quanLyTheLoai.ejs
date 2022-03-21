@@ -32,11 +32,14 @@
                             <a onclick="HienFormThemTheLoai()" class="nut-them-moi">
                                 <button class="nutbam">Thêm thể loại mới</button>
                             </a>
-                            <form action="/quanLyTheLoai" method="post">
-                                <div class="input-row hide-element" id="themtheloai" style="width: 500px;">
-                                    <input class="field type="text" id="code" placeholder="Tên thể loại..." 
-                                    name="categoryName" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
-                                    <button type="submit" class="nutbam">Lưu</button>
+                            <form id="FormThemMoi" action="/quanLyTheLoai" method="post">
+                                <div class="form-field">
+                                    <div class="input-row hide-element" id="themtheloai" style="width: 500px;">
+                                        <input class="field" type="text" id="categoryName" placeholder="Tên thể loại..." 
+                                        name="categoryName" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
+                                        <button type="submit" class="nutbam">Lưu</button>
+                                    </div>
+                                    <span class="errorMessage"></span>
                                 </div>
                             </form>
                         </div>
@@ -81,12 +84,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action="/quanLyTheLoai?_method=PUT" method="post">
+                    <form id="FormChinhSua" action="/quanLyTheLoai?_method=PUT" method="post">
                         <div class="modal-body">
                             <div>
                                 <labelclass="form-label">Tên thể loại</label>
-                                    <input type="text" id="idLoai" name="idLoai" class="form-control" style="display: none;">
-                                    <input type="text" id="tenLoai" name="tenLoai" class="form-control" placeholder="Tên thể loại...">
+                                <input type="text" id="idLoai" name="idLoai" class="form-control" style="display: none;">
+                                <div class="form-field">
+                                    <input type="text" id="tenLoai" name="tenLoai" class="field" placeholder="Tên thể loại...">
+                                    <span class="errorMessage"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -97,22 +103,8 @@
                 </div>
             </div>
         </div>
-        <% if (themThanhCong) { %>
-            <script>
-                Swal.fire('Thêm thành công!','Thêm thể loại thành công!','success')
-            </script> 
-        <% } %>
-        <% if (suaThanhCong) { %>
-            <script>
-                Swal.fire('Sửa thành công!','Chỉnh sửa thể loại thành công!','success')
-            </script> 
-        <% } %>
-        <% if (xoaThanhCong) { %>
-            <script>
-                Swal.fire('Xóa thành công!','Xóa thể loại thành công!','success')
-            </script> 
-        <% } %>
     </div>
+    <script src="/javascript/validator.js"></script>
     <script src="/javascript/quanLyTheLoai.js"></script>
     <script src="/javascript/showToolTip.js"></script>
 

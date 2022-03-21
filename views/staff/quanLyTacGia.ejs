@@ -32,11 +32,14 @@
                             <a onclick="HienFormThemTacGia()" class="nut-them-moi">
                                 <button class="nutbam">Thêm tác giả mới</button>
                             </a>
-                            <form action="/quanLyTacGia" method="post">
-                                <div class="input-row hide-element" id="themtacgia" style="width: 500px;">
-                                    <input class="field" type="text" placeholder="Tên tác giả..." 
-                                    name="tentacgia" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
-                                    <button type="submit" class="nutbam">Lưu</button>
+                            <form id="FormThemMoi" action="/quanLyTacGia" method="post">
+                                <div class="form-group">
+                                    <div class="input-row hide-element" id="themtacgia" style="width: 500px;">
+                                        <input class="field" type="text" placeholder="Tên tác giả..." id="tentacgia"
+                                        name="tentacgia" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
+                                        <button type="submit" class="nutbam">Lưu</button>
+                                    </div>
+                                    <span class="errorMessage"></span>
                                 </div>
                             </form>
                         </div>
@@ -81,12 +84,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action="/quanLyTacGia?_method=PUT" method="post">
+                    <form id="FormChinhSua" action="/quanLyTacGia?_method=PUT" method="post">
                         <div class="modal-body">
                             <div>
                                 <labelclass="form-label">Tên tác giả</label>
-                                    <input type="text" name="idTacGia" id="idTacGia" class="form-control" style="display: none;">
-                                    <input type="text" name="tenTacGia" id="tenTacGia" class="form-control" placeholder="Tên tác giả...">
+                                <input type="text" name="idTacGia" id="idTacGia" class="form-control" style="display: none;">
+                                <div class="form-group">
+                                    <input type="text" name="tenTacGia" id="tenTacGia" class="field" placeholder="Tên tác giả...">
+                                    <span class="errorMessage"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -97,22 +103,8 @@
                 </div>
             </div>
         </div>
-        <% if (themThanhCong) { %>
-            <script>
-                Swal.fire('Thêm thành công!','Thêm tác giả thành công!','success')
-            </script> 
-        <% } %>
-        <% if (suaThanhCong) { %>
-            <script>
-                Swal.fire('Sửa thành công!','Chỉnh sửa tác giả thành công!','success')
-            </script> 
-        <% } %>
-        <% if (xoaThanhCong) { %>
-            <script>
-                Swal.fire('Xóa thành công!','Xóa tác giả thành công!','success')
-            </script> 
-        <% } %>
     </div>
+    <script src="/javascript/validator.js"></script>
     <script src="/javascript/quanLyTacGia.js"></script>
     <script src="/javascript/showToolTip.js"></script>
 

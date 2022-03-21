@@ -3,19 +3,13 @@ const BookPublisher = require('../../models/bookPublisher')
 const Author = require('../../models/author')
 const Book = require('../../models/book')
 const {bufferUpload} = require('../../utils/uploadImage')
+const urlHelper = require('../../utils/url')
+
 
 class QuanLySachController {
     async index(req, res) {
         var perPage = 5
         var page = req.params.page || 1
-
-        const them = req.session.themThanhCong
-        const sua = req.session.suaThanhCong
-        const xoa = req.session.xoaThanhCong
-
-        req.session.themThanhCong = false
-        req.session.suaThanhCong = false
-        req.session.xoaThanhCong = false
       
         var cart = req.session.cart
         const currentUser = await req.user
@@ -32,10 +26,7 @@ class QuanLySachController {
                         books: books,
                         current: page,
                         pages: Math.ceil(count / perPage),
-                        cart: cart,
-                        themThanhCong : them,
-                        suaThanhCong : sua,
-                        xoaThanhCong : xoa
+                        cart: cart
                     });
                 })
             })
@@ -57,8 +48,12 @@ class QuanLySachController {
                 coverImage: secure_url
             })
             await book.save();
-            req.session.themThanhCong = true
-            res.redirect('/quanLySach/1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Thêm sách thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             res.json(error)
         }
@@ -175,8 +170,12 @@ class QuanLySachController {
             book.quantity = req.body.soluong
 
             await book.save()
-            req.session.suaThanhCong = true
-            res.redirect('/quanLySach/1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Sửa sách thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             console.log(error)
         }
@@ -184,8 +183,12 @@ class QuanLySachController {
     async delete(req, res) {
         try {
             await Book.deleteOne({ _id: req.body.id })
-            req.session.xoaThanhCong = true
-            res.json('1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Xóa sách thành công!'
+            })
+            res.json(redirectUrl)
         } catch (error) {
             console.log(error)
         }

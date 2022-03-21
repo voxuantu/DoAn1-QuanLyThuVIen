@@ -11,7 +11,7 @@ function toggleEdit() {
             })
         })
         $(document).ready(function () {
-            $(".thongtincanhan input.form-control").each(function (i, obj) {
+            $(".thongtincanhan input.field").each(function (i, obj) {
                 obj.classList.add('hide-element')
             })
         })
@@ -25,7 +25,7 @@ function toggleEdit() {
             })
         })
         $(document).ready(function () {
-            $(".thongtincanhan input.form-control").each(function (i, obj) {
+            $(".thongtincanhan input.field").each(function (i, obj) {
                 obj.classList.remove('hide-element')
             })
         })
@@ -91,17 +91,48 @@ $(document).ready(function () {
     })
 
     $('#ThayDoi').click(function () {
+        
+    })
+})
+
+Validator({
+    form : '#FormChinhSua',
+    formGroupSelector : '.form-group',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#FormChinhSua #displayName'),
+        Validator.isRequire('#FormChinhSua #birth'),
+        Validator.isRequire('#FormChinhSua #sodt'),
+        Validator.isNumber('#FormChinhSua #sodt', "Số điện thoại phải là kiểu số"),
+        Validator.minLength('#FormChinhSua #sodt', 10, "Số điện thoại bao gồm 10 chữ số"),
+        Validator.maxLength('#FormChinhSua #sodt', 10, "Số điện thoại bao gồm 10 chữ số"),
+        Validator.isRequire('#FormChinhSua #diachi'),
+        Validator.isRequire('#FormChinhSua #email'),
+        Validator.isEmail('#FormChinhSua #email'),
+    ]
+});
+
+Validator({
+    form : '#FormDoiMatKhau',
+    formGroupSelector : '.form-group',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#FormDoiMatKhau #newpass'),
+        Validator.isRequire('#FormDoiMatKhau #code'),
+        Validator.isConfirmed('#renewpass', function () {
+            return document.querySelector('#FormDoiMatKhau #newpass').value;
+        }, "Mật khẩu nhập lại không đúng"),
+        Validator.isRequire('#FormDoiMatKhau #renewpass'),
+
+    ],
+    onSubmit : function(data){
         $.ajax({
             url: '/api/doiMatKhau',
             dataType: 'json',
             type: 'post',
-            data: {
-                userId: $('#userId').val(),
-                newpass: $('#newpass').val(),
-                code: $('#code').val()
-            },
-            success: function (data) {
-                switch (data) {
+            data: data,
+            success: function (data1) {
+                switch (data1) {
                     case "Thành công":
                         Swal.fire('Thành công!', 'Đổi mật khẩu thành công!', 'success')
                         break;
@@ -117,5 +148,5 @@ $(document).ready(function () {
                 console.log(err)
             }
         })
-    })
-})
+    }
+});

@@ -29,12 +29,12 @@
             </div>
             <div class="col-sm-9">
                 <div class="timkiem mb-2" id="themsuasach">
-                    <form action="/quanlysach/edit/<%= book.id %>" method="post" enctype="multipart/form-data">
+                    <form id="FormChinhSua" action="/quanlysach/edit/<%= book.id %>" method="post" enctype="multipart/form-data">
                         <%- include('./formFieldSach') %> 
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/javascript/TrangQuanLySach.js"></script>
 <%- include('../particals/footer') %>
+<script src="/javascript/TrangQuanLySach.js"></script>
