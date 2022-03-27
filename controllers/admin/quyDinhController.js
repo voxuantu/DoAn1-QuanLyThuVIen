@@ -2,14 +2,12 @@ const Regulation = require('../../models/regulation')
 
 class QuyDinhController {
     async index(req,res){
-        var cart = req.session.cart
         const currentUser = await req.user
         const regulations = await Regulation.find({})
         var suaThanhCong = req.session.suaThanhCong
         req.session.suaThanhCong = false
         res.render('admin/quyDinh',{
             currentUser: currentUser,
-            cart: cart,
             regulations: regulations,
             suaThanhCong: suaThanhCong
         });

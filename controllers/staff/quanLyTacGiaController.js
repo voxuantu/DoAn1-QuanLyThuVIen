@@ -1,4 +1,5 @@
 const Author = require('../../models/author')
+const urlHelper = require('../../utils/url')
 
 class QuanLyNhaXuatBanControler {
     async index(req, res) {
@@ -6,22 +7,9 @@ class QuanLyNhaXuatBanControler {
             var cart = req.session.cart
             const authors = await Author.find({});
             const currentUser = await req.user
-
-            const them = req.session.themThanhCong
-            const sua = req.session.suaThanhCong
-            const xoa = req.session.xoaThanhCong
-
-            req.session.themThanhCong = false
-            req.session.suaThanhCong = false
-            req.session.xoaThanhCong = false
-
             res.render('staff/quanLyTacGia', {
                 authors: authors,
-                currentUser: currentUser,
-                cart: cart,
-                themThanhCong: them,
-                suaThanhCong: sua,
-                xoaThanhCong: xoa
+                currentUser: currentUser
             })
         } catch (err) {
             res.json(error)
@@ -33,8 +21,12 @@ class QuanLyNhaXuatBanControler {
                 name: req.body.tentacgia
             })
             await author.save()
-            req.session.themThanhCong = true
-            res.redirect('/quanLyTacGia')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Thêm tác giả thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             res.json(error)
         }
@@ -44,8 +36,13 @@ class QuanLyNhaXuatBanControler {
             var idTacGia = req.body.idTacGia
             var tenTacGia = req.body.tenTacGia
             await Author.findOneAndUpdate({ _id: idTacGia }, { name: tenTacGia })
-            req.session.suaThanhCong = true
-            res.redirect('/quanLyTacGia')
+            //req.session.suaThanhCong = true
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Sửa tác giả thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             res.json(error)
         }
@@ -54,8 +51,12 @@ class QuanLyNhaXuatBanControler {
         try {
             var idTacGia = req.body.id
             await Author.deleteOne({ _id: idTacGia })
-            req.session.xoaThanhCong = true
-            res('1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Xóa tác giả thành công!'
+            })
+            res.json(redirectUrl)
         } catch (err) {
             res.json(err)
         }

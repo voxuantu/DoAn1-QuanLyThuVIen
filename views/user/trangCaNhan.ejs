@@ -1,7 +1,7 @@
 <%- contentFor('head') %> 
     <title>Trang cá nhân</title>
 <%- contentFor('body') %>
-<%- include('../particals/header') %>
+
 <% 
     function addDays(date, days) {
         var result = new Date(date);
@@ -15,6 +15,18 @@
         return Math.floor(time_difference/(1000 * 60 * 60 * 24));
     }
 %> 
+
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD1') { %>
+    <%- include('../particals/headerMod1') %>
+<% } else if (currentUser.role.name=='MOD2') { %> 
+    <%- include('../particals/headerMod2') %>
+<% } else { %>
+    <%- include('../particals/header') %>
+<% } %> 
+
 <div class="container">
     <div class="duong-dan-muc">
         <a href="/">Trang chủ</a>
@@ -22,7 +34,7 @@
         <a href="">Trang cá nhân</a>
     </div>
     <div class="timkiem mb-1">
-        <form action="/trangCaNhan/<%= currentUser.id%>?_method=PUT" method="post" enctype="multipart/form-data">
+        <form id="FormChinhSua" action="/trangCaNhan/<%= currentUser.id%>?_method=PUT" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-sm-4 position-relative">
                     <div class="position-absolute top-50 start-50 translate-middle">
@@ -50,40 +62,55 @@
                                 <label class="col-sm-2 col-form-label">Họ và tên :</label>
                                 <div class="col-sm-10">
                                     <label id="lbHoTen" class="col-form-label tieude"><%= currentUser.displayName %> </label>
-                                    <input type="text" class="form-control hide-element" id="displayName" name="displayName" required
+                                    <div class="form-group">
+                                        <input type="text" class="field hide-element" id="displayName" name="displayName" 
                                         value="<%= currentUser.displayName %>">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-form-label">Năm sinh :</label>
                                 <div class="col-sm-10">
                                     <label id="lbNamSinh" class="col-form-label tieude"><%= currentUser.birth.toDateString() %></label>
-                                    <input type="date" class="form-control hide-element" id="birth" name="birth" required
+                                    <div class="form-group">
+                                        <input type="date" class="field hide-element" id="birth" name="birth" 
                                         value="<%= currentUser.birth == null ? '' : currentUser.birth.toISOString().split('T')[0] %>">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-form-label">Email :</label>
                                 <div class="col-sm-10">
                                     <label id="lbEmail" class="col-form-label tieude"><%= currentUser.email %></label>
-                                    <input type="email" class="form-control hide-element" id="email" name="email" required
+                                    <div class="form-group">
+                                        <input type="email" class="field hide-element" id="email" name="email" 
                                         value="<%= currentUser.email %>">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-form-label">Số điện thoại:</label>
                                 <div class="col-sm-10">
                                     <label id="lbSdt" class="col-form-label tieude"><%= currentUser.phone %></label>
-                                    <input type="tel" class="form-control hide-element" id="sodt" name="phone" required
+                                    <div class="form-group">
+                                        <input type="tel" class="field hide-element" id="sodt" name="phone" 
                                         pattern="[0-9]{3}[0-9]{4}[0-9]{3}" value="<%= currentUser.phone %>">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-form-label">Địa chỉ :</label>
                                 <div class="col-sm-10">
                                     <label id="lbDiaChi" class="col-form-label tieude"><%= currentUser.address %></label>
-                                    <input type="text" class="form-control hide-element" id="diachi" name="address" required
+                                    <div class="form-group">
+                                        <input type="text" class="field hide-element" id="diachi" name="address" 
                                         value="<%= currentUser.address %>">
+                                        <span class="errorMessage"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div id="nuteditThongTin">
@@ -275,36 +302,44 @@
                         <h5 class="modal-title">Đổi mật khẩu</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="oldpass" class="form-label">Mật khẩu cũ</label>
-                            <input type="password" class="form-control" id="oldpass" placeholder="Mật khẩu cũ...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newpass" class="form-label">Mật khẩu mới</label>
-                            <input type="text" style="display: none;" id="userId" name="userId" value="<%= currentUser.id%>">
-                            <input type="password" class="form-control" name="newpass" id="newpass" placeholder="Mật khẩu mới...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="renewpass" class="form-label">Nhập lại mật khẩu mới</label>
-                            <input type="password" class="form-control" id="renewpass" placeholder="Mật khẩu cũ...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="code" class="form-label">Mã bảo mật</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="code" name="code" placeholder="Nhập mã...">
-                                <button type="button" id="layMa" data-id-user="<%= currentUser.id%>" class="nutbamgreen">Lấy mã</button>
+                    <form id="FormDoiMatKhau">
+                        <div class="modal-body">
+                            <div class="mb-2">
+                                <label for="newpass" class="form-label">Mật khẩu mới</label>
+                                <input type="text" style="display: none;" id="userId" name="userId" value="<%= currentUser.id%>">
+                                <div class="form-group">
+                                    <input type="password" class="field" name="newpass" id="newpass" placeholder="Mật khẩu mới...">
+                                    <span class="errorMessage"></span>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label for="renewpass" class="form-label">Nhập lại mật khẩu mới</label>
+                                <div class="form-group">
+                                    <input type="password" class="field" id="renewpass" placeholder="Nhập lại mật khẩu mới...">
+                                    <span class="errorMessage"></span>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label for="code" class="form-label">Mã bảo mật</label>
+                                <div class="form-group">
+                                    <div class="input-row">
+                                        <input type="text" class="field" id="code" name="code" placeholder="Nhập mã...">
+                                        <button type="button" id="layMa" data-id-user="<%= currentUser.id%>" class="nutbamgreen">Lấy mã</button>
+                                    </div>
+                                    <span class="errorMessage"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="reset" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" id="ThayDoi" class="nutbam">Thay đổi</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="nutbamred" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" id="ThayDoi" class="nutbam">Thay đổi</button>
+                        </div>
+                    </form>
             </div>
         </div>
     </div>
 </div>
 <%- include('../particals/footer') %>
+<script src="/javascript/validator.js"></script>
 <script src="/javascript/TrangCaNhan.js"></script>
 <script src="/javascript/showToolTip.js"></script>

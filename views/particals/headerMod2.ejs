@@ -7,9 +7,12 @@
                     <div class="col-lg-9 col-md-9">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="/trangChu/1">
+                                <a class="nav-link" href="/trangChu//1">
                                     <i class="fa-solid fa-house"></i>
                                 </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/muonTraSach">Mượn trả sách</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/gioiThieu">Giới thiệu</a>
@@ -27,17 +30,6 @@
                                 <ul>
                                     <li>
                                         <i class="fa-solid fa-circle-user" onclick="toggleUserBox()"></i>
-                                    </li>
-                                    <li>
-                                        <a href="/gioSach">
-                                            <i class="fa-solid fa-basket-shopping">
-                                                <% if (cart) { %>
-                                                    <span class="badge bg-danger text-wrap notifi-counter" id="cartQuantity"><%= cart.length %> </span>
-                                                <% }else{%>
-                                                    <span class="badge bg-danger text-wrap notifi-counter" id="cartQuantity">0</span>
-                                                <% } %> 
-                                            </i>
-                                        </a>
                                     </li>
                                     <li>
                                         <i class="fa-solid fa-bell" onclick="toggleNotify()">

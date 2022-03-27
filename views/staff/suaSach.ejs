@@ -1,40 +1,46 @@
 <%- contentFor('head') %>
     <title>Thêm mới sách</title>
 <%- contentFor('body') %>
-<%- include('../particals/header') %>
+
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD1') { %>
+    <%- include('../particals/headerMod1') %>
+<% } %> 
     
-    <div class="container">
-        <div class="duong-dan-muc">
-            <a href="/trangChu/1">Trang chủ</a>
-            <i class="fa-solid fa-angle-right"></i>
-            <a href="/quanLySach/1">Quản lý sách</a>
-            <i class="fa-solid fa-angle-right"></i>
-            <a href="">Chỉnh sửa sách</a>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="left_menu timkiem" style="padding: 0 !important;">
-                    <div class="theloai">
-                        <h5>Quản lý</h5>
-                    </div>
-                    <div class="dstheloai">
-                        <ul>
-                            <li><a href="/quanlysach/1">Sách</a></li>
-                            <li><a href="/quanLyTheLoai">Thể loại</a></li>
-                            <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
-                            <li><a href="/quanLyTacGia">Tác giả</a></li>
-                        </ul>
-                    </div>
+<div class="container">
+    <div class="duong-dan-muc">
+        <a href="/trangChu/1">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="/quanLySach/1">Quản lý sách</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="">Chỉnh sửa sách</a>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="left_menu timkiem" style="padding: 0 !important;">
+                <div class="theloai">
+                    <h5>Quản lý</h5>
+                </div>
+                <div class="dstheloai">
+                    <ul>
+                        <li><a href="/quanlysach/1">Sách</a></li>
+                        <li><a href="/quanLyTheLoai">Thể loại</a></li>
+                        <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
+                        <li><a href="/quanLyTacGia">Tác giả</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-sm-9">
-                <div class="timkiem mb-2" id="themsuasach">
-                    <form action="/quanlysach/edit/<%= book.id %>" method="post" enctype="multipart/form-data">
-                        <%- include('./formFieldSach') %> 
-                    </form>
-                </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="timkiem mb-2" id="themsuasach">
+                <form id="FormChinhSua" action="/quanlysach/edit/<%= book.id %>" method="post" enctype="multipart/form-data">
+                    <%- include('./formFieldSach') %> 
+                </form>
             </div>
         </div>
     </div>
-    <script src="/javascript/TrangQuanLySach.js"></script>
+</div>
 <%- include('../particals/footer') %>
+<script src="/javascript/TrangQuanLySach.js"></script>

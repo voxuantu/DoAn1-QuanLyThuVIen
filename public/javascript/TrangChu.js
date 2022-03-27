@@ -55,7 +55,14 @@ $(function(){
                             title: 'Thất bại',
                             text: 'Giỏ sách của bạn đã đầy!',
                         })
-                    }else{
+                    }else if(data == "Ban khong co quyen"){
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Thất bại',
+                          text: 'Bạn không thể mượn sách với vai trò quản trị viên, kỹ thuật viên, hoặc thủ thư',
+                      })
+                    }
+                    else{
                         window.location.replace('/dangNhap')
                     }
                 },

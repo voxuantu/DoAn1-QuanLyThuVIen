@@ -1,9 +1,18 @@
 function Validator(options) {
 
+    function getParent(element, selector){
+        while(element.parentElement){
+            if(element.parentElement.matches(selector)){
+                return element.parentElement;
+            }
+            element = element.parentElement;
+        }
+    }
+
     var selectorRules = {}
 
     function validate(inputElement, rule) {
-        var errorElement = inputElement.parentElement.querySelector(options.errorSelector)
+        var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector)
         var errorMessage
 
         var rules = selectorRules[rule.selector]
@@ -17,10 +26,10 @@ function Validator(options) {
 
         if (errorMessage) {
             errorElement.innerText = errorMessage
-            inputElement.parentElement.classList.add('invalid')
+            getParent(inputElement, options.formGroupSelector).classList.add('invalid')
         } else {
             errorElement.innerText = ''
-            inputElement.parentElement.classList.remove('invalid')
+            getParent(inputElement, options.formGroupSelector).classList.remove('invalid')
         }
 
         return !errorMessage;
@@ -46,7 +55,8 @@ function Validator(options) {
                     var enableInput = formElement.querySelectorAll('[name]')
 
                     var formValue = Array.from(enableInput).reduce(function(value, input){
-                        return (value[input.name] = input.value) && value
+                        value[input.name] = input.value
+                        return value
                     },{});
 
                     options.onSubmit(formValue)
@@ -71,9 +81,9 @@ function Validator(options) {
                     validate(inputElement, rule)
                 }
                 inputElement.oninput = function () {
-                    var errorElement = inputElement.parentElement.querySelector(options.errorSelector)
+                    var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector)
                     errorElement.innerText = ''
-                    inputElement.parentElement.classList.remove('invalid')
+                    getParent(inputElement, options.formGroupSelector).classList.remove('invalid')
                 }
             }
         });
@@ -108,11 +118,30 @@ Validator.minLength = function (selector, min, message) {
     }
 }
 
+Validator.maxLength = function (selector, max, message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value.length <= max ? undefined : message || `Vui lòng nhập tối thiểu ${max} kí tự`
+        }
+    }
+}
+
 Validator.isConfirmed = function (selector, getConfrimValue, message) {
     return {
         selector: selector,
         test: function (value) {
             return value === getConfrimValue() ? undefined : message || 'Giá trị nhập vào không chính xác'
+        }
+    }
+}
+
+Validator.isNumber = function (selector, message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            var regex = /^-?\d+$/
+            return regex.test(value) ? undefined : message || 'Trường này phải là kiểu số'
         }
     }
 }

@@ -1,146 +1,137 @@
 <%- contentFor('head') %>
     <title>Quản lý sách</title>
 <%- contentFor('body') %>
-<%- include('../particals/header') %>
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD1') { %>
+    <%- include('../particals/headerMod1') %>
+<% } %> 
+
     
-    <div class="container" style="min-height: 500px;">
-        <div class="duong-dan-muc">
-            <a href="/trangChu/1">Trang chủ</a>
-            <i class="fa-solid fa-angle-right"></i>
-            <a href="/quanLySach/1">Quản lý sách</a>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="left_menu timkiem" style="padding: 0 !important;">
-                    <div class="theloai">
-                        <h5>Quản lý</h5>
-                    </div>
-                    <div class="dstheloai">
-                        <ul>
-                            <li><a href="/quanLySach/1">Sách</a></li>
-                            <li><a href="/quanLyTheLoai">Thể loại</a></li>
-                            <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
-                            <li><a href="/quanLyTacGia">Tác giả</a></li>
-                        </ul>
-                    </div>
+<div class="container" style="min-height: 500px;">
+    <div class="duong-dan-muc">
+        <a href="/trangChu/1">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="/quanLySach/1">Quản lý sách</a>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="left_menu timkiem" style="padding: 0 !important;">
+                <div class="theloai">
+                    <h5>Quản lý</h5>
+                </div>
+                <div class="dstheloai">
+                    <ul>
+                        <li><a href="/quanLySach/1">Sách</a></li>
+                        <li><a href="/quanLyTheLoai">Thể loại</a></li>
+                        <li><a href="/quanLyNhaXuatBan">Nhà xuất bản</a></li>
+                        <li><a href="/quanLyTacGia">Tác giả</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-sm-9">
-                <div id="ql-sach">
-                    <div class="timkiem mb-2" style="min-height: 500px; position: relative;">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <a href="/quanLySach/create" class="nut-them-moi">
-                                    <button class="nutbam">Thêm sách mới</button>
-                                </a>
-                            </div>
-                            <div class="col-sm-9">
-                                <form method="get" action="/quanLySach/timKiem">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <select class="field" name="kieuTim" id="kieuTim" style="margin: 0; width: 24%; padding: 0.5px 1rem;">
-                                        <option value="1">Tên sách</option>
-                                        <option value="2">Tên tác giả</option>
-                                        </select>
-                                        <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0; width: 52%; padding: 0.5px 1rem;">
-                                        <button type="submit" class="nutbam">Tìm kiếm</button>
-                                    </div>
-                                </form>
-                            </div>
+        </div>
+        <div class="col-sm-9">
+            <div id="ql-sach">
+                <div class="timkiem mb-2" style="min-height: 500px; position: relative;">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <a href="/quanLySach/create" class="nut-them-moi">
+                                <button class="nutbam">Thêm sách mới</button>
+                            </a>
                         </div>
-                        <table class="table">
-                            <thead>
+                        <div class="col-sm-9">
+                            <form method="get" action="/quanLySach/timKiem">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <select class="field" name="kieuTim" id="kieuTim" style="margin: 0; width: 24%; padding: 0.5px 1rem;">
+                                    <option value="1">Tên sách</option>
+                                    <option value="2">Tên tác giả</option>
+                                    </select>
+                                    <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0; width: 52%; padding: 0.5px 1rem;">
+                                    <button type="submit" class="nutbam">Tìm kiếm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Ảnh bìa</th>
+                                <th scope="col">Tên sách</th>
+                                <th scope="col">Tác giả</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < books.length; i++ ) { %>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Ảnh bìa</th>
-                                    <th scope="col">Tên sách</th>
-                                    <th scope="col">Tác giả</th>
-                                    <th scope="col">Số lượng</th>
-                                    <th scope="col">Thao tác</th>
+                                    <th scope="row"><%= 5*(current-1) + i + 1%> </th>
+                                    <td><img src="<%= books[i].coverImage %>" alt="<%= books[i].name %>"
+                                            class="img-fluid"></td>
+                                    <td><%= books[i].name %></td>
+                                    <td><%= books[i].author.name %></td>
+                                    <td><%= books[i].quantity %></td>
+                                    <td>
+                                        <a class="delete-book" data-id-book="<%= books[i].id %>">
+                                            <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            title="Xóa sách"></i>
+                                        </a>
+                                        <a href="/quanLySach/edit/<%= books[i].id %>">
+                                            <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            title="Chỉnh sửa sách"></i>
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <% for( let i = 0; i < books.length; i++ ) { %>
-                                    <tr>
-                                        <th scope="row"><%= 5*(current-1) + i + 1%> </th>
-                                        <td><img src="<%= books[i].coverImage %>" alt="<%= books[i].name %>"
-                                                class="img-fluid"></td>
-                                        <td><%= books[i].name %></td>
-                                        <td><%= books[i].author.name %></td>
-                                        <td><%= books[i].quantity %></td>
-                                        <td>
-                                            <a class="delete-book" data-id-book="<%= books[i].id %>">
-                                                <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                title="Xóa sách"></i>
-                                            </a>
-                                            <a href="/quanLySach/edit/<%= books[i].id %>">
-                                                <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                title="Chỉnh sửa sách"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    <div class="phan-trang">
+                        <% if (pages > 0) { %>
+                            <ul class="pagination justify-content-center">
+                                <% if (current == 1) { %>
+                                    <li class="disabled"><a class="page-link">
+                                        <span aria-hidden="true">&laquo;</span></a>
+                                    </li>
+                                <% } else { %>
+                                    <li><a class="page-link" href="/quanLySach/1">
+                                        <span aria-hidden="true">&laquo;</span></a>
+                                    </li>
                                 <% } %>
-                            </tbody>
-                        </table>
-                        <div class="phan-trang">
-                            <% if (pages > 0) { %>
-                                <ul class="pagination justify-content-center">
-                                    <% if (current == 1) { %>
-                                        <li class="disabled"><a class="page-link">
-                                            <span aria-hidden="true">&laquo;</span></a>
-                                        </li>
+                                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                <% if (i !== 1) { %>
+                                    <li class="page-item active"><a class="page-link">...</a></li>
+                                <% } %>
+                                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                    <% if (i == current) { %>
+                                        <li class="page-item active"><a class="page-link"><%= i %></a></li>
                                     <% } else { %>
-                                        <li><a class="page-link" href="/quanLySach/1">
-                                            <span aria-hidden="true">&laquo;</span></a>
-                                        </li>
+                                        <li><a class="page-link" href="/quanLySach/<%= i %>"><%= i %></a></li>
                                     <% } %>
-                                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                                    <% if (i !== 1) { %>
+                                    <% if (i == Number(current) + 4 && i < pages) { %>
                                         <li class="page-item active"><a class="page-link">...</a></li>
                                     <% } %>
-                                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                                        <% if (i == current) { %>
-                                            <li class="page-item active"><a class="page-link"><%= i %></a></li>
-                                        <% } else { %>
-                                            <li><a class="page-link" href="/quanLySach/<%= i %>"><%= i %></a></li>
-                                        <% } %>
-                                        <% if (i == Number(current) + 4 && i < pages) { %>
-                                            <li class="page-item active"><a class="page-link">...</a></li>
-                                        <% } %>
-                                    <% } %>
-                                    <% if (current == pages) { %>
-                                        <li class="disabled"><a class="page-link">
-                                            <span aria-hidden="true">&raquo;</span></a>
-                                        </li>
-                                    <% } else { %>
-                                        <li><a class="page-link" href="/quanLySach/<%= pages %>">
-                                            <span aria-hidden="true">&raquo;</span></a>
-                                        </li>
-                                    <% } %>
-                                </ul>
-                            <% } %>
-                        </div>
+                                <% } %>
+                                <% if (current == pages) { %>
+                                    <li class="disabled"><a class="page-link">
+                                        <span aria-hidden="true">&raquo;</span></a>
+                                    </li>
+                                <% } else { %>
+                                    <li><a class="page-link" href="/quanLySach/<%= pages %>">
+                                        <span aria-hidden="true">&raquo;</span></a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        <% } %>
                     </div>
                 </div>
             </div>
         </div>
-        <% if (themThanhCong) { %>
-            <script>
-                Swal.fire('Thêm thành công!','Thêm nhà xuất bản thành công!','success')
-            </script> 
-        <% } %>
-        <% if (suaThanhCong) { %>
-            <script>
-                Swal.fire('Sửa thành công!','Chỉnh sửa nhà xuất bản thành công!','success')
-            </script> 
-        <% } %>
-        <% if (xoaThanhCong) { %>
-            <script>
-                Swal.fire('Xóa thành công!','Xóa nhà xuất bản thành công!','success')
-            </script> 
-        <% } %>
     </div>
-    <script src="/javascript/TrangQuanLySach.js"></script>
-    <script src="/javascript/TrangChu.js"></script>
-    <script src="/javascript/showToolTip.js"></script>
+</div>
+<script src="/javascript/TrangQuanLySach.js"></script>
+<script src="/javascript/TrangChu.js"></script>
+<script src="/javascript/showToolTip.js"></script>
 
-    <%- include('../particals/footer') %>
+<%- include('../particals/footer') %>

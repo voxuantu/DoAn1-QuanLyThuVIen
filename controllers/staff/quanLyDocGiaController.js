@@ -9,7 +9,6 @@ class QuanLyDocGiaController {
         var perPage = 10
         var page = req.params.page || 1
 
-        var cart = req.session.cart
         const currentUser = await req.user
         LibraryCard.find({})
             .populate('accountId')
@@ -18,23 +17,19 @@ class QuanLyDocGiaController {
             .exec(function (err, readers) {
                 LibraryCard.count().exec(function (err, count) {
                     if (err) return next(err)
-                    res.render('admin/quanLyDocGia', {
-                        cart: cart,
+                    res.render('staff/quanLyDocGia', {
                         currentUser: currentUser,
                         readers: readers,
                         current: page,
-                        pages: Math.ceil(count / perPage),
-                        cart: cart
+                        pages: Math.ceil(count / perPage)
                     });
                 })
             })
     }
     //Load trang thêm độc giả
     async loadCreate(req,res){
-        var cart = req.session.cart
         const currentUser = await req.user
-       res.render('admin/themDocGia',{
-           cart: cart,
+       res.render('staff/themDocGia',{
            currentUser: currentUser
        })
     }

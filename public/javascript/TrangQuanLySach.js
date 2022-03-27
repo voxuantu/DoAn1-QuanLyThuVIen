@@ -39,7 +39,7 @@ $(document).ready(function () {
                             id: id
                         },
                         success: function (data) {
-                            window.location.replace("/quanLySach/1");
+                            window.location.replace(data);
                         },
                         error: function (err) {
                             console.log(err)
@@ -50,3 +50,38 @@ $(document).ready(function () {
         })
     })
 })
+
+Validator({
+    form : '#FormThemMoi',
+    formGroupSelector : '.form-group',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#FormThemMoi #tensach'),
+        Validator.isRequire('#FormThemMoi #tacgia'),
+        Validator.isRequire('#FormThemMoi #nhaxuatban'),
+        Validator.isRequire('#FormThemMoi #theloai'),
+        Validator.isRequire('#FormThemMoi #sotrang'),
+        Validator.isRequire('#FormThemMoi #namxuatban'),
+        Validator.isRequire('#FormThemMoi #giabia'),
+        Validator.isRequire('#FormThemMoi #soluong'),
+        Validator.isRequire('#FormThemMoi #mota'),
+        Validator.isRequire('#FormThemMoi #imgUpload',"Vui lòng chọn ảnh bìa cho sách"),
+    ]
+});
+
+Validator({
+    form : '#FormChinhSua',
+    formGroupSelector : '.form-group',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#FormChinhSua #tensach'),
+        Validator.isRequire('#FormChinhSua #tacgia'),
+        Validator.isRequire('#FormChinhSua #nhaxuatban'),
+        Validator.isRequire('#FormChinhSua #theloai'),
+        Validator.isRequire('#FormChinhSua #sotrang'),
+        Validator.isRequire('#FormChinhSua #namxuatban'),
+        Validator.isRequire('#FormChinhSua #giabia'),
+        Validator.isRequire('#FormChinhSua #soluong'),
+        Validator.isRequire('#FormChinhSua #mota'),
+    ]
+});

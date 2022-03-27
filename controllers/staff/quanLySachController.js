@@ -3,21 +3,14 @@ const BookPublisher = require('../../models/bookPublisher')
 const Author = require('../../models/author')
 const Book = require('../../models/book')
 const {bufferUpload} = require('../../utils/uploadImage')
+const urlHelper = require('../../utils/url')
+
 
 class QuanLySachController {
     async index(req, res) {
         var perPage = 5
         var page = req.params.page || 1
-
-        const them = req.session.themThanhCong
-        const sua = req.session.suaThanhCong
-        const xoa = req.session.xoaThanhCong
-
-        req.session.themThanhCong = false
-        req.session.suaThanhCong = false
-        req.session.xoaThanhCong = false
       
-        var cart = req.session.cart
         const currentUser = await req.user
         Book.find({})
             .populate('author')
@@ -27,15 +20,10 @@ class QuanLySachController {
                 Book.count().exec(function (err, count) {
                     if (err) return next(err)
                     res.render('staff/quanLySach', {
-                        cart: cart,
                         currentUser: currentUser,
                         books: books,
                         current: page,
-                        pages: Math.ceil(count / perPage),
-                        cart: cart,
-                        themThanhCong : them,
-                        suaThanhCong : sua,
-                        xoaThanhCong : xoa
+                        pages: Math.ceil(count / perPage)
                     });
                 })
             })
@@ -57,33 +45,33 @@ class QuanLySachController {
                 coverImage: secure_url
             })
             await book.save();
-            req.session.themThanhCong = true
-            res.redirect('/quanLySach/1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Thêm sách thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             res.json(error)
         }
     }
     async renderCreatePage(req, res) {
-        var cart = req.session.cart
         const book = new Book()
         const currentUser = await req.user
         const categories = await Category.find({})
         const bookPublishers = await BookPublisher.find({})
         const authors = await Author.find({})
         res.render('staff/themSach.ejs', {
-            cart: cart,
             book : book,
             currentUser: currentUser,
             categories: categories,
             bookPublishers: bookPublishers,
-            authors: authors,
-            cart: cart
+            authors: authors
         })
     }
     async search(req, res) {
         var perPage = 5
         var page = req.params.page || 1
-        var cart = req.session.cart
 
         const currentUser = await req.user
 
@@ -101,12 +89,8 @@ class QuanLySachController {
                         res.render('staff/quanLySach', {
                             currentUser: currentUser,
                             books: books,
-                            cart : cart,
                             current: page,
-                            pages: Math.ceil(count / perPage),
-                            themThanhCong : false,
-                            suaThanhCong : false,
-                            xoaThanhCong : false
+                            pages: Math.ceil(count / perPage)
                         });
                     })
                 })
@@ -123,10 +107,7 @@ class QuanLySachController {
                             currentUser: currentUser,
                             books: books,
                             current: page,
-                            pages: Math.ceil(count / perPage),
-                            themThanhCong : false,
-                            suaThanhCong : false,
-                            xoaThanhCong : false
+                            pages: Math.ceil(count / perPage)
                         });
                     })
                 })
@@ -134,7 +115,6 @@ class QuanLySachController {
     }
     async renderEditPage(req, res) {
         try {
-            var cart = req.session.cart
             var id = req.params.id
             const book = await Book.findById(id)
             const currentUser = await req.user
@@ -142,13 +122,11 @@ class QuanLySachController {
             const bookPublishers = await BookPublisher.find({})
             const authors = await Author.find({})
             res.render('staff/suaSach.ejs', {
-                cart: cart,
                 book : book,
                 currentUser: currentUser,
                 categories: categories,
                 bookPublishers: bookPublishers,
-                authors: authors,
-                cart: cart
+                authors: authors
             })
         } catch (error) {
             console.log(error)
@@ -175,8 +153,12 @@ class QuanLySachController {
             book.quantity = req.body.soluong
 
             await book.save()
-            req.session.suaThanhCong = true
-            res.redirect('/quanLySach/1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Sửa sách thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             console.log(error)
         }
@@ -184,8 +166,12 @@ class QuanLySachController {
     async delete(req, res) {
         try {
             await Book.deleteOne({ _id: req.body.id })
-            req.session.xoaThanhCong = true
-            res.json('1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Xóa sách thành công!'
+            })
+            res.json(redirectUrl)
         } catch (error) {
             console.log(error)
         }

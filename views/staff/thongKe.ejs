@@ -1,7 +1,13 @@
 <%- contentFor('head') %> 
     <title>Thống kê</title>
 <%- contentFor('body') %>
-<%- include('../particals/header') %>
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD1') { %>
+    <%- include('../particals/headerMod1') %>
+<% } %> 
+
 <div class="container">
     <div class="duong-dan-muc">
         <a href="/">Trang chủ</a>

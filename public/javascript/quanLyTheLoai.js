@@ -39,7 +39,7 @@ $(document).ready(
                             id: idTheLoai
                         },
                         success: function (data) {
-                            window.location.replace("/quanLyTheLoai");
+                            window.location.replace(data);
                         },
                         error: function (err) {
                             console.log(err)
@@ -54,3 +54,21 @@ $(document).ready(
 function HienFormThemTheLoai() {
     document.getElementById('themtheloai').classList.remove('hide-element');
 }
+
+Validator({
+    form : '#FormThemMoi',
+    formGroupSelector : '.form-field',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#categoryName')
+    ]
+});
+
+Validator({
+    form : '#FormChinhSua',
+    formGroupSelector : '.form-field',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#tenLoai')
+    ]
+});

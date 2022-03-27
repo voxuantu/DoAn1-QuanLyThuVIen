@@ -72,6 +72,7 @@ class APIController {
             console.log(error)
         }
     }
+
     async layChiTietPhieuMuon(req,res){
         try {
             const bookBorrow = await DetailBorrowBookTicket.find({borrowBookTicketId: req.body.id}).populate('bookId')
@@ -81,6 +82,15 @@ class APIController {
         } catch (error) {
             console.log(error)
         }
+
+
+    //Xóa hết sách ra khỏi giỏ
+    deleteAllBookFromCart(req,res){
+        var cart = []
+        req.session.cart = cart
+        req.session.isDeleted = true
+        res.redirect('/gioSach')
+
     }
 }
 

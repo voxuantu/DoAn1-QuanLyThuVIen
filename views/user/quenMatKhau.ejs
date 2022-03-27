@@ -13,23 +13,35 @@
 				<div class="container_login">
                     <h3>QUÊN MẬT KHẨU</h3>
                     <form id="form1">
-                        <input type="text" class="field" id="userId" style="display: none;">
-                        <input type="text" class="field" id="username" placeholder="Tên đăng nhập..." required>
+                        <div class="form-group">
+                            <input type="text" class="field" name="username" id="username" placeholder="Tên đăng nhập...">
+                            <span class="errorMessage"></span>
+                        </div>
                         <div class="nutdangnhap">
-                            <button class="nutbam" id="next" type="button">Tiếp</button>
+                            <button  class="nutbam" id="next" type="submit">Tiếp</button>
                         </div>
                     </form>
             
                     <form id="form2">
-                        <input type="password" class="field" id="newpass" placeholder="Mật khẩu mới...">
-                        <input type="password" class="field" placeholder="Nhập lại mật khẩu mới...">
-                        <div class="input-row mb-3">
-                            <input class="field type="text" id="code" placeholder="Mã bảo mật...">
-                            <button type="button" class="nutbamgreen" id="layMa">Lấy mã</button>
+                        <input type="text" class="field" name="userId" id="userId" style="display: none;">
+                        <div class="form-group">
+                            <input type="password" class="field" name="newpass" id="newpass" placeholder="Mật khẩu mới...">
+                            <span class="errorMessage"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="field" id="renewpass" placeholder="Nhập lại mật khẩu mới...">
+                            <span class="errorMessage"></span>
+                        </div>
+                        <div class="form-group  mb-3">
+                            <div class="input-row">
+                                <input class="field" type="text" name="code" id="code" placeholder="Mã bảo mật...">
+                                <button type="button" class="nutbamgreen" id="layMa">Lấy mã</button>
+                            </div>
+                            <span class="errorMessage"></span>
                         </div>
                         <div class="nutdangnhap">
                             <button class="nutbam" id="back" type="button">Quay lại</button>
-                            <button class="nutbam" id="xacnhan" type="button">Xác nhận</button>
+                            <button class="nutbam" id="xacnhan" type="submit">Xác nhận</button>
                         </div>
                     </form>
                 </div>
@@ -37,4 +49,5 @@
 		</div>
 	</div>
 </body>
+<script src="/javascript/validator.js"></script>
 <script src="/javascript/quenMatKhau.js"></script>

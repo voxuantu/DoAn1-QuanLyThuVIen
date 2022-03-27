@@ -1,7 +1,13 @@
 <%- contentFor('head') %> 
     <title>Mượn trả sách</title>
 <%- contentFor('body') %> 
-<%- include('../particals/header') %>
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD2') { %> 
+    <%- include('../particals/headerMod2') %>
+<% } %> 
+
 <div class="container">
     <div class="duong-dan-muc">
         <a href="/trangChu/1">Trang chủ</a>
@@ -91,7 +97,7 @@
                         <td>Võ Xuân Tú</td>
                         <td>20/2/2022 10:15:20 AM</td>
                         <td><mark class="dang-xu-ly">26/2/2022</mark></td>
-                        <td><button type="button" class="nutbam" onclick="OpenModelTraSach()">Trả sách</button></td>
+                        <td><button type="button" class="nutbam" >Trả sách</button></td>
                     </tr>
                     <tr>
                         <th scope="row">MS002</th>
@@ -153,7 +159,7 @@
                         <td>20/2/2022 10:15:20 AM</td>
                         <td><mark class="dang-xu-ly">Trễ hẹn</mark></td>
                         <td><mark class="da-tra">3/3</mark></td>
-                        <td><button type="button" class="nutbam" onclick="OpenModelDaTraSach()">Xem chi tiết</button></td>
+                        <td><button type="button" class="nutbam" >Xem chi tiết</button></td>
                     </tr>
                     <tr>
                         <th scope="row">MS002</th>

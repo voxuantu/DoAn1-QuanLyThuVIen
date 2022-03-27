@@ -41,7 +41,7 @@ $(document).ready(
                             id: idNbx
                         },
                         success: function (data) {
-                            window.location.replace("/quanLyNhaXuatBan");
+                            window.location.replace(data);
                         },
                         error: function (err) {
                             console.log(err)
@@ -56,3 +56,21 @@ $(document).ready(
 function HienFormThemNBX() {
     document.getElementById('themNBX').classList.remove('hide-element');
 }
+
+Validator({
+    form : '#FormThemMoi',
+    formGroupSelector : '.form-group',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#FormThemMoi #tenNbx')
+    ]
+});
+
+Validator({
+    form : '#FormChinhSua',
+    formGroupSelector : '.form-group',
+    errorSelector : '.errorMessage',
+    rules : [
+        Validator.isRequire('#FormChinhSua #tenNbx')
+    ]
+});

@@ -1,28 +1,17 @@
 const BookPublisher = require('../../models/bookPublisher')
+const urlHelper = require('../../utils/url')
+
 
 class QuanLyNhaXuatBanControler{
 
     async index(req, res){
         try{
-            var cart = req.session.cart
             const bookPublishers = await BookPublisher.find({});
             const currentUser = await req.user
 
-            const them = req.session.themThanhCong
-            const sua = req.session.suaThanhCong
-            const xoa = req.session.xoaThanhCong
-
-            req.session.themThanhCong = false
-            req.session.suaThanhCong = false
-            req.session.xoaThanhCong = false
-
             res.render('staff/quanLyNhaXuatBan',{
                 bookPublishers : bookPublishers,
-                currentUser : currentUser,
-                cart : cart,
-                themThanhCong : them,
-                suaThanhCong : sua,
-                xoaThanhCong : xoa
+                currentUser : currentUser
             })
             
         } catch (err){
@@ -35,8 +24,12 @@ class QuanLyNhaXuatBanControler{
                 name : req.body.tenNhaXB
             })
             await bookPublisher.save()
-            req.session.themThanhCong = true
-            res.redirect('/quanLyNhaXuatBan')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Thêm nhà xuất bản thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             res.json(error)
         }
@@ -46,8 +39,12 @@ class QuanLyNhaXuatBanControler{
             var idNbx = req.body.idNbx
             var tenNbx = req.body.tenNbx
             await BookPublisher.findOneAndUpdate({_id : idNbx}, {name : tenNbx})
-            req.session.suaThanhCong = true
-            res.redirect('/quanLyNhaXuatBan')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Sửa nhà xuất bản thành công!'
+            })
+            res.redirect(redirectUrl)
         } catch (error) {
             res.json(error)
         }
@@ -56,8 +53,12 @@ class QuanLyNhaXuatBanControler{
         try {
             var id = req.body.id
             await BookPublisher.deleteOne({_id : id})
-            req.session.xoaThanhCong = true
-            res('1')
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan',{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Xóa nhà xuất bản thành công!'
+            })
+            res.json(redirectUrl)
         } catch (err) {
             res.json(err)
         }
