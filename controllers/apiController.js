@@ -83,14 +83,13 @@ class APIController {
             console.log(error)
         }
 
-
+    }
     //Xóa hết sách ra khỏi giỏ
     deleteAllBookFromCart(req,res){
         var cart = []
         req.session.cart = cart
         req.session.isDeleted = true
         res.redirect('/gioSach')
-
     }
 }
 
