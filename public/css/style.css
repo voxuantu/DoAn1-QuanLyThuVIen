@@ -36,14 +36,8 @@ a {
     background-color: #31a2fa;
 }
 .container .header a {
-    color: white !important;
+    color: white;
     text-transform: uppercase;
-}
-.container .header .navbar-nav img{
-    width: 24px;
-    height: 24px;
-    margin-top: -12px;
-    
 }
 #quanLyId a{
     color: black !important;
@@ -51,28 +45,25 @@ a {
 .header .fa-house{
     font-size: 25px;
 }
-.header_right{
-    text-align: right;
-    color: white;
-    justify-content: space-between;
-    align-items: center;
-}
-.header_right ul{
-    display: flex;
-    flex-direction: row-reverse;
-    margin: 0;
-    padding: 0;
-}
-.header_right li{
-    list-style: none;
-}
-.header_right i{
-    margin: 0 1rem 0 1rem ;
-    cursor: pointer;
+.header-right{
+    display: flex; 
+    list-style: none; 
+    justify-content: flex-end; 
     font-size: 25px;
 }
-.header_right a{
-    padding: 8px;
+.header-right li{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.userDropdown a{
+    color: black !important;
+}
+.userDropdown li{
+    margin-left: 0;
+    margin-right: 0;
+}
+.userDropdown li:first-child{
+    border-bottom: 1px solid #ccc;
 }
 
 /* css o tim kiem */
@@ -221,16 +212,13 @@ a {
 
 /* notifi-box */
 .notifi-box{
-    background-color: white;
-    z-index: 1;
-    width: 350px;
+    width: 400px;
     max-height: 300px;
     overflow-y: auto;
-    position: absolute;
-    top: 43px;
-    right: 144px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.notifi-box li{
+    margin-right: 0;
+    margin-left: 0;
 }
 .notifi-box h2{
     font-size: 14px;
@@ -245,17 +233,10 @@ a {
     display: flex;
     border-bottom: 1px solid #eee;
     padding: 15px 5px;
-    height: 100px;
-    cursor: pointer;
+    height: 80px;
 }
 .notifi-item:hover{
     background-color: #eee;
-}
-.notifi-item img{
-    display: block;
-    width: 70px;
-    margin-right: 10px;
-    border-radius: 50%;
 }
 .notifi-item h4{
     color: #777;
@@ -438,12 +419,17 @@ i.fa-regular{
    cursor: pointer;
 }
 i.fa-circle-check{
-    color: #04d85d !important;
+    color: #00D084 !important;
+}
+i.fa-circle-check:hover{
+    color: #4CAF50 !important;
 }
 i.fa-circle-xmark{
     color: red !important;
 }
-
+i.fa-circle-xmark:hover{
+    color: #D00707 !important;
+}
 /* css trang quản lý sách và thể loại */
 .nut-xac-nhan-them-moi{
     text-align: right;

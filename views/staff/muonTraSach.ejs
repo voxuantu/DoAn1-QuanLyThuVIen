@@ -2,6 +2,20 @@
     <title>Mượn trả sách</title>
 <%- contentFor('body') %> 
 
+<% 
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    } 
+    function subtractDays(date){
+        var date2 = new Date();
+        var date1 = new Date(date)
+        var time_difference = date1.getTime() - date2.getTime();
+        return Math.floor(time_difference/(1000 * 60 * 60 * 24));
+    }
+%> 
+
 <% if (currentUser.role.name=='ADMIN') { %>
     <%- include('../particals/headerAdmin') %>
 <% } else if (currentUser.role.name=='MOD2') { %> 
@@ -49,8 +63,16 @@
                             <td><%= phieuDangXuLy[i].dateBorrow.toISOString().split('T')[0] %></td>
                             <td><button type="button" class="nutbam js-modal-muon-sach" data-book-borrowed="<%= phieuDangXuLy[i]._id %>">Xem sách mượn</button></td>
                             <td>
-                                <i class="fa-regular fa-circle-check"></i>
-                                <i class="fa-regular fa-circle-xmark"></i>
+                                <div style="display: flex;">
+                                    <form action="/muonTraSach/choMuon" method="post">
+                                        <input type="text" name="borrowBookTicketId" value="<%= phieuDangXuLy[i].id %>" hidden>
+                                        <button type="submit" style="border-width: 0; background-color: white; padding: 0;" class="me-3"><i class="fa-regular fa-circle-check"></i></button>
+                                    </form>
+                                    <form action="/muonTraSach/choMuon?_method=DELETE" method="post">
+                                        <input type="text" name="borrowBookTicketId" value="<%= phieuDangXuLy[i].id %>" hidden>
+                                        <button style="border-width: 0; background-color: white; padding: 0;"><i class="fa-regular fa-circle-xmark"></i></button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     <% } %>
@@ -92,41 +114,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">MS001</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>20/2/2022 10:15:20 AM</td>
-                        <td><mark class="dang-xu-ly">26/2/2022</mark></td>
-                        <td><button type="button" class="nutbam" >Trả sách</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS002</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>22/2/2022 10:15:20 AM</td>
-                        <td><mark class="da-tra">28/2/2022</mark></td>
-                        <td><button type="button" class="nutbam">Trả sách</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS003</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><mark class="da-tra">2/3/2022</mark></td>
-                        <td><button type="button" class="nutbam">Trả sách</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS004</th>
-                        <td>Nguyễn Văn A</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><mark class="da-tra">2/3/2022</mark></td>
-                        <td><button type="button" class="nutbam">Trả sách</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS005</th>
-                        <td>Nguyễn Văn B</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><mark class="da-tra">2/3/2022</mark></td>
-                        <td><button type="button" class="nutbam">Trả sách</button></td>
-                    </tr>
+                    <% for( let i = 0; i < phieuTraSach.length; i++ ) { %>
+                        <% let user = phieuTraSach[i].libraryCard.accountId %>
+                        <tr>
+                            <th scope="row">MS001</th>
+                            <td><%= user.displayName %></td>
+                            <td><%= phieuTraSach[i].dateBorrow.toISOString().split('T')[0] %></td>
+                            <td>
+                                <% if (subtractDays(addDays(phieuTraSach[i].dateBorrow, maxBorrowDates)) > 0 ) { %>
+                                    <mark class="da-tra"><%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
+                                <% }else{ %>
+                                    <mark class="dang-xu-ly"><%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
+                                <% } %>
+                            </td>
+                            <td>
+                                <form action="/muonTraSach/traSach" method="post">
+                                    <button type="submit" class="nutbam" >Trả sách</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
             <ul class="pagination justify-content-center">

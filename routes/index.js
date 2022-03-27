@@ -34,7 +34,7 @@ function route (app) {
     app.use('/quanLyTheLoai', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), quanLyTheLoaiRouter)
     app.use('/quanLyNhaXuatBan', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), quanLyNhaXuatBanRouter)
     app.use('/quanLyTacGia', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), quanLyTacGiaRouter)
-    app.use('/muonTraSach', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1', 'MOD2']), muonTraSachRouter)
+    app.use('/muonTraSach', checkAuthenticated, checkPermissions(['ADMIN', 'MOD2']), muonTraSachRouter)
     app.use('/gioiThieu', gioiThieuRouter)
     app.use('/lienHe', lienHeRouter)
     app.use('/quenMatKhau', quenMatKhauRouter)

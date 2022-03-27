@@ -7,7 +7,7 @@
                     <div class="col-lg-9 col-md-9">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="/trangChu/1">
+                                <a href="/trangChu/1">
                                     <i class="fa-solid fa-house"></i>
                                 </a>
                             </li>
@@ -20,13 +20,57 @@
                         </ul>
                     </div>
                     <div class="col-lg-3 col-md-3">
-                        <div class="header_right">
+                        <div class="text-end">
                             <% if(currentUser ==null) { %> 
                                 <a href="/dangNhap">Đăng nhập</a>
                             <% }else{ %>
-                                <ul>
-                                    <li>
-                                        <i class="fa-solid fa-circle-user" onclick="toggleUserBox()"></i>
+                                <ul class="header-right">
+                                    <!-- dropdown thong bao -->
+                                    <li class="dropdown">
+                                        <a href="#" class="text-decoration-none" role="button" id="dropdownNotify" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-bell">
+                                                <span class="badge bg-danger text-wrap notifi-counter">7</span>
+                                            </i>
+                                        </a>
+                                        <ul class="notifi-box dropdown-menu dropdown-menu-lg-end dropdown-menu-macos mx-0 border-0 shadow" aria-labelledby="dropdownNotify">
+                                            <li><h2>Thông báo <span>7</span></h2></li>
+                                            <li>
+                                                <div class="notifi-item">
+                                                    <img class="img-fluid rounded-circle ms-2 me-3" src="/icon/avatar.png" alt="avatar">
+                                                    <div>
+                                                        <h5>Mượn sách</h5>
+                                                        <p>Yêu cầu mượn sách đã được chấp nhận</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="notifi-item">
+                                                    <img class="img-fluid rounded-circle ms-2 me-3" src="/icon/avatar.png" alt="avatar">
+                                                    <div>
+                                                        <h5>Mượn sách</h5>
+                                                        <p>Yêu cầu mượn sách đã được chấp nhận</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="notifi-item">
+                                                    <img class="img-fluid rounded-circle ms-2 me-3" src="/icon/avatar.png" alt="avatar">
+                                                    <div>
+                                                        <h5>Mượn sách</h5>
+                                                        <p>Yêu cầu mượn sách đã được chấp nhận</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="notifi-item">
+                                                    <img class="img-fluid rounded-circle ms-2 me-3" src="/icon/avatar.png" alt="avatar">
+                                                    <div>
+                                                        <h5>Mượn sách</h5>
+                                                        <p>Yêu cầu mượn sách đã được chấp nhận</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li>
                                         <a href="/gioSach">
@@ -39,56 +83,31 @@
                                             </i>
                                         </a>
                                     </li>
-                                    <li>
-                                        <i class="fa-solid fa-bell" onclick="toggleNotify()">
-                                            <span class="badge bg-danger text-wrap notifi-counter">7</span>
-                                        </i>
+                                    <!-- dropdown trang ca nhan -->
+                                    <li class="dropdown">
+                                        <a href="#" class="text-decoration-none" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-circle-user"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-macos mx-0 border-0 shadow userDropdown" aria-labelledby="dropdownUser">
+                                            <li>
+                                                <form id="trangCaNhanForm" action="/trangCaNhan" method="get">
+                                                    <a class="dropdown-item" href="javascript:{}" 
+                                                        onclick="document.getElementById('trangCaNhanForm').submit();">
+                                                        <i class="fa-solid fa-user"></i> Trang cá nhân
+                                                    </a>
+                                               </form>
+                                            </li>
+                                            <li>
+                                                <form id="dangXuatForm" action="/trangChu/dangXuat?_method=DELETE" method="post">
+                                                    <a class="dropdown-item" href="javascript:{}" 
+                                                        onclick="document.getElementById('dangXuatForm').submit();">
+                                                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+                                                    </a>
+                                               </form>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
-                                <div class="notifi-box hide-element" id="notifi-box-id">
-                                    <h2>Thông báo <span>7</span></h2>
-                                    <div class="notifi-item">
-                                        <img src="/icon/avatar.png" alt="avatar">
-                                        <div>
-                                            <h5>Mượn sách</h5>
-                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
-                                        </div>
-                                    </div>
-                                    <div class="notifi-item">
-                                        <img src="/icon/avatar.png" alt="avatar">
-                                        <div>
-                                            <h4>Mượn sách</h4>
-                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
-                                        </div>
-                                    </div>
-                                    <div class="notifi-item">
-                                        <img src="/icon/avatar.png" alt="avatar">
-                                        <div>
-                                            <h4>Mượn sách</h4>
-                                            <p>Yêu cầu mượn sách đã được chấp nhận</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="user-box hide-element" id="userBox">
-                                   <ul>
-                                       <li>
-                                           <form action="/trangCaNhan" method="get">
-                                                <button>
-                                                    <i class="fa-solid fa-user"></i>
-                                                    <span>Trang cá nhân</span>
-                                                </button>
-                                           </form>
-                                        </li>
-                                       <li>
-                                           <form action="/trangChu//dangXuat?_method=DELETE" method="post">
-                                                <button>
-                                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                                    <span>Đăng xuất</span>
-                                                </button>
-                                           </form>
-                                       </li>
-                                   </ul>
-                                </div> 
                             <% } %> 
                         </div>
                     </div>
