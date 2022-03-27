@@ -1,6 +1,12 @@
-function OpenModal() {
+function OpenModal(bookBorrow) {
     $(document).ready(
         function () {
+            $(".modalMuonSach tbody tr").remove()
+            for (let i = 0; i < bookBorrow.length; i++) {
+                const book = bookBorrow[i].bookId;
+                markup = `<tr><td scope="row">${i+1}</td><td><img src="${book.coverImage}" alt="${book.name}" class="img-fluid"></td><td>${book.name}</td></tr>`
+                $('.modalMuonSach tbody').append(markup)
+            }
             $('.modalMuonSach').modal('show');
         }
     )
@@ -65,3 +71,23 @@ function CheckAllBook(){
         }
     )
 }
+
+$(document).ready(function(){
+    $('.js-modal-muon-sach').each(function(i,obj){
+        $(this).click(function(){
+            $.ajax({
+                url:'/api/layChiTietPhieuMuon',
+                type:'post',
+                data: {
+                    id: $(this).attr('data-book-borrowed')
+                },
+                success: function(data){
+                    OpenModal(data.bookBorrow)
+                },
+                error : function(err){
+                    console.error(err)
+                }
+            })
+        })
+    })
+})

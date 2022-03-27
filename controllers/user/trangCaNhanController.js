@@ -1,13 +1,24 @@
 const {bufferUpload} = require('../../utils/uploadImage')
 const Account = require('../../models/account')
+const BorrowBookTicket = require('../../models/borrowBookTicket')
+const Regulation = require('../../models/regulation')
 
 class TrangCaNhanController {
     async index(req, res) {
         const currentUser = await req.user
         var cart = req.session.cart
+        const borrowBookCard = await BorrowBookTicket.aggregate().lookup({
+            from: 'detailborrowbooks',
+            localField: '_id',
+            foreignField: 'borrowBookTicketId',
+            as: 'bookBorrowed'
+          })
+        const maxBorrowDates = await Regulation.findOne({name: 'Số ngày mượn tối đa/1 lần mượn'})
         res.render('user/trangCaNhan', { 
             currentUser: currentUser,
-            cart: cart
+            cart: cart,
+            borrowBookCard: borrowBookCard,
+            maxBorrowDates: maxBorrowDates.value
         });
     }
 

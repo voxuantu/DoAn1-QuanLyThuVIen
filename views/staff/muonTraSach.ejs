@@ -35,56 +35,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">MS005</th>
-                        <td>Nguyễn Văn B</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><button type="button" class="nutbam" onclick="OpenModal()">Xem sách mượn</button></td>
-                        <td>
-                            <i class="fa-regular fa-circle-check"></i>
-                            <i class="fa-regular fa-circle-xmark"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS004</th>
-                        <td>Nguyễn Văn A</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><button type="button" class="nutbam" onclick="OpenModal()">Xem sách mượn</button></td>
-                        <td>
-                            <i class="fa-regular fa-circle-check"></i>
-                            <i class="fa-regular fa-circle-xmark"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS003</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><button type="button" class="nutbam" onclick="OpenModal()">Xem sách mượn</button></td>
-                        <td>
-                            <i class="fa-regular fa-circle-check"></i>
-                            <i class="fa-regular fa-circle-xmark"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS002</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>22/2/2022 10:15:20 AM</td>
-                        <td><button type="button" class="nutbam">Xem sách mượn</button></td>
-                        <td>
-                            <i class="fa-regular fa-circle-check"></i>
-                            <i class="fa-regular fa-circle-xmark"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS001</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>20/2/2022 10:15:20 AM</td>
-                        <td><button type="button" class="nutbam">Xem sách mượn</button></td>
-                        <td>
-                            <i class="fa-regular fa-circle-check"></i>
-                            <i class="fa-regular fa-circle-xmark"></i>
-                        </td>
-                    </tr>
+                    <% for( let i = 0; i < phieuDangXuLy.length; i++ ) { %>
+                        <% let user = phieuDangXuLy[i].libraryCard.accountId %>
+                        <tr>
+                            <th scope="row">MS001</th>
+                            <td><%= user.displayName %></td>
+                            <td><%= phieuDangXuLy[i].dateBorrow.toISOString().split('T')[0] %></td>
+                            <td><button type="button" class="nutbam js-modal-muon-sach" data-book-borrowed="<%= phieuDangXuLy[i]._id %>">Xem sách mượn</button></td>
+                            <td>
+                                <i class="fa-regular fa-circle-check"></i>
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            </td>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
             <ul class="pagination justify-content-center">
@@ -235,6 +198,7 @@
               </ul>
         </div>
     </div>
+    <!-- modal muon sach -->
     <div class="modal fade modalMuonSach" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
@@ -252,30 +216,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td scope="row">1</td>
-                                <td><img src="/Book image/BupBeRaggedyAnn.jpg" alt="BupBeRaggedyAnn"
-                                        class="img-fluid"></td>
-                                <td>Búp bê Rangged An</td>
-                            </tr>
-                            <tr>
-                                <td scope="row">2</td>
-                                <td><img src="/Book image/ChoDenMauGiaoThiDaMuon.jpg" alt="ChoDenMauGiaoThiDaMuon"
-                                        class="img-fluid"></td>
-                                <td>Cho đến mẫu giáo thì đã muônn</td>
-                            </tr>
-                            <tr>
-                                <td scope="row">3</td>
-                                <td><img src="/Book image/ChoToiXinMotVeDiTuoiTho.jpg" alt="ChoToiXinMotVeDiTuoiTho"
-                                        class="img-fluid"></td>
-                                <td>Cho tôi xin một vé đi tuổi thơ</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    <!-- modal tra sach -->
     <div class="modal fade modalTraSach" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable" style="max-width: 820px !important;">
             <div class="modal-content">
@@ -341,6 +288,7 @@
             </div>
         </div>
     </div>
+    <!-- modal da tra sach -->
     <div class="modal fade modalDaTraSach" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable" style="max-width: 1000px !important;">
             <div class="modal-content">

@@ -53,12 +53,12 @@
                     <p>Địa chỉ : <span><%= currentUser.address %></span></p>
                     <div class="row mb-2" style="text-align: center;">
                         <div class="col-sm-6">
-                            <form action="" method="post">
-                                <button type="button" class="btn btn-primary">Mượn sách</button>
+                            <form action="/gioSach/muonSach" method="post">
+                                <button type="submit" class="btn btn-primary">Mượn sách</button>
                             </form>
                         </div>
                         <div class="col-sm-6">
-                            <form action="/api/xoaHetSachKhoiGio" method="post">
+                            <form action="/gioSach/xoaHetSachKhoiGio" method="post">
                                 <button type="submit" class="btn btn-danger">Xóa tất cả</button>
                             </form>
                         </div>
@@ -84,7 +84,7 @@ $(document).ready(function(){
     $('.js-delete-item-cart').each(function(i,obj){
         $(this).click(function(){
             $.ajax({
-                url:'/api/xoaSachKhoiGio',
+                url:'/gioSach/xoaSachKhoiGio',
                 type:'post',
                 data: {
                     id: $(this).attr('data-id-book')

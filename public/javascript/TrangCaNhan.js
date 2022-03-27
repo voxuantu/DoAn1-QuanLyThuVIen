@@ -33,11 +33,16 @@ function toggleEdit() {
         down = true;
     }
 }
-function OpenModal(mamuonsach, matrangthai) {
+function OpenModal(bookBorrow, status) {
     $(document).ready(
         function () {
-            if (matrangthai != 2) {
-
+            $(".modal-chi-tiet-muon-sach tbody tr").remove()
+            for (let i = 0; i < bookBorrow.length; i++) {
+                const book = bookBorrow[i].bookId;
+                markup = `<tr><td scope="row">${i+1}</td><td><img src="${book.coverImage}" alt="${book.name}" class="img-fluid"></td><td>${book.name}</td></tr>`
+                $('.modal-chi-tiet-muon-sach tbody').append(markup)
+            }
+            if (status != 2) {
                 $('.modal-chi-tiet-muon-sach .nutbam').addClass('hide-element');
             } else {
                 $('.modal-chi-tiet-muon-sach .nutbam').removeClass('hide-element');
@@ -116,6 +121,26 @@ $(document).ready(function () {
             error: function (err) {
                 console.log(err)
             }
+        })
+    })
+})
+
+$(document).ready(function(){
+    $('.js-view-detail').each(function(i,obj){
+        $(this).click(function(){
+            $.ajax({
+                url:'/api/layChiTietPhieuMuon',
+                type:'post',
+                data: {
+                    id: $(this).attr('data-book-borrowed')
+                },
+                success: function(data){
+                    OpenModal(data.bookBorrow,$(this).attr('data-status'))
+                },
+                error : function(err){
+                    console.error(err)
+                }
+            })
         })
     })
 })

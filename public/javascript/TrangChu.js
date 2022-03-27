@@ -30,7 +30,7 @@ $(function(){
     $('.js-muon-sach').each(function(i,obj){
         $(this).click(function(){
             $.ajax({
-                url:'/api/themSachVaoGio',
+                url:'/gioSach/themSachVaoGio',
                 type:'post',
                 data: {
                     id: $(this).attr('data-id-book')
@@ -48,6 +48,12 @@ $(function(){
                             icon: 'error',
                             title: 'Thất bại',
                             text: 'Sách này đã có trong giỏ',
+                        })
+                    }else if(data.message == "Gio da day"){
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Thất bại',
+                            text: 'Giỏ sách của bạn đã đầy!',
                         })
                     }else{
                         window.location.replace('/dangNhap')

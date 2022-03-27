@@ -2,6 +2,19 @@
     <title>Trang cá nhân</title>
 <%- contentFor('body') %>
 <%- include('../particals/header') %>
+<% 
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    } 
+    function subtractDays(date){
+        var date2 = new Date();
+        var date1 = new Date(date)
+        var time_difference = date1.getTime() - date2.getTime();
+        return Math.floor(time_difference/(1000 * 60 * 60 * 24));
+    }
+%> 
 <div class="container">
     <div class="duong-dan-muc">
         <a href="/">Trang chủ</a>
@@ -17,7 +30,6 @@
                     </div>
                     <input type="file" id="imgUpload" style="display: none" name="img"
                         onchange="ShowImage(event)" accept="image/png, image/jpeg">
-                    <!-- <input type="file" name="img"> -->
                     <button class="nutbam position-absolute bottom-0 start-50 translate-middle-x"
                         type="button" onclick="OpenImgDialog()">Thay đổi ảnh</button>
                 </div>
@@ -117,33 +129,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>22/1/2022</td>
-                            <td>4/2/2022</td>
-                            <td>1</td>
-                            <td><mark class="dang-xu-ly">Đang xử lý</mark></td>
-                            <td><i class="fa-solid fa-eye" onclick="OpenModal(12,1)" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" title="Xem chi tiết"></i></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>14/2/2022</td>
-                            <td><mark class="dang-xu-ly">4/2/2022</mark></td>
-                            <td>1</td>
-                            <td><mark class="dang-muon">Đang mượn</mark></td>
-                            <td><i class="fa-solid fa-eye" onclick="OpenModal(12,2)" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" title="Xem chi tiết"></i></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>21/2/2022</td>
-                            <td>4/2/2022</td>
-                            <td>1</td>
-                            <td><mark class="da-tra">Đã trả</mark></td>
-                            <td><i class="fa-solid fa-eye" onclick="OpenModalTraSach()" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" title="Xem chi tiết"></i></td>
-                        </tr>
+                        <% for( let i = 0; i < borrowBookCard.length; i++ ) { %>
+                            <tr>
+                                <td><%= i+1 %></td>
+                                <td><%= borrowBookCard[i].dateBorrow.toISOString().split('T')[0] %></td>
+                                <td>
+                                    <% if (subtractDays(addDays(borrowBookCard[i].dateBorrow, maxBorrowDates)) > 0 ) { %>
+                                        <mark class="da-tra"><%= addDays(borrowBookCard[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
+                                    <% }else{ %>
+                                        <mark class="dang-xu-ly"><%= addDays(borrowBookCard[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
+                                    <% } %>
+                                </td>
+                                <td><%= borrowBookCard[i].bookBorrowed.length %></td>
+                                <td>
+                                    <% if (borrowBookCard[i].statusBorrowBook == 'Đang xử lý') { %>
+                                        <mark class="dang-xu-ly">Đang xử lý</mark>
+                                    <% }else if (borrowBookCard[i].statusBorrowBook == 'Đang mượn'){ %>
+                                        <mark class="dang-muon">Đang mượn</mark>
+                                    <% }else { %>
+                                        <mark class="da-tra">Đã trả</mark>
+                                    <% } %>  
+                                </td>
+                                <td>
+                                    <i class="fa-solid fa-eye js-view-detail" data-bs-toggle="tooltip" data-status="1"
+                                        data-bs-placement="bottom" data-book-borrowed="<%= borrowBookCard[i]._id %>"
+                                        title="Xem chi tiết"></i>
+                                </td>
+                            </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
@@ -168,24 +181,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td scope="row">1</td>
-                                <td><img src="/Book image/BupBeRaggedyAnn.jpg" alt="BupBeRaggedyAnn"
-                                        class="img-fluid"></td>
-                                <td>Búp bê Rangged An</td>
-                            </tr>
-                            <tr>
-                                <td scope="row">2</td>
-                                <td><img src="/Book image/ChoDenMauGiaoThiDaMuon.jpg" alt="ChoDenMauGiaoThiDaMuon"
-                                        class="img-fluid"></td>
-                                <td>Cho đến mẫu giáo thì đã muônn</td>
-                            </tr>
-                            <tr>
-                                <td scope="row">3</td>
-                                <td><img src="/Book image/ChoToiXinMotVeDiTuoiTho.jpg" alt="ChoToiXinMotVeDiTuoiTho"
-                                        class="img-fluid"></td>
-                                <td>Cho tôi xin một vé đi tuổi thơ</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
