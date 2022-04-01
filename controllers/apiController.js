@@ -3,6 +3,10 @@ const Account = require('../models/account');
 const sendEmail = require('../utils/sendEmail');
 const bcrypt = require('bcrypt')
 const DetailBorrowBookTicket = require('../models/detailBorrowBookTicket')
+const BorrowBookTicket = require('../models/borrowBookTicket')
+const LibraryCard = require('../models/libraryCard')
+const Regulation = require('../models/regulation')
+const urlHelper = require('../utils/url')
 
 class APIController {
     async LayMa(req, res) {
@@ -75,8 +79,12 @@ class APIController {
 
     async layChiTietPhieuMuon(req,res){
         try {
+            const numberOfRenewals = await Regulation.findOne({name: 'Số lần gia hạn sách'})
+            const borrowBookTicket = await BorrowBookTicket.findById(req.body.id)
             const bookBorrow = await DetailBorrowBookTicket.find({borrowBookTicketId: req.body.id}).populate('bookId')
             res.json({
+                numberOfRenewals: numberOfRenewals.value,
+                borrowBookTicket: borrowBookTicket,
                 bookBorrow: bookBorrow
             })
         } catch (error) {
@@ -90,6 +98,63 @@ class APIController {
         req.session.cart = cart
         req.session.isDeleted = true
         res.redirect('/gioSach')
+    }
+    async giaHanSash(req,res){
+        try {
+            const currentUser = await req.user
+            const numberOfExpirationDays = await Regulation.findOne({name: 'Hạn sử dụng thẻ thư viện ( ngày )'})
+            const libraryCard = await LibraryCard.findOne({accountId: currentUser.id})
+            var expiredDate = new Date(libraryCard.createdDate)
+            expiredDate.setDate(expiredDate.getDate() + numberOfExpirationDays.value)
+            var dateNow = new Date()
+           //Tạo lại phiếu mượn sách mới
+            if(expiredDate > dateNow){
+                const oldBorrowBookTicket = await BorrowBookTicket.findById(req.body.borrowBookTicketId)
+                const sachCanGiaHan = await DetailBorrowBookTicket.find({borrowBookTicketId: req.body.borrowBookTicketId})    
+                const numberOfDaysBorrowBook = await Regulation.findOne({name: 'Số ngày mượn tối đa/1 lần mượn'})
+
+                var newDateBorrow = new Date(oldBorrowBookTicket.dateBorrow)
+                newDateBorrow.setDate(newDateBorrow.getDate() + numberOfDaysBorrowBook.value)
+
+
+                await BorrowBookTicket.findOneAndUpdate({ _id: req.body.borrowBookTicketId },{statusBorrowBook: 'Đã trả'})
+                await DetailBorrowBookTicket.updateMany(
+                    {borrowBookTicketId: req.body.borrowBookTicketId},
+                    {status: 'Đã trả', dateGiveBack: newDateBorrow }
+                )
+                var borrorBookTicket = new BorrowBookTicket({
+                    dateBorrow: newDateBorrow,
+                    libraryCard : libraryCard,
+                    statusBorrowBook: "Đang mượn",
+                    numberOfRenewals: 1
+                })
+                const newBorrowBookTicket = await borrorBookTicket.save()
+                sachCanGiaHan.forEach(async (book) => {
+                    var detailBorrowBookTicket = new DetailBorrowBookTicket({
+                        bookId: book.bookId,
+                        borrowBookTicketId: newBorrowBookTicket.id,
+                        status: "Đang mượn"
+                    })
+                    await detailBorrowBookTicket.save()
+                });
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/trangCaNhan',{
+                    type: 'success',
+                    title: 'Thành công',
+                    text: 'Gia hạn sách thành công!'
+                })
+                res.redirect(redirectUrl)
+            }else{
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/trangCaNhan',{
+                    type: 'error',
+                    title: 'Thất bại',
+                    text: 'Thẻ độc giả của bạn đã hết hạn. Vui lòng gia hạn thẻ!'
+                })
+                res.redirect(redirectUrl)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 }
 

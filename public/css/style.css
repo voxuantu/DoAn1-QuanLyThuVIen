@@ -333,6 +333,13 @@ a {
     background-color: #f5f0a8;
     border-radius: 5px;
 }
+.da-gia-han{
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #31a2fa;
+    background-color: #8DC9F7;
+    border-radius: 5px;
+}
 .da-tra{
     padding-left: 5px;
     padding-right: 5px;
