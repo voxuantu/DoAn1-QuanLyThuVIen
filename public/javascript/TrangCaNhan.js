@@ -33,21 +33,66 @@ function toggleEdit() {
         down = true;
     }
 }
-function OpenModal(bookBorrow, status) {
+function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals) {
     $(document).ready(
         function () {
-            $(".modal-chi-tiet-muon-sach tbody tr").remove()
-            for (let i = 0; i < bookBorrow.length; i++) {
-                const book = bookBorrow[i].bookId;
-                markup = `<tr><td scope="row">${i+1}</td><td><img src="${book.coverImage}" alt="${book.name}" class="img-fluid"></td><td>${book.name}</td></tr>`
-                $('.modal-chi-tiet-muon-sach tbody').append(markup)
+            if(status == "Đang xử lý"){
+                $(".modal-dang-xu-ly tbody tr").remove()
+                for (let i = 0; i < bookBorrow.length; i++) {
+                    const book = bookBorrow[i].bookId;
+                    markup = `<tr><td scope="row">${i+1}</td><td><img src="${book.coverImage}" alt="${book.name}" class="img-fluid"></td><td>${book.name}</td></tr>`
+                    $('.modal-dang-xu-ly tbody').append(markup)
+                }
+                $('.modal-dang-xu-ly').modal('show');
+            }else if ( status == "Đang mượn"){
+                $(".modal-dang-muon-sach tbody tr").remove()
+                for (let i = 0; i < bookBorrow.length; i++) {
+                    const book = bookBorrow[i].bookId;
+                   
+                    markup = `<tr>
+                                <td scope="row">
+                                    ${i+1}
+                                </td>
+                                <td>
+                                    <img src="${book.coverImage}" alt="${book.name}" class="img-fluid">
+                                </td>
+                                <td>${book.name}</td>
+                            </tr>`
+                    $('.modal-dang-muon-sach tbody').append(markup)
+                }
+                $('#borrowBookTicketId').val(borrowBookTicket._id)
+                console.log(numberOfRenewals)
+                console.log(borrowBookTicket.numberOfRenewals)
+                console.log(borrowBookTicket.numberOfRenewals < numberOfRenewals)
+                if(borrowBookTicket.numberOfRenewals < numberOfRenewals){
+                    var addButton = `<button type="submit" class="nutbam">Xác nhận gia hạn</button>`
+                    $('.modal-dang-muon-sach .modal-footer').append(addButton)
+                }
+                $('.modal-dang-muon-sach').modal('show');
+            }else if ( status == "Đã trả"){
+                $(".modal-tra-sach tbody tr").remove()
+                for (let i = 0; i < bookBorrow.length; i++) {
+                    const book = bookBorrow[i].bookId;
+                    var trangThai
+                    if(bookBorrow[i].status == "Đã trả"){
+                        trangThai = `<mark class="da-tra">Đã trả</mark>`
+                    }else if(bookBorrow[i].status == "Hư hỏng" || bookBorrow[i].status == "Làm mất"){
+                        trangThai = `<mark class="dan-xu-ly">Đã trả</mark>`
+                    }
+                    markup = `<tr>
+                                <td scope="row">
+                                    ${i+1}
+                                </td>
+                                <td>
+                                    <img src="${book.coverImage}" alt="${book.name}" class="img-fluid">
+                                </td>
+                                <td>${book.name}</td>
+                                <td>${trangThai}</td>
+                            </tr>`
+                    $('.modal-tra-sach tbody').append(markup)
+                }
+                $('.modal-tra-sach').modal('show');
             }
-            if (status != 2) {
-                $('.modal-chi-tiet-muon-sach .nutbam').addClass('hide-element');
-            } else {
-                $('.modal-chi-tiet-muon-sach .nutbam').removeClass('hide-element');
-            }
-            $('.modal-chi-tiet-muon-sach').modal('show');
         }
     )
 }
@@ -153,11 +198,13 @@ Validator({
                 console.log(err)
             }
         })
-    })
+    }
 })
 
 $(document).ready(function(){
     $('.js-view-detail').each(function(i,obj){
+        var status = $(this).attr('data-status')
+        var borrowBookTicketId = $(this).attr('data-book-borrowed')
         $(this).click(function(){
             $.ajax({
                 url:'/api/layChiTietPhieuMuon',
@@ -166,7 +213,7 @@ $(document).ready(function(){
                     id: $(this).attr('data-book-borrowed')
                 },
                 success: function(data){
-                    OpenModal(data.bookBorrow,$(this).attr('data-status'))
+                    OpenModal(data.bookBorrow, status, data.borrowBookTicket, data.numberOfRenewals)
                 },
                 error : function(err){
                     console.error(err)
@@ -175,4 +222,3 @@ $(document).ready(function(){
         })
     })
 })
-

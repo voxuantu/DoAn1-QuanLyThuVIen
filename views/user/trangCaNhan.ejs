@@ -161,7 +161,9 @@
                                 <td><%= i+1 %></td>
                                 <td><%= borrowBookCard[i].dateBorrow.toISOString().split('T')[0] %></td>
                                 <td>
-                                    <% if (subtractDays(addDays(borrowBookCard[i].dateBorrow, maxBorrowDates)) > 0 ) { %>
+                                    <% if (borrowBookCard[i].statusBorrowBook == 'Đã trả') { %>
+                                        <%= addDays(borrowBookCard[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %>
+                                    <% }else if (subtractDays(addDays(borrowBookCard[i].dateBorrow, maxBorrowDates)) > 0) { %>
                                         <mark class="da-tra"><%= addDays(borrowBookCard[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
                                     <% }else{ %>
                                         <mark class="dang-xu-ly"><%= addDays(borrowBookCard[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
@@ -178,9 +180,9 @@
                                     <% } %>  
                                 </td>
                                 <td>
-                                    <i class="fa-solid fa-eye js-view-detail" data-bs-toggle="tooltip" data-status="1"
-                                        data-bs-placement="bottom" data-book-borrowed="<%= borrowBookCard[i]._id %>"
-                                        title="Xem chi tiết"></i>
+                                    <i class="fa-solid fa-eye js-view-detail" data-status="<%= borrowBookCard[i].statusBorrowBook %>"
+                                    data-book-borrowed="<%= borrowBookCard[i]._id %>"
+                                    title="Xem chi tiết"></i>
                                 </td>
                             </tr>
                         <% } %>
@@ -190,8 +192,8 @@
         </div>
     </div>
 
-    <!-- modal sách đang mượn/đang xử lý -->
-    <div class="modal fade modal-chi-tiet-muon-sach" tabindex="-1">
+    <!-- modal sách đang xử lý -->
+    <div class="modal fade modal-dang-xu-ly" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -213,8 +215,36 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="nutbamred" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="nutbam" data-bs-dismiss="modal">Gia hạn sách</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal đang mượn sách -->
+    <div class="modal fade modal-dang-muon-sach" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <form id="formGiaHanSach" action="/api/giaHanSach" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sách đang mượn</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Ảnh bìa</th>
+                                    <th scope="col">Tên sách</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <input id="borrowBookTicketId" type="text" name="borrowBookTicketId" hidden>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -239,27 +269,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td><img src="/Book image/BupBeRaggedyAnn.jpg" alt="BupBeRaggedyAnn"
-                                                class="img-fluid"></td>
-                                        <td>Búp bê Rangged An</td>
-                                        <td><mark class="da-tra">Đã trả</mark></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td><img src="/Book image/ChoDenMauGiaoThiDaMuon.jpg" alt="ChoDenMauGiaoThiDaMuon"
-                                                class="img-fluid"></td>
-                                        <td>Cho đến mẫu giáo thì đã muônn</td>
-                                        <td><mark class="da-tra">Đã trả</mark></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</ths>
-                                        <td><img src="/Book image/ChoToiXinMotVeDiTuoiTho.jpg" alt="ChoToiXinMotVeDiTuoiTho"
-                                                class="img-fluid"></td>
-                                        <td>Cho tôi xin một vé đi tuổi thơ</td>
-                                        <td><mark class="dang-xu-ly">Làm mất</mark></td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -19,6 +19,10 @@ const borrowBookTicketSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'Đang xử lý'
+    },
+    numberOfRenewals:{
+        type: Number,
+        default: 0
     }
 })
 
