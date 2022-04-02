@@ -153,7 +153,7 @@ Validator({
                 console.log(err)
             }
         })
-    })
+    }
 })
 
 $(document).ready(function(){

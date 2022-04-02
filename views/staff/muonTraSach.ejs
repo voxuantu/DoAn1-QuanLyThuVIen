@@ -128,9 +128,8 @@
                                 <% } %>
                             </td>
                             <td>
-                                <form action="/muonTraSach/traSach" method="post">
-                                    <button type="submit" class="nutbam" >Trả sách</button>
-                                </form>
+                                <button type="submit" class="nutbam js-modal-tra-sach" data-han-tra="<%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %>"
+                                data-borrow-book-ticket-id="<%=phieuTraSach[i].id%>">Trả sách</button>
                             </td>
                         </tr>
                     <% } %>
@@ -237,7 +236,7 @@
     </div>
     <!-- modal tra sach -->
     <div class="modal fade modalTraSach" tabindex="-1">
-        <div class="modal-dialog modal-dialog-scrollable" style="max-width: 820px !important;">
+        <div class="modal-dialog modal-dialog-scrollable" style="max-width: 840px !important;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Sách trả</h5>
@@ -245,58 +244,26 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-8">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th scope="col"><input class="form-check-input" type="checkbox" onclick="CheckAllBook()"></th>
                                         <th scope="col">Ảnh bìa</th>
                                         <th scope="col" style="width: 200px;">Tên sách</th>
-                                        <th scope="col">Hư hỏng</th>
+                                        <th scope="col">Hư hỏng/Mất</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td scope="row"><input class="form-check-input checksachtra" type="checkbox"></td>
-                                        <td><img src="/Book image/BupBeRaggedyAnn.jpg" alt="BupBeRaggedyAnn"
-                                                class="img-fluid"></td>
-                                        <td>Búp bê Rangged An</td>
-                                        <td><input onclick="showPhatHuHong()" name="lamhuhong" class="form-check-input lamhuhong" type="checkbox" value="" id=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row"><input class="form-check-input checksachtra" type="checkbox"></td>
-                                        <td><img src="/Book image/ChoDenMauGiaoThiDaMuon.jpg" alt="ChoDenMauGiaoThiDaMuon"
-                                                class="img-fluid"></td>
-                                        <td>Cho đến mẫu giáo thì đã muônn</td>
-                                        <td><input onclick="showPhatHuHong()" name="lamhuhong" class="form-check-input lamhuhong" type="checkbox" value="" id=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row"><input class="form-check-input checksachtra" type="checkbox"></td>
-                                        <td><img src="/Book image/ChoToiXinMotVeDiTuoiTho.jpg" alt="ChoToiXinMotVeDiTuoiTho"
-                                                class="img-fluid"></td>
-                                        <td>Cho tôi xin một vé đi tuổi thơ</td>
-                                        <td><input onclick="showPhatHuHong()" name="lamhuhong" class="form-check-input lamhuhong" type="checkbox" value="" id=""></td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-sm-5">
-                            <h5>Thông tin trả sách</h5>
-                            <p>Hạn trả : 26/2/2022</p>
-                            <p>Ngày trả : 1/3/2022 10:15:20 AM</p>
-                            <p>Trạng thái trả : <mark class="dang-xu-ly">Trễ hẹn</mark> (trễ <mark class="dang-xu-ly">4</mark> ngày)</p>
-                            <div>
-                                <p>Tiền phạt :</p>
-                                <ul>
-                                    <li>Phạt trễ hẹn : 20.000 đ</li>
-                                    <li id="phathuhong" class="hide-element">Phạt làm hư hỏng (làm mất sách) : 90.000 đ</li>
-                                </ul>
-                            </div>
+                        <div class="col-sm-4">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="nutbam" data-bs-dismiss="modal">Xác nhận trả sách</button>
+                    <button id="xacnhantrasach" class="nutbam js-xac-nhan-tra-sach" data-bs-dismiss="modal">Xác nhận trả sách</button>
                 </div>
             </div>
         </div>
