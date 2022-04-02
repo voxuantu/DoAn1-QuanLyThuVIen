@@ -8,25 +8,13 @@ const urlHelper = require('../../utils/url')
 
 class QuanLySachController {
     async index(req, res) {
-        var perPage = 5
-        var page = req.params.page || 1
-      
         const currentUser = await req.user
-        Book.find({})
-            .populate('author')
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function (err, books) {
-                Book.count().exec(function (err, count) {
-                    if (err) return next(err)
-                    res.render('staff/quanLySach', {
-                        currentUser: currentUser,
-                        books: books,
-                        current: page,
-                        pages: Math.ceil(count / perPage)
-                    });
-                })
-            })
+
+        const books = await Book.find({}).populate('author')
+        res.render('staff/quanLySach', {
+            currentUser: currentUser,
+            books: books
+        });
     }
     async create(req, res) {
         const { buffer } = req.file

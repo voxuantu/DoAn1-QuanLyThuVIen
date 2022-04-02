@@ -34,7 +34,7 @@
         <div class="col-sm-9">
             <div id="ql-theloai">
                 <div class="timkiem mb-2">
-                    <div class="input-group them-moi-the-loai">
+                    <div class="input-group them-moi-the-loai mb-2">
                         <a onclick="HienFormThemTheLoai()" class="nut-them-moi">
                             <button class="nutbam">Thêm thể loại mới</button>
                         </a>
@@ -45,39 +45,44 @@
                                     name="categoryName" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
                                     <button type="submit" class="nutbam">Lưu</button>
                                 </div>
-                                <span class="errorMessage"></span>
+                                <span id="errorMessage" class="errorMessage hide-element"></span>
                             </div>
                         </form>
+                        <div id="divSearchBox" style="width: 300px;">
+                            <input class="field" style="margin-bottom: 0;" type="text" id="searchBox" name="tuKhoa"
+                                placeholder="Nhập từ khóa tìm kiếm...">
+                        </div>
                     </div>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Tên thể loại</th>
-                                <th scope="col">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for( let index = 0; index < categories.length; index++ ) { %>
+                    <div class="main-datatable">
+                        <table id="table-the-loai" class="table mb-3 cust-datatable dataTable no-footer">
+                            <thead>
                                 <tr>
-                                    <th scope="row"><%= index + 1 %></th>
-                                    <td><%= categories[index].name %></td>
-                                    <td>
-                                        <a class="delete-category" data-id-theloai="<%= categories[index].id %>">
-                                            <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Xóa thể loại"></i>
-                                        </a>
-                                        <a class="edit-category" data-ten-theloai="<%= categories[index].name %>"
-                                            data-id-theloai="<%= categories[index].id %>">
-                                            <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Chỉnh sửa thể loại"></i>
-                                        </a>
-                                    </td>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên thể loại</th>
+                                    <th scope="col">Thao tác</th>
                                 </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <% for( let index = 0; index < categories.length; index++ ) { %>
+                                    <tr>
+                                        <td scope="row"><%= index + 1 %></td>
+                                        <td><%= categories[index].name %></td>
+                                        <td>
+                                            <a class="delete-category" data-id-theloai="<%= categories[index].id %>">
+                                                <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Xóa thể loại"></i>
+                                            </a>
+                                            <a class="edit-category" data-ten-theloai="<%= categories[index].name %>"
+                                                data-id-theloai="<%= categories[index].id %>">
+                                                <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Chỉnh sửa thể loại"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

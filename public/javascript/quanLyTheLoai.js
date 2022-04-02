@@ -1,3 +1,10 @@
+$(document).ready( function () {
+    var dataTable = $('#table-the-loai').DataTable();
+    $('#searchBox').keyup(function(){
+        dataTable.search(this.value).draw()
+    })
+} );
+
 $(document).ready(
     $('.edit-category').each(function (i, obj) {
         $(this).click(function () {
@@ -51,8 +58,21 @@ $(document).ready(
     })
 )
 
+var hienFormThemTheLoai = false
+
 function HienFormThemTheLoai() {
-    document.getElementById('themtheloai').classList.remove('hide-element');
+    if(!hienFormThemTheLoai){
+        document.getElementById('themtheloai').classList.remove('hide-element');
+        document.getElementById('errorMessage').classList.remove('hide-element');
+        document.getElementById('divSearchBox').classList.add('hide-element');
+        hienFormThemTheLoai = true
+    }else{
+        document.getElementById('themtheloai').classList.add('hide-element');
+        document.getElementById('errorMessage').classList.add('hide-element');
+        document.getElementById('divSearchBox').classList.remove('hide-element');
+        hienFormThemTheLoai = false
+    }
+    
 }
 
 Validator({

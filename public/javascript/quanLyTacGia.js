@@ -1,3 +1,10 @@
+$(document).ready( function () {
+    var dataTable = $('#table-tac-gia').DataTable();
+    $('#searchBox').keyup(function(){
+        dataTable.search(this.value).draw()
+    })
+} );
+
 $(document).ready(
     $('.edit-author').each(function (i, obj) {
         $(this).click(function () {
@@ -52,8 +59,20 @@ $(document).ready(
     })
 )
 
+var hienFormThemTacGia = false
+
 function HienFormThemTacGia() {
-    document.getElementById('themtacgia').classList.remove('hide-element');
+    if(!hienFormThemTacGia){
+        document.getElementById('themtacgia').classList.remove('hide-element');
+        document.getElementById('errorMessage').classList.remove('hide-element');
+        document.getElementById('divSearchBox').classList.add('hide-element');
+        hienFormThemTacGia = true
+    }else{
+        document.getElementById('themtacgia').classList.add('hide-element');
+        document.getElementById('errorMessage').classList.add('hide-element');
+        document.getElementById('divSearchBox').classList.remove('hide-element');
+        hienFormThemTacGia = false
+    }
 }
 
 Validator({

@@ -1,3 +1,10 @@
+$(document).ready( function () {
+    var dataTable = $('#table-nha-xuat-ban').DataTable();
+    $('#searchBox').keyup(function(){
+        dataTable.search(this.value).draw()
+    })
+} );
+
 $(document).ready(
     $('.edit-publisher').each(function (i, obj) {
         $(this).click(function () {
@@ -53,8 +60,20 @@ $(document).ready(
     })
 )
 
+var hienFormThemNhaXuatBan = false
+
 function HienFormThemNBX() {
-    document.getElementById('themNBX').classList.remove('hide-element');
+    if(!hienFormThemNhaXuatBan){
+        document.getElementById('themNBX').classList.remove('hide-element');
+        document.getElementById('errorMessage').classList.remove('hide-element');
+        document.getElementById('divSearchBox').classList.add('hide-element');
+        hienFormThemNhaXuatBan = true
+    }else{
+        document.getElementById('themNBX').classList.add('hide-element');
+        document.getElementById('errorMessage').classList.add('hide-element');
+        document.getElementById('divSearchBox').classList.remove('hide-element');
+        hienFormThemNhaXuatBan = false
+    }
 }
 
 Validator({

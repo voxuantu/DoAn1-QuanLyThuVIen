@@ -33,7 +33,7 @@
         <div class="col-sm-9">
             <div id="ql-theloai">
                 <div class="timkiem mb-2">
-                    <div class="input-group them-moi-the-loai">
+                    <div class="input-group them-moi-the-loai mb-2">
                         <a onclick="HienFormThemTacGia()" class="nut-them-moi">
                             <button class="nutbam">Thêm tác giả mới</button>
                         </a>
@@ -44,39 +44,44 @@
                                     name="tentacgia" style="width: 81%; padding: 0.5px 1rem; border-radius: 5px;">
                                     <button type="submit" class="nutbam">Lưu</button>
                                 </div>
-                                <span class="errorMessage"></span>
+                                <span id="errorMessage" class="errorMessage hide-element"></span>
                             </div>
                         </form>
+                        <div id="divSearchBox" style="width: 300px;">
+                            <input class="field" style="margin-bottom: 0;" type="text" id="searchBox" name="tuKhoa"
+                                placeholder="Nhập từ khóa tìm kiếm...">
+                        </div>
                     </div>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Tên tác giả</th>
-                                <th scope="col">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for( let index = 0; index < authors.length; index++ ) { %>
+                    <div class="main-datatable">
+                        <table id="table-tac-gia" class="table mb-3 cust-datatable dataTable no-footer">
+                            <thead>
                                 <tr>
-                                    <th scope="row"><%= index + 1 %></th>
-                                    <td><%= authors[index].name %></td>
-                                    <td>
-                                        <a class="delete-author" data-id-tacgia="<%= authors[index].id %>">
-                                            <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Xóa tác giả"></i>
-                                        </a>
-                                        <a class="edit-author" data-ten-tacgia="<%= authors[index].name %>"
-                                        data-id-tacgia="<%= authors[index].id %>">
-                                            <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Chỉnh sửa"></i>
-                                        </a>
-                                    </td>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên tác giả</th>
+                                    <th scope="col">Thao tác</th>
                                 </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <% for( let index = 0; index < authors.length; index++ ) { %>
+                                    <tr>
+                                        <td scope="row"><%= index + 1 %></td>
+                                        <td><%= authors[index].name %></td>
+                                        <td>
+                                            <a class="delete-author" data-id-tacgia="<%= authors[index].id %>">
+                                                <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Xóa tác giả"></i>
+                                            </a>
+                                            <a class="edit-author" data-ten-tacgia="<%= authors[index].name %>"
+                                            data-id-tacgia="<%= authors[index].id %>">
+                                                <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Chỉnh sửa"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

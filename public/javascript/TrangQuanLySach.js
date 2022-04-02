@@ -1,3 +1,10 @@
+$(document).ready( function () {
+    var dataTable = $('#table-sach').DataTable();
+    $('#searchBox').keyup(function(){
+        dataTable.search(this.value).draw()
+    })
+} );
+
 function OpenImgDialog() {
     $(document).ready(function () {
         $('#imgUpload').trigger('click');
