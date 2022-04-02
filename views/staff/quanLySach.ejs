@@ -34,96 +34,54 @@
         <div class="col-sm-9">
             <div id="ql-sach">
                 <div class="timkiem mb-2" style="min-height: 500px; position: relative;">
-                    <div class="row">
-                        <div class="col-sm-3">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
                             <a href="/quanLySach/create" class="nut-them-moi">
                                 <button class="nutbam">Thêm sách mới</button>
                             </a>
                         </div>
-                        <div class="col-sm-9">
-                            <form method="get" action="/quanLySach/timKiem">
-                                <div style="display: flex; justify-content: space-between;">
-                                    <select class="field" name="kieuTim" id="kieuTim" style="margin: 0; width: 24%; padding: 0.5px 1rem;">
-                                    <option value="1">Tên sách</option>
-                                    <option value="2">Tên tác giả</option>
-                                    </select>
-                                    <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0; width: 52%; padding: 0.5px 1rem;">
-                                    <button type="submit" class="nutbam">Tìm kiếm</button>
-                                </div>
-                            </form>
+                        <div class="col-sm-6">
+                            <div class="text-end">
+                                <input class="field" type="text" id="searchBox" name="tuKhoa"
+                                    placeholder="Nhập từ khóa tìm kiếm...">
+                            </div>
                         </div>
                     </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Ảnh bìa</th>
-                                <th scope="col">Tên sách</th>
-                                <th scope="col">Tác giả</th>
-                                <th scope="col">Số lượng</th>
-                                <th scope="col">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for( let i = 0; i < books.length; i++ ) { %>
+                    <div class="main-datatable">
+                        <table id="table-sach" class="table mb-3 cust-datatable dataTable no-footer">
+                            <thead>
                                 <tr>
-                                    <th scope="row"><%= 5*(current-1) + i + 1%> </th>
-                                    <td><img src="<%= books[i].coverImage %>" alt="<%= books[i].name %>"
-                                            class="img-fluid"></td>
-                                    <td><%= books[i].name %></td>
-                                    <td><%= books[i].author.name %></td>
-                                    <td><%= books[i].quantity %></td>
-                                    <td>
-                                        <a class="delete-book" data-id-book="<%= books[i].id %>">
-                                            <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Xóa sách"></i>
-                                        </a>
-                                        <a href="/quanLySach/edit/<%= books[i].id %>">
-                                            <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Chỉnh sửa sách"></i>
-                                        </a>
-                                    </td>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Ảnh bìa</th>
+                                    <th scope="col">Tên sách</th>
+                                    <th scope="col">Tác giả</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Thao tác</th>
                                 </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                    <div class="phan-trang">
-                        <% if (pages > 0) { %>
-                            <ul class="pagination justify-content-center">
-                                <% if (current == 1) { %>
-                                    <li class="disabled"><a class="page-link">
-                                        <span aria-hidden="true">&laquo;</span></a>
-                                    </li>
-                                <% } else { %>
-                                    <li><a class="page-link" href="/quanLySach/1">
-                                        <span aria-hidden="true">&laquo;</span></a>
-                                    </li>
+                            </thead>
+                            <tbody>
+                                <% for( let i = 0; i < books.length; i++ ) { %>
+                                    <tr>
+                                        <td scope="row"><%= i + 1%></th>
+                                        <td><img src="<%= books[i].coverImage %>" alt="<%= books[i].name %>"
+                                                class="img-fluid"></td>
+                                        <td><%= books[i].name %></td>
+                                        <td><%= books[i].author.name %></td>
+                                        <td><%= books[i].quantity %></td>
+                                        <td>
+                                            <a class="delete-book" data-id-book="<%= books[i].id %>">
+                                                <i class="fa-solid fa-trash-can action-book xoa" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Xóa sách"></i>
+                                            </a>
+                                            <a href="/quanLySach/edit/<%= books[i].id %>">
+                                                <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Chỉnh sửa sách"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 <% } %>
-                                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                                <% if (i !== 1) { %>
-                                    <li class="page-item active"><a class="page-link">...</a></li>
-                                <% } %>
-                                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                                    <% if (i == current) { %>
-                                        <li class="page-item active"><a class="page-link"><%= i %></a></li>
-                                    <% } else { %>
-                                        <li><a class="page-link" href="/quanLySach/<%= i %>"><%= i %></a></li>
-                                    <% } %>
-                                    <% if (i == Number(current) + 4 && i < pages) { %>
-                                        <li class="page-item active"><a class="page-link">...</a></li>
-                                    <% } %>
-                                <% } %>
-                                <% if (current == pages) { %>
-                                    <li class="disabled"><a class="page-link">
-                                        <span aria-hidden="true">&raquo;</span></a>
-                                    </li>
-                                <% } else { %>
-                                    <li><a class="page-link" href="/quanLySach/<%= pages %>">
-                                        <span aria-hidden="true">&raquo;</span></a>
-                                    </li>
-                                <% } %>
-                            </ul>
-                        <% } %>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
