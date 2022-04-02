@@ -5,38 +5,44 @@ const bcrypt = require('bcrypt')
 
 class QuanLyDocGiaController {
     //Load trang quản lý độc giả
-    async index(req,res){
-        var perPage = 10
-        var page = req.params.page || 1
+    async index(req, res) {
+        // var perPage = 10
+        // var page = req.params.page || 1
 
         const currentUser = await req.user
-        LibraryCard.find({})
-            .populate('accountId')
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function (err, readers) {
-                LibraryCard.count().exec(function (err, count) {
-                    if (err) return next(err)
-                    res.render('staff/quanLyDocGia', {
-                        currentUser: currentUser,
-                        readers: readers,
-                        current: page,
-                        pages: Math.ceil(count / perPage)
-                    });
-                })
-            })
+        // LibraryCard.find({})
+        //     .populate('accountId')
+        //     .skip((perPage * page) - perPage)
+        //     .limit(perPage)
+        //     .exec(function (err, readers) {
+        //         LibraryCard.count().exec(function (err, count) {
+        //             if (err) return next(err)
+        //             res.render('staff/quanLyDocGia', {
+        //                 currentUser: currentUser,
+        //                 readers: readers,
+        //                 current: page,
+        //                 pages: Math.ceil(count / perPage)
+        //             });
+        //         })
+        //     })
+        var readers = await LibraryCard.find({}).populate('accountId')
+        res.render('staff/quanLyDocGia', {
+            currentUser: currentUser,
+            readers: readers
+        });
+
     }
     //Load trang thêm độc giả
-    async loadCreate(req,res){
+    async loadCreate(req, res) {
         const currentUser = await req.user
-       res.render('staff/themDocGia',{
-           currentUser: currentUser
-       })
+        res.render('staff/themDocGia', {
+            currentUser: currentUser
+        })
     }
     //Thêm độc giả
-    async create(req, res){
+    async create(req, res) {
         try {
-            const roleUser = await Role.findOne({name: 'USER'})
+            const roleUser = await Role.findOne({ name: 'USER' })
             const hashPassword = await bcrypt.hash(req.body.password, 10)
             const account = new Account({
                 username: req.body.username,
@@ -49,9 +55,9 @@ class QuanLyDocGiaController {
                 email: req.body.email,
                 role: roleUser.id
             })
-            if(req.body.gender == 1){
-                account.img = 'https://res.cloudinary.com/cake-shop/image/upload/v1647313324/fhrml4yumdl42kk88jll.jpg' 
-            }else if(req.body. gender == 0){
+            if (req.body.gender == 1) {
+                account.img = 'https://res.cloudinary.com/cake-shop/image/upload/v1647313324/fhrml4yumdl42kk88jll.jpg'
+            } else if (req.body.gender == 0) {
                 account.img = 'https://res.cloudinary.com/cake-shop/image/upload/v1647313381/femaleAvatar_klsqxv.jpg'
             }
             const newAccount = await account.save()

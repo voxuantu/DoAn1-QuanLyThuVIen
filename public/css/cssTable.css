@@ -1,24 +1,74 @@
-.styled-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
-    text-align: left;
-}
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px;
-}
-.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
+.main-datatable .dataTable.no-footer {
+    border-bottom: 1px solid #eee;
 }
 
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+.main-datatable .cust-datatable thead {
+    background-color: #f9f9f9;
 }
 
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+.main-datatable .cust-datatable>thead>tr>th {
+    border-bottom-width: 0;
+    color: #443f3f;
+    font-weight: 600;
+    padding: 11px 9px;
+    padding-left: 18px;
+    vertical-align: middle;
+    text-align: center;
 }
-.styled-table tbody tr.active-row {
-    font-weight: bold;
-    color: #009879;
+
+.main-datatable .cust-datatable>tbody td {
+    color: #333232;
+    border-color: #eee;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.main-datatable .cust-datatable>tbody tr {
+    border-top: none;
+}
+
+.main-datatable .table > tbody > tr:nth-child(even){
+    background: #f9f9f9;
+}
+
+.main-datatable .dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #999999;
+    background-color: #f6f6f6;
+    border-color: #d4d4d4;
+    border-radius: 40px;
+    margin: 5px 3px;
+    padding: 5px 12px;
+    cursor: pointer;
+}
+
+.main-datatable .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    color: #fff;
+    border: 1px solid #3d96f5;
+    background: #4da3ff;
+    box-shadow: none;
+}
+
+.main-datatable .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.main-datatable .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    color: #fff;
+    border-color: transparent !important;
+    background: #007bff;
+}
+
+.main-datatable .dataTables_paginate {
+    padding-top: 0;
+    margin: 15px 10px;
+    text-align: end;
+}
+
+.dataTables_info{
+    display: none;
+}
+
+.dataTables_filter {
+    display: none;
+}
+
+.dataTables_length {
+    display: none;
 }
