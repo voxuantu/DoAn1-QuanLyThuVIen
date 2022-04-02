@@ -62,7 +62,7 @@
                                                     <span class="badge bg-danger text-wrap notifi-counter">7</span>
                                                 </i>
                                             </a>
-                                            <ul class="notifi-box dropdown-menu dropdown-menu-lg-end dropdown-menu-macos mx-0 border-0 shadow" aria-labelledby="dropdownNotify">
+                                            <ul id="notify-box" class="notifi-box dropdown-menu dropdown-menu-lg-end dropdown-menu-macos mx-0 border-0 shadow" aria-labelledby="dropdownNotify">
                                                 <li><h2>Thông báo <span>7</span></h2></li>
                                                 <li>
                                                     <div class="notifi-item">
@@ -136,3 +136,29 @@
         </div>
     </div>
 </header>
+<script defer>
+    var socket = io();
+
+    socket.on('show-notification', function(data){
+        appendNotification(data)
+    })
+
+    function appendNotification(data){
+        var content = "<li>"
+                    +        "<div class='notifi-item'>"
+                    +            "<img class='img-fluid rounded-circle ms-2 me-3' src='/icon/avatar.png' alt='avatar'>"
+                    +            "<div>"
+                    +                "<h5>"+ data.title +"</h5>"
+                    +                "<p>"+ data.message +"</p>"
+                    +            "</div>"
+                    +        "</div>"
+                    +    "</li>"
+        $('#notify-box').append(content)
+        $('.navbar-nav').append(`<button id='confirm'>${data.socketId}</button>`)
+        $('#confirm').click(function(){
+            //alert("hello")
+            socket.emit('send-notification-to-special-client', {title : 'Mượn sách', message : 'Chap nhan muon sach', socketId : data.socketId})
+        })
+    }
+   
+</script>

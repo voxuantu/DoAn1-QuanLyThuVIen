@@ -53,12 +53,12 @@
                     <p>Địa chỉ : <span><%= currentUser.address %></span></p>
                     <div class="row mb-2" style="text-align: center;">
                         <div class="col-sm-6">
-                            <form action="/gioSach/muonSach" method="post">
+                            <form id="FormMuonSach" action="/gioSach/muonSach" method="post">
                                 <button type="submit" class="btn btn-primary">Mượn sách</button>
                             </form>
                         </div>
                         <div class="col-sm-6">
-                            <form action="/gioSach/xoaHetSachKhoiGio" method="post">
+                            <form  action="/gioSach/xoaHetSachKhoiGio" method="post">
                                 <button type="submit" class="btn btn-danger">Xóa tất cả</button>
                             </form>
                         </div>
@@ -108,3 +108,4 @@ $(document).ready(function(){
     })
 })
 </script>
+<script defer src="/javascript/socket.js"></script>
