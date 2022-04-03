@@ -5,11 +5,9 @@ const bcrypt = require('bcrypt')
 class QuanLyNhanVienController {
     //Load trang quản lý nhân viên
     async index(req, res, next) {
-        var perPage = 10
-        var page = req.params.page || 1
 
         const currentUser = await req.user
-        Account.aggregate()
+        var staffs = await Account.aggregate()
             .lookup({
                 from: 'roles',
                 localField: 'role',
@@ -39,50 +37,11 @@ class QuanLyNhanVienController {
                 path: '$role',
                 preserveNullAndEmptyArrays: false
             })
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function (err, staffs) {
-                Account.aggregate()
-                .lookup({
-                    from: 'roles',
-                    localField: 'role',
-                    foreignField: '_id',
-                    as: 'role',
-                    let: {
-                        roleId: "$role"
-                    },
-                    pipeline: [
-                        {
-                            $match: {
-                                $expr: {
-                                    $and: [
-                                        {
-                                            $eq: ["$_id", "$$roleId"]
-                                        },
-                                        {
-                                            $in: ["$name", ['ADMIN','MOD1','MOD2']]
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    ]
-                })
-                .unwind({
-                    path: '$role',
-                    preserveNullAndEmptyArrays: false
-                })
-                .count('countRecord').exec(function (err, count) {
-                        if (err) return next(err)
-                        res.render('admin/quanLyNhanVien', {
-                            currentUser: currentUser,
-                            staffs: staffs,
-                            current: page,
-                            pages: Math.ceil(count[0].countRecord/ perPage)
-                        });
-                        //res.json(count[0].countRecord)
-                    })
-            })
+        res.render('admin/quanLyNhanVien', {
+            currentUser: currentUser,
+            staffs: staffs
+        });
+
     }
     //Load trang thêm nhân viên
     async loadCreate(req, res) {

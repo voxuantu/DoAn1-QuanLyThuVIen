@@ -26,7 +26,7 @@
     <div class="duong-dan-muc">
         <a href="/trangChu/1">Trang chủ</a>
         <i class="fa-solid fa-angle-right"></i>
-        <a href="/quanLySach/1">Quản độc giả</a>
+        <a href="/quanLyDocGia">Quản độc giả</a>
     </div>
     <div class="row">
         <div class="col-sm-2">
@@ -36,8 +36,8 @@
                 </div>
                 <div class="dstheloai">
                     <ul>
-                        <li><a href="/quanLySach/1">Độc giả</a></li>
-                        <li><a href="/quanLyNhanVien/1">Nhân viên</a></li>
+                        <li><a href="/quanLyDocGia">Độc giả</a></li>
+                        <li><a href="/quanLyNhanVien">Nhân viên</a></li>
                     </ul>
                 </div>
             </div>
@@ -100,12 +100,7 @@
 </div>
 
 <script src="/javascript/showToolTip.js"></script>
-<script>
-    $(document).ready( function () {
-        var dataTable = $('#table-doc-gia').DataTable();
-        $('#searchBox').keyup(function(){
-            dataTable.search(this.value).draw()
-        })
-    } );
-</script>
+<script src="/javascript/validator.js"></script>
+<script src="/javascript/quanLyDocGia.js"></script>
+
 <%- include('../particals/footer') %>

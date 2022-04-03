@@ -15,3 +15,9 @@ Validator({
     ]
 });
 
+$(document).ready( function () {
+    var dataTable = $('#table-doc-gia').DataTable();
+    $('#searchBox').keyup(function(){
+        dataTable.search(this.value).draw()
+    })
+} );

@@ -69,7 +69,6 @@ function OpenModelDaTraSach() {
     )
 }
 
-
 function showPhatHuHong(cb, coverPrice) {
     var phat = document.getElementById("phattien");
     var phathuhong = document.getElementById("phathuhong");
@@ -209,6 +208,7 @@ function isLate(hanTra) {
 function plusMoney(oldMoney, addedMoney) {
     return parseInt(oldMoney) + parseInt(addedMoney)
 }
+
 function minusMoney(oldMoney, deductedMoney) {
     var result = parseInt(oldMoney) - parseInt(deductedMoney)
     if (result < 0) {
@@ -216,3 +216,20 @@ function minusMoney(oldMoney, deductedMoney) {
     }
     return result
 }
+
+$(document).ready( function () {
+    var dataTableMuonSach = $('#table-muon-sach').DataTable();
+    $('#searchBoxMuonSach').keyup(function(){
+        dataTableMuonSach.search(this.value).draw()
+    })
+
+    var dataTableTraSach = $('#table-tra-sach').DataTable();
+    $('#searchBoxTraSach').keyup(function(){
+        dataTableTraSach.search(this.value).draw()
+    })
+
+    var dataTableDaTraSach = $('#table-da-tra-sach').DataTable();
+    $('#searchBoxDaTraSach').keyup(function(){
+        dataTableDaTraSach.search(this.value).draw()
+    })
+} );

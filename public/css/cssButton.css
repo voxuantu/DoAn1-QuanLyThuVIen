@@ -4,6 +4,7 @@
     border: 2px solid #31a2fa;
     padding: 5px 30px;
     border-radius: 5px;
+    transition: .3s;
 }
 .nutbam:hover{
     background-color: white;

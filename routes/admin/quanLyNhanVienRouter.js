@@ -3,7 +3,7 @@ const quanLyNhanVienController = require('../../controllers/admin/quanLyNhanVien
 const router = express.Router();
 
 router.get('/themNhanVien', quanLyNhanVienController.loadCreate)
-router.get('/:page', quanLyNhanVienController.index)
+router.get('/', quanLyNhanVienController.index)
 router.post('/themNhanVien', quanLyNhanVienController.create)
 
 module.exports = router;

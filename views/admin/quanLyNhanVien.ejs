@@ -20,7 +20,7 @@
     <div class="duong-dan-muc">
         <a href="/trangChu/1">Trang chủ</a>
         <i class="fa-solid fa-angle-right"></i>
-        <a href="/quanNhanVien/1">Quản lý nhân viên</a>
+        <a href="/quanLyNhanVien">Quản lý nhân viên</a>
     </div>
     <div class="row">
         <div class="col-sm-2">
@@ -30,8 +30,8 @@
                 </div>
                 <div class="dstheloai">
                     <ul>
-                        <li><a href="/quanLyDocGia/1">Độc giả</a></li>
-                        <li><a href="/quanLyNhanVien/1">Nhân viên</a></li>
+                        <li><a href="/quanLyDocGia">Độc giả</a></li>
+                        <li><a href="/quanLyNhanVien">Nhân viên</a></li>
                     </ul>
                 </div>
             </div>
@@ -39,103 +39,57 @@
         <div class="col-sm-10">
             <div id="ql-sach">
                 <div class="timkiem mb-2" style="min-height: 600px; position: relative; padding-bottom: 10px;">
-                    <div class="row">
-                        <div class="col-sm-3">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
                             <a href="/quanLyNhanVien/themNhanVien" class="nut-them-moi">
                                 <button class="nutbam">Thêm Nhân viên</button>
                             </a>
                         </div>
-                        <div class="col-sm-9">
-                            <div class="search_box_qlsach row">
-                                <form method="get" action="/quanLySach/timKiem">
-                                    <div class="input-group mb-3">
-                                        <select class="form-select" id="kieuTim" name="kieuTim">
-                                            <option value="1">Email</option>
-                                            <option value="2">Số điện thoại</option>
-                                            <option value="3">Tên độc giả</option>
-                                        </select>
-                                        <input class="form-control" type="text" id="searchBox" name="tuKhoa"
-                                            placeholder="Nhập từ khóa tìm kiếm...">
-                                        <button class="nutbam">Tìm</button>
-                                    </div>
-                                </form>
+                        <div class="col-sm-6">
+                            <div>
+                                <input class="field" type="text" id="searchBox" name="tuKhoa"
+                                    placeholder="Nhập từ khóa tìm kiếm...">
                             </div>
                         </div>
                     </div>
-                    <table class="table mb-3">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Tên nhân viên</th>
-                                <th scope="col">Số điện thoại</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Chức vụ</th>
-                                <th scope="col">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for( let i = 0; i < staffs.length; i++ ) { %>
+                    <div class="main-datatable">
+                        <table id="table-nhan-vien" class="table mb-3 cust-datatable dataTable no-footer">
+                            <thead>
                                 <tr>
-                                    <td><%= 10*(current-1) + i + 1%></td>
-                                    <td><%= staffs[i].displayName %></td>
-                                    <td><%= staffs[i].phone %></td>
-                                    <td><%= staffs[i].email %></td>
-                                    <td>
-                                        <% if (staffs[i].role.name == 'ADMIN') { %>
-                                            Quản trị viên
-                                        <% }else if (staffs[i].role.name == 'MOD1'){ %>
-                                            Thủ kho
-                                        <% }else if (staffs[i].role.name == 'MOD2'){ %>
-                                            Thủ thư
-                                        <% } %> 
-                                    </td>
-                                    <td>
-                                        <a>
-                                            <i class="fa-solid fa-ban" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Chặn người dùng"></i>
-                                        </a>
-                                    </td>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên nhân viên</th>
+                                    <th scope="col">Số điện thoại</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Chức vụ</th>
+                                    <th scope="col">Thao tác</th>
                                 </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                    <div class="phan-trang">
-                        <% if (pages > 0) { %>
-                            <ul class="pagination justify-content-center ">
-                                <% if (current == 1) { %>
-                                    <li class="disabled"><a class="page-link">
-                                        <span aria-hidden="true">&laquo;</span></a>
-                                    </li>
-                                <% } else { %>
-                                    <li><a class="page-link" href="/quanLyNhanVien/1">
-                                        <span aria-hidden="true">&laquo;</span></a>
-                                    </li>
+                            </thead>
+                            <tbody>
+                                <% for( let i = 0; i < staffs.length; i++ ) { %>
+                                    <tr>
+                                        <td><%=i + 1%></td>
+                                        <td><%= staffs[i].displayName %></td>
+                                        <td><%= staffs[i].phone %></td>
+                                        <td><%= staffs[i].email %></td>
+                                        <td>
+                                            <% if (staffs[i].role.name == 'ADMIN') { %>
+                                                Quản trị viên
+                                            <% }else if (staffs[i].role.name == 'MOD1'){ %>
+                                                Thủ kho
+                                            <% }else if (staffs[i].role.name == 'MOD2'){ %>
+                                                Thủ thư
+                                            <% } %> 
+                                        </td>
+                                        <td>
+                                            <a>
+                                                <i class="fa-solid fa-ban" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Chặn người dùng"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 <% } %>
-                                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                                <% if (i !== 1) { %>
-                                    <li class="page-item active"><a class="page-link">...</a></li>
-                                <% } %>
-                                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                                    <% if (i == current) { %>
-                                        <li class="page-item active"><a class="page-link"><%= i %></a></li>
-                                    <% } else { %>
-                                        <li><a class="page-link" href="/quanLyNhanVien/<%= i %>"><%= i %></a></li>
-                                    <% } %>
-                                    <% if (i == Number(current) + 4 && i < pages) { %>
-                                        <li class="page-item active"><a class="page-link">...</a></li>
-                                    <% } %>
-                                <% } %>
-                                <% if (current == pages) { %>
-                                    <li class="disabled"><a class="page-link">
-                                        <span aria-hidden="true">&raquo;</span></a>
-                                    </li>
-                                <% } else { %>
-                                    <li><a class="page-link" href="/quanLyNhanVien/<%= pages %>">
-                                        <span aria-hidden="true">&raquo;</span></a>
-                                    </li>
-                                <% } %>
-                            </ul>
-                        <% } %>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -144,4 +98,6 @@
 </div>
 
 <script src="/javascript/showToolTip.js"></script>
+<script src="/javascript/validator.js"></script>
+<script src="/javascript/quanLyNhanVien.js"></script>
 <%- include('../particals/footer') %>

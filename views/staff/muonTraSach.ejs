@@ -29,185 +29,146 @@
         <a href="/muonTraSach">Mượn trả sách</a>
     </div>
     <div class="timkiem">
-        <div class="row" style="padding-left: 20px; padding-right: 20px;">
-            <div class="title">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <h5>Tìm kiếm phiếu mượn</h5>
-            </div>
-            <div class="search_box row mb-3">
-                <div style="display: flex; justify-content: space-between;">
-                    <select class="field" name="kieuTim" id="kieuTim" style="margin: 0; width: 18%;">
-                      <option value="1">Tên người mượn</option>
-                      <option value="2">Mã mượn sách</option>
-                    </select>
-                    <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0; width: 68%;">
-                    <button type="submit" class="nutbam">Tìm kiếm</button>
+        <div class="row">
+            <div class="title mb-2">
+                <div class="col-sm-8 title">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <h5>Tìm kiếm phiếu mượn</h5>
+                </div>
+                <div class="col-sm-4">
+                    <input id="searchBoxMuonSach" type="text" placeholder="Nhập từ khóa..." class="field">
                 </div>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Mã mượn sách</th>
-                        <th>Tên người mượn</th>
-                        <th>Ngày mượn</th>
-                        <th>Xem sách mượn</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for( let i = 0; i < phieuDangXuLy.length; i++ ) { %>
-                        <% let user = phieuDangXuLy[i].libraryCard.accountId %>
+
+            <div class="main-datatable">
+                <table id="table-muon-sach" class="table cust-datatable dataTable no-footer">
+                    <thead>
                         <tr>
-                            <th scope="row">MS001</th>
-                            <td><%= user.displayName %></td>
-                            <td><%= phieuDangXuLy[i].dateBorrow.toISOString().split('T')[0] %></td>
-                            <td><button type="button" class="nutbam js-modal-muon-sach" data-book-borrowed="<%= phieuDangXuLy[i]._id %>">Xem sách mượn</button></td>
-                            <td>
-                                <div style="display: flex;">
-                                    <form action="/muonTraSach/choMuon" method="post">
-                                        <input type="text" name="borrowBookTicketId" value="<%= phieuDangXuLy[i].id %>" hidden>
-                                        <button type="submit" style="border-width: 0; background-color: white; padding: 0;" class="me-3"><i class="fa-regular fa-circle-check"></i></button>
-                                    </form>
-                                    <form action="/muonTraSach/choMuon?_method=DELETE" method="post">
-                                        <input type="text" name="borrowBookTicketId" value="<%= phieuDangXuLy[i].id %>" hidden>
-                                        <button style="border-width: 0; background-color: white; padding: 0;"><i class="fa-regular fa-circle-xmark"></i></button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th>Mã mượn sách</th>
+                            <th>Tên người mượn</th>
+                            <th>Ngày mượn</th>
+                            <th>Xem sách mượn</th>
+                            <th>Hành động</th>
                         </tr>
-                    <% } %>
-                </tbody>
-            </table>
-            <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
-              </ul>
+                    </thead>
+                    <tbody>
+                        <% for( let i = 0; i < phieuDangXuLy.length; i++ ) { %>
+                            <% let user = phieuDangXuLy[i].libraryCard.accountId %>
+                            <tr>
+                                <td scope="row">MS001</td>
+                                <td><%= user.displayName %></td>
+                                <td><%= phieuDangXuLy[i].dateBorrow.toISOString().split('T')[0] %></td>
+                                <td><button type="button" class="nutbam js-modal-muon-sach" data-book-borrowed="<%= phieuDangXuLy[i]._id %>">Xem sách mượn</button></td>
+                                <td>
+                                    <div style="display: flex;">
+                                        <form action="/muonTraSach/choMuon" method="post">
+                                            <input type="text" name="borrowBookTicketId" value="<%= phieuDangXuLy[i].id %>" hidden>
+                                            <button type="submit" style="border-width: 0; background-color: transparent; padding: 0;" class="me-3"><i class="fa-regular fa-circle-check"></i></button>
+                                        </form>
+                                        <form action="/muonTraSach/choMuon?_method=DELETE" method="post">
+                                            <input type="text" name="borrowBookTicketId" value="<%= phieuDangXuLy[i].id %>" hidden>
+                                            <button style="border-width: 0; background-color: transparent; padding: 0;"><i class="fa-regular fa-circle-xmark"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="timkiem">
         <div class="row" style="padding-left: 20px; padding-right: 20px;">
-            <div class="title">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <h5>Tìm kiếm phiếu trả sách</h5>
-            </div>
-            <div class="search_box row">
-                <div style="display: flex; justify-content: space-between;">
-                    <select class="field" name="kieuTim" id="kieuTim" style="margin: 0; width: 18%;">
-                      <option value="1">Tên người mượn</option>
-                      <option value="2">Mã mượn sách</option>
-                    </select>
-                    <input id="searchBox" type="text" class="field" name="tuKhoa" style="margin: 0; width: 68%;">
-                    <button type="submit" class="nutbam">Tìm kiếm</button>
+            <div class="title mb-2">
+                <div class="col-sm-8 title">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <h5>Tìm kiếm phiếu trả sách</h5>
+                </div>
+                <div class="col-sm-4">
+                    <input id="searchBoxTraSach" placeholder="Nhập từ khóa tìm kiếm" type="text" class="field">
                 </div>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Mã mượn sách</th>
-                        <th>Tên người mượn</th>
-                        <th>Ngày mượn</th>
-                        <th>Hạn trả</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for( let i = 0; i < phieuTraSach.length; i++ ) { %>
-                        <% let user = phieuTraSach[i].libraryCard.accountId %>
+            
+            <div class="main-datatable">
+                <table id="table-tra-sach" class="table cust-datatable dataTable no-footer">
+                    <thead>
                         <tr>
-                            <th scope="row">MS001</th>
-                            <td><%= user.displayName %></td>
-                            <td><%= phieuTraSach[i].dateBorrow.toISOString().split('T')[0] %></td>
-                            <td>
-                                <% if (subtractDays(addDays(phieuTraSach[i].dateBorrow, maxBorrowDates)) > 0 ) { %>
-                                    <mark class="da-tra"><%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
-                                <% }else{ %>
-                                    <mark class="dang-xu-ly"><%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
-                                <% } %>
-                            </td>
-                            <td>
-                                <button type="submit" class="nutbam js-modal-tra-sach" data-han-tra="<%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %>"
-                                data-borrow-book-ticket-id="<%=phieuTraSach[i].id%>">Trả sách</button>
-                            </td>
+                            <th>Mã mượn sách</th>
+                            <th>Tên người mượn</th>
+                            <th>Ngày mượn</th>
+                            <th>Hạn trả</th>
+                            <th>Hành động</th>
                         </tr>
-                    <% } %>
-                </tbody>
-            </table>
-            <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
-              </ul>
+                    </thead>
+                    <tbody>
+                        <% for( let i = 0; i < phieuTraSach.length; i++ ) { %>
+                            <% let user = phieuTraSach[i].libraryCard.accountId %>
+                            <tr>
+                                <td scope="row">MS001</td>
+                                <td><%= user.displayName %></td>
+                                <td><%= phieuTraSach[i].dateBorrow.toISOString().split('T')[0] %></td>
+                                <td>
+                                    <% if (subtractDays(addDays(phieuTraSach[i].dateBorrow, maxBorrowDates)) > 0 ) { %>
+                                        <mark class="da-tra"><%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
+                                    <% }else{ %>
+                                        <mark class="dang-xu-ly"><%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <button type="submit" class="nutbam js-modal-tra-sach" data-han-tra="<%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %>"
+                                    data-borrow-book-ticket-id="<%=phieuTraSach[i].id%>">Trả sách</button>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="timkiem">
         <div class="row" style="padding-left: 20px; padding-right: 20px;">
             <h5 style="text-align: center;">Lịch sử trả sách</h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Mã mượn sách</th>
-                        <th>Tên người mượn</th>
-                        <th>Ngày mượn</th>
-                        <th>Trạng thái trả</th>
-                        <th>Số sách trả</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">MS001</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>20/2/2022 10:15:20 AM</td>
-                        <td><mark class="dang-xu-ly">Trễ hẹn</mark></td>
-                        <td><mark class="da-tra">3/3</mark></td>
-                        <td><button type="button" class="nutbam" >Xem chi tiết</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS002</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>22/2/2022 10:15:20 AM</td>
-                        <td><mark class="dang-xu-ly">Trễ hẹn</mark></td>
-                        <td><mark class="da-tra">3/3</mark></td>
-                        <td><button type="button" class="nutbam">Xem chi tiết</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS003</th>
-                        <td>Võ Xuân Tú</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><mark class="da-tra">Đúng hẹn</mark></td>
-                        <td><mark class="dang-xu-ly">2/3</mark></td>
-                        <td><button type="button" class="nutbam">Xem chi tiết</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS004</th>
-                        <td>Nguyễn Văn A</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><mark class="dang-xu-ly">Trễ hẹn</mark></td>
-                        <td><mark class="dang-xu-ly">2/3</mark></td>
-                        <td><button type="button" class="nutbam">Xem chi tiết</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">MS005</th>
-                        <td>Nguyễn Văn B</td>
-                        <td>24/2/2022 10:15:20 AM</td>
-                        <td><mark class="da-tra">Đúng hẹn</mark></td>
-                        <td><mark class="da-tra">3/3</mark></td>
-                        <td><button type="button" class="nutbam">Xem chi tiết</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
-              </ul>
+            <div class="title mb-2">
+                <div class="col-sm-8"></div>
+                <div class="col-sm-4">
+                    <input id="searchBoxDaTraSach" placeholder="Nhập từ khóa tìm kiếm" type="text" class="field">
+                </div>
+            </div>
+            <div class="main-datatable">
+                <table id="table-da-tra-sach" class="table cust-datatable dataTable no-footer">
+                    <thead>
+                        <tr>
+                            <th>Mã mượn sách</th>
+                            <th>Tên người mượn</th>
+                            <th>Ngày mượn</th>
+                            <th>Trạng thái trả</th>
+                            <th>Số sách trả</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for( let i = 0; i < phieuDaTraSach.length; i++ ) { %>
+                            <tr>
+                                <td scope="row">MS001</td>
+                                <td><%= phieuDaTraSach[i].readerName %> </td>
+                                <td><%= phieuDaTraSach[i].dateBorrow.toISOString().split('T')[0] %> </td>
+                                <% if (phieuDaTraSach[i].statusBorrowBook == "Trễ hẹn") { %>
+                                    <td><mark class="dang-xu-ly">Trễ hẹn</mark></td>
+                                <% } else { %>
+                                    <td><mark class="da-tra">Đúng hẹn</mark></td>
+                                <% } %> 
+                                <% if (phieuDaTraSach[i].numberOfBooksReturnedBack < phieuDaTraSach[i].numberOfBookBorrowed) { %>
+                                    <td><mark class="dang-xu-ly"><%= phieuDaTraSach[i].numberOfBooksReturnedBack %>/<%= phieuDaTraSach[i].numberOfBookBorrowed %></mark></td>
+                                <% } else { %>
+                                    <td><mark class="da-tra"><%= phieuDaTraSach[i].numberOfBooksReturnedBack %>/<%= phieuDaTraSach[i].numberOfBookBorrowed %></mark></td>
+                                <% } %>
+                                <td><button type="button" class="nutbam" >Xem chi tiết</button></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <!-- modal muon sach -->
