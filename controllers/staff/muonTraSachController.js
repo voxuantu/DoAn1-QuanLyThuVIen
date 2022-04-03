@@ -21,13 +21,41 @@ class MuonTraSachController {
                                                         populate:{path: 'accountId'}
                                                     })
                                                     .sort({dateBorrow : 1})
+        const phieuDaTraSach = await BorrowBookTicket.find({statusBorrowBook: 'Đang mượn'})
+                                                    .populate({
+                                                        path: 'libraryCard',
+                                                        populate:{path: 'accountId'}
+                                                    })
+                                                    .sort({dateBorrow : 1})
+        var data = []
+        phieuDaTraSach.forEach(async element => {
+            var chiTietMuon = await DetailBorrowBookTicket.find({borrowBookTicketId : element._id})
+            var total = chiTietMuon.length
+            var count = 0
+            chiTietMuon.forEach(e => {
+                if(e.status = "Đã trả"){
+                    count++
+                }
+            })
+            var row = {
+                borrowBookTicketId : element._id,
+                readerName : element.libraryCard.accountId.displayName,
+                dateBorrow : element.dateBorrow,
+                statusBorrowBook : element.statusBorrowBook,
+                numberOfBooksReturnedBack : count,
+                numberOfBookBorrowed : total
+            }
+            data.push(row)
+        })
         const maxBorrowDates = await Regulation.findOne({name: 'Số ngày mượn tối đa/1 lần mượn'})
         res.render('staff/muonTraSach',{
             currentUser: currentUser,
             phieuDangXuLy: phieuDangXuLy,
             phieuTraSach: phieuTraSach,
+            phieuDaTraSach : data,
             maxBorrowDates: maxBorrowDates.value
         });
+        //res.json(data)
     }
     //cho mượn sách
     async lendBook(req,res){

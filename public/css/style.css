@@ -80,10 +80,7 @@ a {
 .timkiem .search_box{
     width: 100%;
 }
-.timkiem .search_box input{
-    border-radius: 5px;
-    width: 73%;
-}
+
 .timkiem .search_box select {
     border-radius: 5px;
     padding: 5px;

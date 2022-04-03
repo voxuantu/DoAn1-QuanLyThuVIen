@@ -15,3 +15,10 @@ Validator({
         Validator.isRequire('#FormThemMoi #birth'),
     ]
 });
+
+$(document).ready( function () {
+    var dataTable = $('#table-nhan-vien').DataTable();
+    $('#searchBox').keyup(function(){
+        dataTable.search(this.value).draw()
+    })
+});

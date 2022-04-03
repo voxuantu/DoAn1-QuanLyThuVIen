@@ -3,7 +3,7 @@ const quanLyDocGiaController = require('../../controllers/staff/quanLyDocGiaCont
 const router = express.Router();
 
 router.get('/themDocGia', quanLyDocGiaController.loadCreate)
-router.get('/:page', quanLyDocGiaController.index)
+router.get('/', quanLyDocGiaController.index)
 router.post('/themDocGia', quanLyDocGiaController.create)
 
 module.exports = router;

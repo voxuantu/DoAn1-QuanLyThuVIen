@@ -6,31 +6,12 @@ const bcrypt = require('bcrypt')
 class QuanLyDocGiaController {
     //Load trang quản lý độc giả
     async index(req, res) {
-        // var perPage = 10
-        // var page = req.params.page || 1
-
         const currentUser = await req.user
-        // LibraryCard.find({})
-        //     .populate('accountId')
-        //     .skip((perPage * page) - perPage)
-        //     .limit(perPage)
-        //     .exec(function (err, readers) {
-        //         LibraryCard.count().exec(function (err, count) {
-        //             if (err) return next(err)
-        //             res.render('staff/quanLyDocGia', {
-        //                 currentUser: currentUser,
-        //                 readers: readers,
-        //                 current: page,
-        //                 pages: Math.ceil(count / perPage)
-        //             });
-        //         })
-        //     })
         var readers = await LibraryCard.find({}).populate('accountId')
         res.render('staff/quanLyDocGia', {
             currentUser: currentUser,
             readers: readers
         });
-
     }
     //Load trang thêm độc giả
     async loadCreate(req, res) {
