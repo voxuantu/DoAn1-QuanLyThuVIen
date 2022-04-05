@@ -4,59 +4,44 @@ const Author = require('../../models/author')
 
 class IndexController {
     async index(req,res){
-        var perPage = 12
-        var page = req.params.page || 1
-
+        var page = 1
         const categories = await Category.find({})
         const currentUser = await req.user
         var cart = req.session.cart
-
-        Book.find({})
-            .populate('author')
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function (err, books) {
-                Book.count().exec(function (err, count) {
-                    if (err) return next(err)
-                    res.render('index', {
-                        cart: cart,
-                        currentUser: currentUser,
-                        books: books,
-                        categories : categories,
-                        current : page,
-                        categoryName : '',
-                        pages: Math.ceil(count / perPage)
-                    });
-                })
-            })
+        const books = await Book.find({})
+                                .populate('author')
+                                .skip((12*page)-12)
+                                .limit(12)
+        const url = '/api/laySach?&page=';
+        
+        res.render('index', {
+            cart: cart,
+            currentUser : currentUser,
+            categories: categories,
+            books: books,
+            url: url
+        })
     }
     async filter(req, res){
-        var perPage = 12
-        var page = req.params.page || 1
-
+        var page = 1
         var cart = req.session.cart
         var categoryName = req.params.category
         const categories = await Category.find({})
         const currentUser = await req.user
         const category = await Category.findOne({name : categoryName})
-        Book.find({category : category._id})
-            .populate('author')
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function (err, books) {
-                Book.find({category : category._id}).count().exec(function (err, count) {
-                    if (err) return next(err)
-                    res.render('index', {
-                        cart: cart,
-                        currentUser: currentUser,
-                        books: books,
-                        categories : categories,
-                        categoryName : categoryName,
-                        current : page,
-                        pages: Math.ceil(count / perPage)
-                    });
-                })
-            })
+        const books = await Book.find({category: category._id})
+                                        .populate('author')
+                                        .skip((12*page)-12)
+                                        .limit(12)
+        const url = '/api/laySach?category='+categoryName+'&page=';
+        res.render('index',{
+            cart: cart,
+            currentUser: currentUser,
+            books: books,
+            categories: categories,
+            url: url
+        })
+        
     }
     logout(req, res){
         req.logOut()
@@ -64,8 +49,7 @@ class IndexController {
         res.redirect('/dangNhap')
     }
     async search(req, res){
-        var perPage = 12
-        var page = req.params.page || 1
+        let page = 1
         var cart = req.session.cart
 
         const categories = await Category.find({})
@@ -73,46 +57,27 @@ class IndexController {
 
         var kieuTim = req.query.kieuTim
         var tuKhoa = req.query.tuKhoa
-        
+        let books
         if(kieuTim == 1){
-            Book.find({name : {$regex: tuKhoa, $options: 'i'}})
-            .populate('author')
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function (err, books) {
-                Book.find({name : {$regex: tuKhoa, $options: 'i'}}).count().exec(function (err, count) {
-                    if (err) return next(err)
-                    res.render('index', {
-                        cart : cart,
-                        currentUser: currentUser,
-                        books: books,
-                        categories : categories,
-                        categoryName : '',
-                        current : page,
-                        pages: Math.ceil(count / perPage)
-                    });
-                })
-            })
+            books = await Book.find({name: {$regex: tuKhoa, $options: 'i'}})
+                                            .populate('author')
+                                            .skip((12*page)-12)
+                                            .limit(12)
         } else if(kieuTim == 2){
-            const author = await Author.findOne({name : {$regex : tuKhoa, $options : 'i'}})
-            Book.find({author : author._id})
-            .populate('author')
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function (err, books) {
-                Book.find({author : author._id}).count().exec(function (err, count) {
-                    if (err) return next(err)
-                    res.render('index', {
-                        currentUser: currentUser,
-                        books: books,
-                        categories : categories,
-                        categoryName : '',
-                        current : page,
-                        pages: Math.ceil(count / perPage)
-                    });
-                })
-            })
+            const author = await Author.findOne({name: {$regex: tuKhoa, $options: 'i'}})
+            books = await Book.find({author : author._id})
+                                    .populate('author')
+                                    .skip((12*page)-12)
+                                    .limit(12)
         }
+        const url = '/api/laySach?filter='+tuKhoa+'&filterType='+kieuTim+'&page=';
+        res.render('index',{
+            cart: cart,
+            currentUser: currentUser,
+            books: books,
+            categories: categories,
+            url: url
+        })
     }
     async autocomplete(req,res){
         var regex = new RegExp(req.query["term"],'i')

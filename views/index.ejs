@@ -61,7 +61,7 @@
                 <div class="dstheloai">
                     <ul>
                         <% categories.forEach(element=> { %>
-                            <li><a href="/trangChu/<%= element.name %>/1">
+                            <li><a href="/trangChu/<%= element.name %>">
                                     <%= element.name %>
                                 </a></li>
                             <% }) %>
@@ -80,7 +80,7 @@
             </div>
         </div>
         <div class="col-sm-9" style="position: relative;">
-            <div class="row">
+            <div class="row js-display-books">
                 <% books.forEach(element=> { %>
                     <div class="card-container col-sm-3">
                         <div class="card-base">
@@ -95,87 +95,15 @@
                                     <%= element.name %>
                                 </div>
                                 <div class="limit-text tac-gia"><i class="fa-solid fa-user"></i>
-                                    <%= element.author.name %>
+                                    <%= element.author %>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <% }) %>
             </div>
-            <div class="phan-trang">
-                <% if (pages> 0) { %>
-                    <ul class="pagination justify-content-center">
-                        <% var filter='' %>
-                            <% if (categoryName !='' ) { %>
-                                <% filter +='/' + categoryName %>
-                                    <% } %>
-                                        <% if (current==1) { %>
-                                            <li class="disabled"><a class="page-link">
-                                                    <span aria-hidden="true">&laquo;</span></a>
-                                            </li>
-                                            <% } else { %>
-                                                <li><a class="page-link"
-                                                        href="/trangChu/<%= filter %>/1">
-                                                        <span
-                                                            aria-hidden="true">&laquo;</span></a>
-                                                </li>
-                                                <% } %>
-                                                    <% var i=(Number(current)> 5 ?
-                                                        Number(current) - 4 : 1) %>
-                                                        <% if (i !==1) { %>
-                                                            <li class="page-item active"><a
-                                                                    class="page-link">...</a>
-                                                            </li>
-                                                            <% } %>
-                                                                <% for (; i <=(Number(current) +
-                                                                    4) && i <=pages; i++) { %>
-                                                                    <% if (i==current) { %>
-                                                                        <li
-                                                                            class="page-item active">
-                                                                            <a
-                                                                                class="page-link">
-                                                                                <%= i %>
-                                                                            </a></li>
-                                                                        <% } else { %>
-                                                                            <li><a class="page-link"
-                                                                                    href="/trangChu/<%= filter %>/<%= i %>">
-                                                                                    <%= i %>
-                                                                                </a></li>
-                                                                            <% } %>
-                                                                                <% if
-                                                                                    (i==Number(current)
-                                                                                    + 4 && i <
-                                                                                    pages) { %>
-                                                                                    <li
-                                                                                        class="page-item active">
-                                                                                        <a
-                                                                                            class="page-link">...</a>
-                                                                                    </li>
-                                                                                    <% } %>
-                                                                                        <% } %>
-                                                                                            <% if
-                                                                                                (current==pages)
-                                                                                                {
-                                                                                                %>
-                                                                                                <li
-                                                                                                    class="disabled">
-                                                                                                    <a
-                                                                                                        class="page-link">
-                                                                                                        <span
-                                                                                                            aria-hidden="true">&raquo;</span></a>
-                                                                                                </li>
-                                                                                                <% } else
-                                                                                                    {
-                                                                                                    %>
-                                                                                                    <li><a class="page-link"
-                                                                                                            href="/trangChu/<%= filter %>/<%= pages %>">
-                                                                                                            <span
-                                                                                                                aria-hidden="true">&raquo;</span></a>
-                                                                                                    </li>
-                                                                                                    <% }
-                                                                                                        %>
-                    </ul>
-                    <% } %>
+            <div class="text-center">
+                <button id="load-more-btn" class="nutbam js-load-more" data-url ="<%- url %>">Xem thêm</button>
             </div>
         </div>
     </div>
