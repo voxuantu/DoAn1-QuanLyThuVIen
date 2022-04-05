@@ -2,12 +2,14 @@ const {bufferUpload} = require('../../utils/uploadImage')
 const Account = require('../../models/account')
 const BorrowBookTicket = require('../../models/borrowBookTicket')
 const Regulation = require('../../models/regulation')
+const LibraryCard = require('../../models/libraryCard')
 
 class TrangCaNhanController {
     async index(req, res) {
         const currentUser = await req.user
+        const libraryCard = await LibraryCard.findOne({accountId: currentUser._id})
         var cart = req.session.cart
-        const borrowBookCard = await BorrowBookTicket.aggregate().lookup({
+        const borrowBookCard = await BorrowBookTicket.aggregate().match({libraryCard: libraryCard._id}).lookup({
             from: 'detailborrowbooks',
             localField: '_id',
             foreignField: 'borrowBookTicketId',

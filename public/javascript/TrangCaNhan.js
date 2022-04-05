@@ -1,3 +1,7 @@
+$(document).ready( function () {
+    $('#table-lich-su-muon-sach').DataTable();
+} );
+
 var down = false;
 
 function toggleEdit() {
@@ -46,6 +50,7 @@ function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals) {
                 $('.modal-dang-xu-ly').modal('show');
             }else if ( status == "Đang mượn"){
                 $(".modal-dang-muon-sach tbody tr").remove()
+                $(".modal-dang-muon-sach .modal-footer button").remove()
                 for (let i = 0; i < bookBorrow.length; i++) {
                     const book = bookBorrow[i].bookId;
                    
