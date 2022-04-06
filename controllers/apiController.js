@@ -197,6 +197,7 @@ class APIController {
             numberOfReturnedBooks : count,
             fineMoney : fineTicket ? fineTicket.fine : 0
         })
+    }
     //Lấy sách theo load more
     async getBooks(req, res){
         var page = req.query.page;
