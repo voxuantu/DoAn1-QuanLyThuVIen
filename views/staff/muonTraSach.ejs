@@ -57,7 +57,7 @@
                             <tr>
                                 <td scope="row">MS001</td>
                                 <td><%= user.displayName %></td>
-                                <td><%= phieuDangXuLy[i].dateBorrow.toISOString().split('T')[0] %></td>
+                                <td><%= new Date(phieuDangXuLy[i].dateBorrow).toLocaleDateString('vi-VN') %></td>
                                 <td><button type="button" class="nutbam js-modal-muon-sach" data-book-borrowed="<%= phieuDangXuLy[i]._id %>">Xem sách mượn</button></td>
                                 <td>
                                     <div style="display: flex;">
@@ -107,12 +107,12 @@
                             <tr>
                                 <td scope="row">MS001</td>
                                 <td><%= user.displayName %></td>
-                                <td><%= phieuTraSach[i].dateBorrow.toISOString().split('T')[0] %></td>
+                                <td><%= new Date(phieuTraSach[i].dateBorrow).toLocaleDateString('vi-VN') %></td>
                                 <td>
                                     <% if (subtractDays(addDays(phieuTraSach[i].dateBorrow, maxBorrowDates)) > 0 ) { %>
-                                        <mark class="da-tra"><%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
+                                        <mark class="da-tra"><%= new Date(addDays(phieuTraSach[i].dateBorrow, maxBorrowDates)).toLocaleDateString('vi-VN') %></mark>
                                     <% }else{ %>
-                                        <mark class="dang-xu-ly"><%= addDays(phieuTraSach[i].dateBorrow, maxBorrowDates).toISOString().split('T')[0] %></mark>
+                                        <mark class="dang-xu-ly"><%= new Date(addDays(phieuTraSach[i].dateBorrow, maxBorrowDates)).toLocaleDateString('vi-VN') %></mark>
                                     <% } %>
                                 </td>
                                 <td>
@@ -152,7 +152,7 @@
                             <tr>
                                 <td scope="row">MS001</td>
                                 <td><%= phieuDaTraSach[i].readerName %> </td>
-                                <td><%= phieuDaTraSach[i].dateBorrow.toISOString().split('T')[0] %> </td>
+                                <td><%= new Date(phieuDaTraSach[i].dateBorrow).toLocaleDateString('vi-VN') %> </td>
                                 <% if (phieuDaTraSach[i].statusBorrowBook == "Trễ hẹn") { %>
                                     <td><mark class="dang-xu-ly">Trễ hẹn</mark></td>
                                 <% } else { %>
@@ -163,7 +163,7 @@
                                 <% } else { %>
                                     <td><mark class="da-tra"><%= phieuDaTraSach[i].numberOfBooksReturnedBack %>/<%= phieuDaTraSach[i].numberOfBookBorrowed %></mark></td>
                                 <% } %>
-                                <td><button type="button" class="nutbam" >Xem chi tiết</button></td>
+                                <td><button type="button" class="nutbam js-modal-da-tra-sach" data-borrow-book-ticket-id="<%= phieuDaTraSach[i].borrowBookTicketId %>">Xem chi tiết</button></td>
                             </tr>
                         <% } %>
                     </tbody>
@@ -239,39 +239,22 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-7 main-datatable">
                             <h5>Sách đã trả</h5>
-                            <table class="table">
+                            <table class="table cust-datatable dataTable no-footer">
                                 <thead>
                                     <tr>
-                                        <th scope="col"><input class="form-check-input" type="checkbox" checked onclick="CheckAllBook()"></th>
                                         <th scope="col">Ảnh bìa</th>
                                         <th scope="col">Tên sách</th>
+                                        <th scope="col">Ngày trả</th>
+                                        <th scope="col">Tình trạng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td scope="row"><input class="form-check-input" type="checkbox" checked></td>
-                                        <td><img src="/Book image/BupBeRaggedyAnn.jpg" alt="BupBeRaggedyAnn"
-                                                class="img-fluid"></td>
-                                        <td>Búp bê Rangged An</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row"><input class="form-check-input" type="checkbox" checked></td>
-                                        <td><img src="/Book image/ChoDenMauGiaoThiDaMuon.jpg" alt="ChoDenMauGiaoThiDaMuon"
-                                                class="img-fluid"></td>
-                                        <td>Cho đến mẫu giáo thì đã muônn</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row"><input class="form-check-input" type="checkbox" checked></td>
-                                        <td><img src="/Book image/ChoToiXinMotVeDiTuoiTho.jpg" alt="ChoToiXinMotVeDiTuoiTho"
-                                                class="img-fluid"></td>
-                                        <td>Cho tôi xin một vé đi tuổi thơ</td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-5" id="thong-tin-khac">
                             <h5>Thông tin khác</h5>
                             <p>Mã mượn sách : MS001</p>
                             <p>Họ và tên : Võ Xuân Tú</p>
