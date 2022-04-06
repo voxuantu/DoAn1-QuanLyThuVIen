@@ -10,6 +10,7 @@ router.post('/doiMatKhau',  apiController.DoiMatKhau)
 
 router.post('/kiemTraNguoiDung', apiController.kiemTraNguoiDung)
 router.post('/layChiTietPhieuMuon', apiController.layChiTietPhieuMuon)
+router.post('/layChiTietPhieuTra', apiController.layChiTietPhieuTra)
 router.post('/giaHanSach', apiController.giaHanSash)
 router.get('/laySach', apiController.getBooks)
 

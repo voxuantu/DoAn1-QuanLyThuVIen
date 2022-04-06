@@ -10,6 +10,7 @@ const Book = require('../models/book')
 const Category = require('../models/category')
 const Author = require('../models/author')
 const urlHelper = require('../utils/url')
+const FineTicket = require('../models/fineTicket')
 
 class APIController {
     async LayMa(req, res) {
@@ -84,11 +85,16 @@ class APIController {
         try {
             const numberOfRenewals = await Regulation.findOne({name: 'Số lần gia hạn sách'})
             const borrowBookTicket = await BorrowBookTicket.findById(req.body.id)
+            var fineTicket
+            if(borrowBookTicket.fineTicket != null){
+                fineTicket = await FineTicket.findById(borrowBookTicket.fineTicket)
+            }
             const bookBorrow = await DetailBorrowBookTicket.find({borrowBookTicketId: req.body.id}).populate('bookId')
             res.json({
                 numberOfRenewals: numberOfRenewals.value,
                 borrowBookTicket: borrowBookTicket,
-                bookBorrow: bookBorrow
+                bookBorrow: bookBorrow,
+                fine : fineTicket ? fineTicket.fine : 0
             })
         } catch (error) {
             console.log(error)
@@ -159,6 +165,38 @@ class APIController {
         }
 
     }
+    async layChiTietPhieuTra(req, res){
+        var borrowBookTicketId = req.body.id
+        const borrowedBooks = await DetailBorrowBookTicket.find({borrowBookTicketId : borrowBookTicketId}).populate('bookId')
+        var data = []
+        var count = 0;
+        borrowedBooks.forEach(e => {
+            var row = {
+                bookName : e.bookId.name,
+                img : e.bookId.coverImage,
+                state : e.status,
+                daveGiveBack : e.dateGiveBack
+            }
+            data.push(row)
+            if(e.status == "Đã trả"){
+                count++
+            }
+        })
+        const borrowBookTicket = await BorrowBookTicket.findById(borrowBookTicketId)
+        const libraryCard = await LibraryCard.findById(borrowBookTicket.libraryCard).populate('accountId')
+        var fineTicket = null
+        if(borrowBookTicket.fineTicket != null){
+            fineTicket = await FineTicket.findById(borrowBookTicket.fineTicket)
+        }
+        res.json({
+            borrowedBooks : data,
+            reader : libraryCard.accountId.displayName,
+            state : borrowBookTicket.status,
+            dateBorrow : borrowBookTicket.dateBorrow,
+            numberOfBooksBorrowed : borrowedBooks.length,
+            numberOfReturnedBooks : count,
+            fineMoney : fineTicket ? fineTicket.fine : 0
+        })
     //Lấy sách theo load more
     async getBooks(req, res){
         var page = req.query.page;

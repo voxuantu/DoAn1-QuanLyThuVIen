@@ -21,7 +21,7 @@ class MuonTraSachController {
                                                         populate:{path: 'accountId'}
                                                     })
                                                     .sort({dateBorrow : 1})
-        const phieuDaTraSach = await BorrowBookTicket.find({statusBorrowBook: 'Đang mượn'})
+        const phieuDaTraSach = await BorrowBookTicket.find({statusBorrowBook: 'Đã trả'})
                                                     .populate({
                                                         path: 'libraryCard',
                                                         populate:{path: 'accountId'}
@@ -33,7 +33,7 @@ class MuonTraSachController {
             var total = chiTietMuon.length
             var count = 0
             chiTietMuon.forEach(e => {
-                if(e.status = "Đã trả"){
+                if(e.status == "Đã trả"){
                     count++
                 }
             })
@@ -106,16 +106,32 @@ class MuonTraSachController {
             });
             var tienphat = parseInt(req.body.tienphat)
             if(tienphat > 0){
-                var fineTicket = new FineTicket({
-                    dateFine : now,
-                    fine : tienphat
-                })
-                fineTicket = await fineTicket.save()
+                var borrowBookTicket = await BorrowBookTicket.findById(borrowTicketId)
+                if(borrowBookTicket.fineTicket == null){
+                    var fineTicket = new FineTicket({
+                        dateFine : now,
+                        fine : tienphat
+                    })
+                    fineTicket = await fineTicket.save()
+                } else {
+                    var fineTicket = await FineTicket.findOneAndUpdate({
+                        _id : borrowBookTicket.fineTicket
+                    }, {
+                        dateFine : now,
+                        fine : tienphat
+                    })
+                }
 
                 await  BorrowBookTicket.findOneAndUpdate({_id : borrowTicketId}, {fineTicket : fineTicket._id})
             }
-            var sosachmuon = await DetailBorrowBookTicket.find({borrowBookTicketId : borrowTicketId}).count()
-            if(sachtra.length == sosachmuon){
+            var sosachtra = 0
+            var sachmuon = await DetailBorrowBookTicket.find({borrowBookTicketId : borrowTicketId})
+            sachmuon.forEach(e => {
+                if(e.status != "Đang mượn"){
+                    sosachtra++
+                }
+            })
+            if(sosachtra == sachmuon.length){
                 await  BorrowBookTicket.findOneAndUpdate({_id : borrowTicketId}, {statusBorrowBook : "Đã trả"})
             }
             res.json("Trả sách thành công")

@@ -33,7 +33,7 @@
                     <div class="col-sm-6">
                         <h6>Nhà cung cấp : <span style="color: blue;"><%= book.bookPublisher.name %></span></h6>
                         <h6>Tác giả : <span style="color: blue;"><%= book.author.name %> </span></h6>
-                        <h6>Giá bìa : <span style="color: red;"><%= numberWithDot(book.coverPrice) %> đ</span></h6>
+                        <h6>Giá bìa : <span style="color: red;"><%= (book.coverPrice).toLocaleString('vi-VN') %> đ</span></h6>
                     </div>
                     <div class="col-sm-6">
                         <h6>Số trang : <span><%= book.pageCount %></span></h6>
@@ -106,7 +106,4 @@
     </div>
 </div>
 <%- include('../particals/footer') %>
-<% function numberWithDot(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-} %> 
 <script src="/javascript/TrangChu.js"></script>
