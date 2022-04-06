@@ -2,6 +2,7 @@ const { bufferUpload } = require('../../utils/uploadImage')
 const Account = require('../../models/account')
 const BorrowBookTicket = require('../../models/borrowBookTicket')
 const Regulation = require('../../models/regulation')
+const LibraryCard = require('../../models/libraryCard')
 
 class TrangCaNhanController {
     async index(req, res) {

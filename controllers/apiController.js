@@ -6,6 +6,9 @@ const DetailBorrowBookTicket = require('../models/detailBorrowBookTicket')
 const BorrowBookTicket = require('../models/borrowBookTicket')
 const LibraryCard = require('../models/libraryCard')
 const Regulation = require('../models/regulation')
+const Book = require('../models/book')
+const Category = require('../models/category')
+const Author = require('../models/author')
 const urlHelper = require('../utils/url')
 const FineTicket = require('../models/fineTicket')
 
@@ -194,6 +197,60 @@ class APIController {
             numberOfReturnedBooks : count,
             fineMoney : fineTicket ? fineTicket.fine : 0
         })
+    //Lấy sách theo load more
+    async getBooks(req, res){
+        var page = req.query.page;
+        var categoryName = req.query.category;
+        var filter = req.query.filter;
+        var filterType = req.query.filterType;
+        console.log(page)
+        console.log(categoryName)
+        console.log(filter)
+        console.log(filterType)
+        if(page == null){
+            page = 1
+        }
+        try {
+            let books
+            if(categoryName != null){
+                const category = await Category.findOne({name: categoryName})
+                books = await Book.find({category: category._id})
+                                        .populate('author')
+                                        .skip((12*page)-12)
+                                        .limit(12)
+            }else if(filter != null){
+                if(filterType == 1){
+                    books = await Book.find({name: {$regex: filter, $options: 'i'}})
+                                            .populate('author')
+                                            .skip((12*page)-12)
+                                            .limit(12)
+                }else if(filterType == 2){
+                    const author = await Author.findOne({name: {$regex: filter, $options: 'i'}})
+                    books = await Book.find({author : author._id})
+                                            .populate('author')
+                                            .skip((12*page)-12)
+                                            .limit(12)
+                }
+            }else{
+                books = await Book.find({})
+                                        .populate('author')
+                                        .skip((12*page)-12)
+                                        .limit(12)
+            }
+            var dataBooks = []
+            books.forEach(e => {
+                var row = {
+                    id: e._id,
+                    bookName: e.name,
+                    coverImage: e.coverImage,
+                    author: e.author.name
+                }
+                dataBooks.push(row)
+            });
+            res.json(dataBooks)
+        } catch (error) {
+            console.log(error)   
+        }
     }
 }
 
