@@ -43,7 +43,7 @@
                         <option value="2">Tên tác giả</option>
                     </select>
                     <input id="searchBox" type="text" class="field" name="tuKhoa"
-                        style="margin: 0;">
+                        style="margin: 0; width: 74%;">
                     <button type="submit" class="nutbam">Tìm kiếm</button>
                 </div>
             </div>
@@ -87,15 +87,17 @@
                             <a href="/chiTietSach/<%= element.id %>"><img
                                     class="img-fluid img-card"
                                     src="<%= element.coverImage %>"></a>
-                            <button class="btn-base js-muon-sach"
-                                data-id-book="<%= element.id %>">Mượn sách</button>
+                            <form action="/gioSach/themSachVaoGio" method="post">
+                                <input type="text" name="id" value="<%= element.id %>" hidden>
+                                <button class="btn-base js-muon-sach">Mượn sách</button>
+                            </form>
                             <div class="text-content">
                                 <div class="limit-text ten-sach"><i
                                         class="fa-solid fa-book"></i>
                                     <%= element.name %>
                                 </div>
                                 <div class="limit-text tac-gia"><i class="fa-solid fa-user"></i>
-                                    <%= element.author %>
+                                    <%= element.author.name %>
                                 </div>
                             </div>
                         </div>

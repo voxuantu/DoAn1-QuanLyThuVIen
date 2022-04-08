@@ -12,5 +12,8 @@ router.post('/kiemTraNguoiDung', apiController.kiemTraNguoiDung)
 router.post('/layChiTietPhieuMuon', apiController.layChiTietPhieuMuon)
 router.post('/giaHanSach', apiController.giaHanSash)
 router.get('/laySach', apiController.getBooks)
+router.get('/laySoLuotMuonSachTheoThang', apiController.getNumberOfBorrowBooksByMonth)
+router.get('/laySoTienPhatTheoThang', apiController.getFineByMonth)
+router.get('/layTop10SachMuonNhieuTrongTuan', apiController.getTop10OfBorrowedBook)
 
 module.exports = router;

@@ -9,6 +9,7 @@ const Regulation = require('../models/regulation')
 const Book = require('../models/book')
 const Category = require('../models/category')
 const Author = require('../models/author')
+const FineTicket = require('../models/fineTicket')
 const urlHelper = require('../utils/url')
 
 class APIController {
@@ -213,6 +214,125 @@ class APIController {
         } catch (error) {
             console.log(error)   
         }
+    }
+    //Lấy số lượt mượn sách theo tháng
+    async getNumberOfBorrowBooksByMonth(req, res){
+        var data = []
+        let date = new Date()
+        for (let i = 0; i < 12; i++) {
+           let begin = date.getFullYear() + '/' + (i+1) + '/1'
+           let end
+           if(i < 11){
+                end = date.getFullYear() + '/' + (i+2) +'/1'
+           }else{
+                end = (date.getFullYear() + 1) + '/1/1'
+           }
+           
+           let count = await BorrowBookTicket.countDocuments({dateBorrow : {$gte : begin, $lt: end}})
+           data.push(count) 
+        }
+        res.json(data)
+    }
+    //Lấy số tiền phạt theo tháng
+    async getFineByMonth(req, res){
+        var data = []
+        let date = new Date()
+        for (let i = 0; i < 12; i++) {
+           let begin = date.getFullYear() + '/' + (i+1) + '/1'
+           let end
+           if(i < 11){
+                end = date.getFullYear() + '/' + (i+2) +'/1'
+           }else{
+                end = (date.getFullYear() + 1) + '/1/1'
+           }
+           
+           let count = await FineTicket.countDocuments({dateFine : {$gte : begin, $lt: end}})
+           data.push(count) 
+        }
+        res.json(data)
+    }
+    //Lấy top 10 sách mượn nhiều nhất trong tuần
+    async getTop10OfBorrowedBook(req,res){
+        var data = []
+        let date = new Date()
+        let monday = new Date()
+        switch (date.getDay()) {
+            case 0:
+                monday.setDate(date.getDate() - 6)
+                break;
+            case 1: 
+                monday.setDate(date.getDate())
+                break;
+            case 2: 
+                monday.setDate(date.getDate() - 1)
+                break;
+            case 3: 
+                monday.setDate(date.getDate() - 2)
+                break;
+            case 4: 
+                monday.setDate(date.getDate() - 3)
+                break;
+            case 5: 
+                monday.setDate(date.getDate() - 4)
+                break;
+            case 6: 
+                monday.setDate(date.getDate() - 5)
+                break;
+            default:
+                break;
+        }
+        let sunday = new Date()
+        switch (date.getDay()) {
+            case 0:
+                sunday.setDate(date.setDate())
+                break;
+            case 1:  
+                sunday.setDate(date.getDate() + 6)
+                break;
+            case 2: 
+                sunday.setDate(date.getDate() + 5)
+                break;
+            case 3: 
+                sunday.setDate(date.getDate() + 4)
+                break;
+            case 4: 
+                sunday.setDate(date.getDate() + 3)
+                break;
+            case 5: 
+                sunday.setDate(date.getDate() + 2)
+                break;
+            case 6: 
+                sunday.setDate(date.getDate() + 1)
+                break;
+            default:
+                break;
+        }
+        const chiTietMuonSach = await DetailBorrowBookTicket.find({})
+                                            .populate({
+                                                path: 'borrowBookTicketId',
+                                                match: {dateBorrow: {$gte: monday, $lte: sunday}},
+                                                select: 'dateBorrow'
+                                            })
+                                            .populate('bookId', 'name')
+        chiTietMuonSach.forEach(e => {
+            var isExist = false
+           for (let i = 0; i < data.length; i++) {
+               if(data[i].bookName == e.bookId.name){
+                   data[i].count +=1
+                   isExist = true
+               }
+           }
+           if(!isExist){
+               var row = {
+                   bookName: e.bookId.name,
+                   count : 1
+               }
+               data.push(row)
+           }
+        });
+        res.json({
+            'data': data
+        })
     }
 }
 

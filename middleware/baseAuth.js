@@ -17,7 +17,7 @@ const checkPermissions = permissions => {
 }
 async function checkNotAuthenticated(req, res, next){
     if(req.isAuthenticated()){
-      res.redirect('/trangChu/1')
+      res.redirect('/trangChu')
     }
     next()
 }

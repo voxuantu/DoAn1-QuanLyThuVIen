@@ -1,6 +1,52 @@
+$(document).ready(function(){
+    $('#tableTop10BorrowedBook').DataTable();
+})
+
+function getNumberOfBorrowBooksByMonth(){
+    var numberOfBorrowBooksByMonth = []
+    $.ajax({
+        type: 'get',
+        url: '/api/laySoLuotMuonSachTheoThang',
+        dataType: 'json',
+        success: function(data){
+            data.forEach(e => {
+                numberOfBorrowBooksByMonth.push(e)
+            });
+        },
+        error: function(req, status, error){
+            alert(error)
+        }
+    })
+    return numberOfBorrowBooksByMonth
+}
+
+function getFineByMonth(){
+    var fineByMonth = []
+    $.ajax({
+        type: 'get',
+        url: '/api/laySoTienPhatTheoThang',
+        dataType: 'json',
+        success: function(data){
+            data.forEach(e => {
+                fineByMonth.push(e)
+            });
+        },
+        error: function(req, status, error){
+            alert(error)
+        }
+    })
+    return fineByMonth
+}
+
 Chart.defaults.font.family = 'Roboto';
 Chart.defaults.font.size = 15;
 Chart.defaults.color = 'black';
+
+
+//BIỂU ĐỒ SỐ LƯỢT MƯỢN SÁCH
+var dataNumberOfBorrowBooksByMonth = getNumberOfBorrowBooksByMonth()
+
+console.log(dataNumberOfBorrowBooksByMonth)
 
 let BieuDoSoLuotMuonSach = document.getElementById('BieuDoSoLuotMuonSach').getContext('2d');
 
@@ -18,7 +64,7 @@ let chartSoLuotMuonSach = new Chart(BieuDoSoLuotMuonSach, {
             pointHoverRadius: 5,
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: [50, 150, 100, 250, 200, 350, 300, 450, 400, 550, 500, 650]
+            data: dataNumberOfBorrowBooksByMonth
         }],
     },
     options: {
@@ -50,6 +96,8 @@ let chartSoLuotMuonSach = new Chart(BieuDoSoLuotMuonSach, {
 
 //BIỂU ĐỒ SỐ TIỀN PHẠT 
 
+var dataFineByMonth = getFineByMonth()
+
 let BieuDoSoTienPhat = document.getElementById('BieuDoSoTienPhat').getContext('2d');
 
 let chartSoTienPhat = new Chart(BieuDoSoTienPhat, {
@@ -66,7 +114,7 @@ let chartSoTienPhat = new Chart(BieuDoSoTienPhat, {
             pointHoverRadius: 5,
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: [500000, 1500000, 1000000, 2500000, 2000000, 3500000, 3000000, 4500000, 4000000, 5500000, 5000000, 6500000]
+            data: dataFineByMonth
         }],
     },
     options: {
