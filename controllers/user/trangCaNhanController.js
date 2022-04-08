@@ -7,24 +7,25 @@ const LibraryCard = require('../../models/libraryCard')
 class TrangCaNhanController {
     async index(req, res) {
         const currentUser = await req.user
-        if (currentUser.role.name == "USER") {
+        if(currentUser.role.name == 'USER'){
+            const libraryCard = await LibraryCard.findOne({accountId: currentUser._id})
             var cart = req.session.cart
-            const borrowBookCard = await BorrowBookTicket.aggregate().lookup({
+            const borrowBookCard = await BorrowBookTicket.aggregate().match({libraryCard: libraryCard._id}).lookup({
                 from: 'detailborrowbooks',
                 localField: '_id',
                 foreignField: 'borrowBookTicketId',
                 as: 'bookBorrowed'
             })
-            const maxBorrowDates = await Regulation.findOne({ name: 'Số ngày mượn tối đa/1 lần mượn' })
-            res.render('user/trangCaNhan', {
+            const maxBorrowDates = await Regulation.findOne({name: 'Số ngày mượn tối đa/1 lần mượn'})
+            res.render('user/trangCaNhan', { 
                 currentUser: currentUser,
                 cart: cart,
                 borrowBookCard: borrowBookCard,
                 maxBorrowDates: maxBorrowDates.value
             });
-        } else {
-            res.render('staff/trangCaNhan', {
-                currentUser : currentUser
+        }else{
+            res.render('staff/trangCaNhanStaff',{
+                currentUser: currentUser
             })
         }
     }

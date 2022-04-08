@@ -10,7 +10,7 @@
 
 <div class="container">
     <div class="duong-dan-muc">
-        <a href="/">Trang chủ</a>
+        <a href="/trangChu">Trang chủ</a>
         <i class="fa-solid fa-angle-right"></i>
         <a href="">Thống kê</a>
     </div>
@@ -23,6 +23,27 @@
             <div class="col-sm-6" style="max-height: 400px;">
                 <h5>Thống kê số tiền phạt</h5>
                 <canvas id="BieuDoSoTienPhat"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 main-datatable mt-5">
+                <label for="tableTop10BorrowedBook">Bảng top 10 sách được mượn nhiều nhất trong tuần</label>
+                <table id="tableTop10BorrowedBook" class="table mb-3 cust-datatable dataTable no-footer">
+                    <thead>
+                        <th>STT</th>
+                        <th>Tên sách</th>
+                        <th>số lượt mượn</th>
+                    </thead>
+                    <tbody>
+                        <% for( let i = 0; i < data.length; i++ ) { %>
+                            <tr>
+                                <td><%= i+1 %></td>
+                                <td><%= data[i].bookName %></td>
+                                <td><%= data[i].count %></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
