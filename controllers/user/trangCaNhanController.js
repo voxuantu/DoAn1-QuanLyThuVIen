@@ -1,4 +1,4 @@
-const {bufferUpload} = require('../../utils/uploadImage')
+const { bufferUpload } = require('../../utils/uploadImage')
 const Account = require('../../models/account')
 const BorrowBookTicket = require('../../models/borrowBookTicket')
 const Regulation = require('../../models/regulation')
@@ -36,16 +36,16 @@ class TrangCaNhanController {
         let user
         try {
             user = await Account.findById(req.params.id)
-            if(req.file != null){
+            if (req.file != null) {
                 const { buffer } = req.file;
                 const { secure_url } = await bufferUpload(buffer);
                 user.img = secure_url
             }
             user.displayName = req.body.displayName,
-            user.address = req.body.address,
-            user.email = req.body.email,
-            user.phone = req.body.phone,
-            user.birth = new Date(req.body.birth)
+                user.address = req.body.address,
+                user.email = req.body.email,
+                user.phone = req.body.phone,
+                user.birth = new Date(req.body.birth)
 
             await user.save()
             res.redirect('/trangCaNhan')
