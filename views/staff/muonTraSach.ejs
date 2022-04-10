@@ -24,7 +24,7 @@
 
 <div class="container">
     <div class="duong-dan-muc">
-        <a href="/trangChu/1">Trang chủ</a>
+        <a href="/trangChu">Trang chủ</a>
         <i class="fa-solid fa-angle-right"></i>
         <a href="/muonTraSach">Mượn trả sách</a>
     </div>
@@ -55,7 +55,7 @@
                         <% for( let i = 0; i < phieuDangXuLy.length; i++ ) { %>
                             <% let user = phieuDangXuLy[i].libraryCard.accountId %>
                             <tr>
-                                <td scope="row">MS001</td>
+                                <td scope="row"><%="MS" + phieuDaTraSach[i].borrowBookTicketId.toString().slice(16) %></td>
                                 <td><%= user.displayName %></td>
                                 <td><%= new Date(phieuDangXuLy[i].dateBorrow).toLocaleDateString('vi-VN') %></td>
                                 <td><button type="button" class="nutbam js-modal-muon-sach" data-book-borrowed="<%= phieuDangXuLy[i]._id %>">Xem sách mượn</button></td>
@@ -105,7 +105,7 @@
                         <% for( let i = 0; i < phieuTraSach.length; i++ ) { %>
                             <% let user = phieuTraSach[i].libraryCard.accountId %>
                             <tr>
-                                <td scope="row">MS001</td>
+                                <td scope="row"><%="MS" + phieuDaTraSach[i].borrowBookTicketId.toString().slice(16) %></td>
                                 <td><%= user.displayName %></td>
                                 <td><%= new Date(phieuTraSach[i].dateBorrow).toLocaleDateString('vi-VN') %></td>
                                 <td>
@@ -150,7 +150,7 @@
                     <tbody>
                         <% for( let i = 0; i < phieuDaTraSach.length; i++ ) { %>
                             <tr>
-                                <td scope="row">MS001</td>
+                                <td scope="row"><%="MS" + phieuDaTraSach[i].borrowBookTicketId.toString().slice(16) %></td>
                                 <td><%= phieuDaTraSach[i].readerName %> </td>
                                 <td><%= new Date(phieuDaTraSach[i].dateBorrow).toLocaleDateString('vi-VN') %> </td>
                                 <% if (phieuDaTraSach[i].statusBorrowBook == "Trễ hẹn") { %>

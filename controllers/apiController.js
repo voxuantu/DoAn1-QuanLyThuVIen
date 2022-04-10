@@ -86,6 +86,7 @@ class APIController {
         try {
             const numberOfRenewals = await Regulation.findOne({name: 'Số lần gia hạn sách'})
             const borrowBookTicket = await BorrowBookTicket.findById(req.body.id)
+            const fineForOneBookLatePerDay = await Regulation.findOne({name : "Số tiền phạt trả sách trễ (1 cuốn/1 ngày)"})
             var fineTicket
             if(borrowBookTicket.fineTicket != null){
                 fineTicket = await FineTicket.findById(borrowBookTicket.fineTicket)
@@ -95,7 +96,8 @@ class APIController {
                 numberOfRenewals: numberOfRenewals.value,
                 borrowBookTicket: borrowBookTicket,
                 bookBorrow: bookBorrow,
-                fine : fineTicket ? fineTicket.fine : 0
+                fine : fineTicket ? fineTicket.fine : 0,
+                fineForOneBookLatePerDay : fineForOneBookLatePerDay.value
             })
         } catch (error) {
             console.log(error)

@@ -169,6 +169,7 @@ class GioSachController {
             })
             var newCart = []
             req.session.cart = newCart
+
             res.redirect(redirectUrl)
         }
     }

@@ -12,7 +12,7 @@ function OpenModal(bookBorrow) {
     )
 }
 
-function OpenModelTraSach(bookBorrow, hanTra, borrowTicketId, fine) {
+function OpenModelTraSach(bookBorrow, hanTra, borrowTicketId, fine, fineForOneBookLatePerDay) {
     $(document).ready(
         function () {
             $(".modalTraSach tbody tr").remove()
@@ -23,7 +23,7 @@ function OpenModelTraSach(bookBorrow, hanTra, borrowTicketId, fine) {
                 if(bookBorrow[i].status == "Đã trả" || bookBorrow[i].status == "Hư hỏng/mất") {
                     markup += `<input class="form-check-input checksachtra" type="checkbox" disabled checked>`
                 } else {
-                    markup += `<input onchange="showPhatTre(this,${isLate(hanTra)})" class="form-check-input checksachtra" type="checkbox">`
+                    markup += `<input onchange="showPhatTre(this,${isLate(hanTra)}, ${fineForOneBookLatePerDay})" class="form-check-input checksachtra" type="checkbox">`
                 }          
                         markup+= `</td>
                                 <td><img src="${book.coverImage}" alt="${book.name}"
@@ -102,15 +102,15 @@ function OpenModelDaTraSach(data) {
     )
 }
 
-function showPhatTre(cb, soNgayTre){
+function showPhatTre(cb, soNgayTre, fine){
     if(soNgayTre > 0 ){
         var trangThaiTra = document.getElementById("state-give-back")
         var phatTre = document.getElementById('phattre')
         var phat = document.getElementById("phattien");
         if(cb.checked){
-            $('#phattre span').text(plusMoney(soNgayTre*5000, $('#phattre span').text()))
+            $('#phattre span').text(plusMoney(soNgayTre*fine, $('#phattre span').text()))
         } else {
-            $('#phattre span').text(minusMoney($('#phattre span').text(), 5000*soNgayTre))
+            $('#phattre span').text(minusMoney($('#phattre span').text(), fine*soNgayTre))
         }
         trangThaiTra.classList.remove('hide-element')
         phat.classList.remove('hide-element')
@@ -195,7 +195,7 @@ $(document).ready(function () {
                     id: borrowTicketId
                 },
                 success: function (data) {
-                    OpenModelTraSach(data.bookBorrow, hanTra, borrowTicketId, data.fine)
+                    OpenModelTraSach(data.bookBorrow, hanTra, borrowTicketId, data.fine, data.fineForOneBookLatePerDay)
                 },
                 error: function (err) {
                     console.error(err)
@@ -233,6 +233,7 @@ $(document).ready(function () {
                 if ("Trả sách thành công") {
                     window.location.replace('/muonTraSach')
                 }
+                // console.log(data1)
             },
             error: function (err) {
                 console.log(err)
