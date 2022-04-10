@@ -126,7 +126,7 @@ class GioSachController {
             });
             var newCart = []
             req.session.cart = newCart
-            res.redirect('/trangChu/1')
+            res.redirect('/trangChu')
         }else{
             res.json('the het han su dung')
         }

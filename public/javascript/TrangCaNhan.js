@@ -37,7 +37,7 @@ function toggleEdit() {
         down = true;
     }
 }
-function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals) {
+function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals, fine) {
     $(document).ready(
         function () {
             if(status == "Đang xử lý"){
@@ -74,15 +74,15 @@ function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals) {
                     $('.modal-dang-muon-sach .modal-footer').append(addButton)
                 }
                 $('.modal-dang-muon-sach').modal('show');
-            }else if ( status == "Đã trả"){
+            }else if ( status == "Đã trả" || status == "Trễ hẹn"){
                 $(".modal-tra-sach tbody tr").remove()
                 for (let i = 0; i < bookBorrow.length; i++) {
                     const book = bookBorrow[i].bookId;
                     var trangThai
                     if(bookBorrow[i].status == "Đã trả"){
                         trangThai = `<mark class="da-tra">Đã trả</mark>`
-                    }else if(bookBorrow[i].status == "Hư hỏng" || bookBorrow[i].status == "Làm mất"){
-                        trangThai = `<mark class="dan-xu-ly">Đã trả</mark>`
+                    }else if(bookBorrow[i].status == "Hư hỏng/mất"){
+                        trangThai = `<mark class="dang-xu-ly">Hư hỏng/mất</mark>`
                     }
                     markup = `<tr>
                                 <td scope="row">
@@ -93,14 +93,29 @@ function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals) {
                                 </td>
                                 <td>${book.name}</td>
                                 <td>${trangThai}</td>
+                                <td>${new Date(bookBorrow[i].dateGiveBack).toLocaleDateString('vi-VN')}</td>
                             </tr>`
                     $('.modal-tra-sach tbody').append(markup)
+                    $('.modal-tra-sach #thong-tin-khac #ngay-muon p:nth-child(2)').text(new Date(borrowBookTicket.dateBorrow).toLocaleDateString('vi-VN'))
+                    $('.modal-tra-sach #thong-tin-khac #han-tra p:nth-child(2)').text(AddDate(borrowBookTicket.dateBorrow, 7).toLocaleDateString('vi-VN'))
+                    $('.modal-tra-sach #thong-tin-khac #tinh-trang p:nth-child(2)').text(borrowBookTicket.statusBorrowBook)
+                    $('.modal-tra-sach #thong-tin-khac #tien-phat p:nth-child(2)').text(fine.toLocaleString('vi-VN') + " đ")
+
                 }
                 $('.modal-tra-sach').modal('show');
             }
         }
     )
 }
+
+function AddDate(date, num){
+    var currentDateObj = new Date(date);
+    var numberOfMlSeconds = currentDateObj.getTime();
+    var addMlSeconds = 60 * 60 * 1000 * 24 * num;
+    var newDateObj = new Date(numberOfMlSeconds + addMlSeconds);
+    return newDateObj
+}
+
 function OpenModalChangePass() {
     $(document).ready(
         function () {
@@ -218,7 +233,7 @@ $(document).ready(function(){
                     id: $(this).attr('data-book-borrowed')
                 },
                 success: function(data){
-                    OpenModal(data.bookBorrow, status, data.borrowBookTicket, data.numberOfRenewals)
+                    OpenModal(data.bookBorrow, status, data.borrowBookTicket, data.numberOfRenewals, data.fine)
                 },
                 error : function(err){
                     console.error(err)
