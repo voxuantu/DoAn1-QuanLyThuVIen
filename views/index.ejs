@@ -87,10 +87,8 @@
                             <a href="/chiTietSach/<%= element.id %>"><img
                                     class="img-fluid img-card"
                                     src="<%= element.coverImage %>"></a>
-                            <form action="/gioSach/themSachVaoGio" method="post">
-                                <input type="text" name="id" value="<%= element.id %>" hidden>
-                                <button class="btn-base js-muon-sach">Mượn sách</button>
-                            </form>
+                            <button class="btn-base js-muon-sach"
+                                    data-id-book="<%= element.id %>">Mượn sách</button>
                             <div class="text-content">
                                 <div class="limit-text ten-sach"><i
                                         class="fa-solid fa-book"></i>

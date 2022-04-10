@@ -11,7 +11,6 @@ const Category = require('../models/category')
 const Author = require('../models/author')
 const FineTicket = require('../models/fineTicket')
 const urlHelper = require('../utils/url')
-const FineTicket = require('../models/fineTicket')
 
 class APIController {
     async LayMa(req, res) {

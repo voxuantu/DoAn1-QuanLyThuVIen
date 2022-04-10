@@ -41,7 +41,7 @@ function route (app) {
     app.use('/thongKe', checkAuthenticated, checkPermissions(['ADMIN', 'MOD1']), thongKeRouter)
     app.use('/trangCaNhan',checkAuthenticated ,trangCaNhanRouter)
     app.use('/chiTietSach', chiTietSachRouter)
-    app.use('/gioSach',checkAuthenticated, gioSachRouter)
+    app.use('/gioSach',checkAuthenticated, checkPermissions(['USER']), gioSachRouter)
     app.use('/quyDinh',checkAuthenticated, checkPermissions(['ADMIN']), quyDinhRouter)
 
     app.use('/api', apiRouter)

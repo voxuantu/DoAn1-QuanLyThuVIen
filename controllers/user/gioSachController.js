@@ -31,72 +31,56 @@ class GioSachController {
     }
     //Thêm sách vào giỏ
     async addBookToCart(req, res) {
-        const currentUser = await req.user
-        if (currentUser.role.name != "USER") {
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/trangChu', {
-                type: 'error',
-                title: 'Thất bại',
-                text: 'Bạn không thể mượn sách với vai trò quản trị viên, kỹ thuật viên, hoặc thủ thư'
-            })
-            res.redirect(redirectUrl)
+        let MaxBookBorrow
+        try {
+            MaxBookBorrow = await Regulation.findOne({ name: 'Số sách mươn tối đa/1 lần mượn' })
+        } catch (error) {
+            console.log(error)
+        }
+        var isExist = false
+        var isMaxBook = false
+        var cart = [];
+        if (!req.session.cart) {
+            cart.push(req.body.id)
+            req.session.cart = cart
         } else {
-            let MaxBookBorrow
-            try {
-                MaxBookBorrow = await Regulation.findOne({ name: 'Số sách mươn tối đa/1 lần mượn' })
-            } catch (error) {
-                console.log(error)
-            }
-            var isExist = false
-            var isMaxBook = false
-            var cart = [];
-            if (!req.session.cart) {
-                cart.push(req.body.id)
+            if (req.session.cart.length < MaxBookBorrow.value) {
+                req.session.cart.forEach(itemCart => {
+                    if (itemCart == req.body.id) {
+                        isExist = true
+                    }
+                    cart.push(itemCart)
+                });
+                if (isExist == false) {
+                    cart.push(req.body.id);
+                }
                 req.session.cart = cart
             } else {
-                if (req.session.cart.length < MaxBookBorrow.value) {
-                    req.session.cart.forEach(itemCart => {
-                        if (itemCart == req.body.id) {
-                            isExist = true
-                        }
-                        cart.push(itemCart)
-                    });
-                    if (isExist == false) {
-                        cart.push(req.body.id);
-                    }
-                    req.session.cart = cart
-                } else {
-                    isMaxBook = true
-                }
+                isMaxBook = true
+            }
 
-            }
-            console.log(req.session.cart)
-            console.log(req.session.cart.length)
-            console.log(MaxBookBorrow.value)
-            //res.redirect('back')
-            if (!isMaxBook) {
-                if (isExist == true) {
-                    const redirectUrl = urlHelper.getEncodedMessageUrl('/trangChu', {
-                        type: 'error',
-                        title: 'Thất bại',
-                        text: 'Sách này đã có trong giỏ'
-                    })
-                    res.redirect(redirectUrl)
-                } else {
-                    const redirectUrl = urlHelper.getEncodedMessageUrl('/trangChu', {
-                        type: 'success',
-                        title: 'Thành công',
-                        text: 'Thêm sách vào giỏ thành công!'
-                    })
-                    res.redirect(redirectUrl)
-                }
-            } else {
-                const redirectUrl = urlHelper.getEncodedMessageUrl('/trangChu', {
-                    type: 'warning',
-                    title: 'Thành công',
-                    text: 'Giỏ sách của bạn đã đầy!'
+        }
+        console.log(req.session.cart)
+        console.log(req.session.cart.length)
+        console.log(MaxBookBorrow.value)
+        //res.redirect('back')
+        if (!isMaxBook) {
+            if (isExist == true) {
+                res.json({
+                    message: 'That bai',
+                    cartQuantity: req.session.cart.length
                 })
-                res.redirect(redirectUrl)
+            } else {
+                res.json({
+                    message: 'Thanh cong',
+                    cartQuantity: req.session.cart.length
+                })
             }
+        } else {
+            res.json({
+                message: 'Gio da day',
+                cartQuantity: req.session.cart.length
+            })
         }
     }
     //Xóa 1 sách ra khỏi giỏ
