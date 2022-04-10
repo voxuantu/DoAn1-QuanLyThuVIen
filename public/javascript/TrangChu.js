@@ -26,54 +26,6 @@ $(function(){
     })
   })
 
-  $(document).ready(function(){
-    $('.js-muon-sach').each(function(i,obj){
-        $(this).click(function(){
-            $.ajax({
-                url:'/gioSach/themSachVaoGio',
-                type:'post',
-                data: {
-                    id: $(this).attr('data-id-book')
-                },
-                success: function(data, status){
-                    if(data.message == "Thanh cong"){
-                        $('#cartQuantity').text(data.cartQuantity)
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công',
-                            text: 'Thêm sách vào giỏ thành công!',
-                        })
-                    }else if(data.message == "That bai"){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Thất bại',
-                            text: 'Sách này đã có trong giỏ',
-                        })
-                    }else if(data.message == "Gio da day"){
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Thất bại',
-                            text: 'Giỏ sách của bạn đã đầy!',
-                        })
-                    }else if(data == "Ban khong co quyen"){
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Thất bại',
-                          text: 'Bạn không thể mượn sách với vai trò quản trị viên, kỹ thuật viên, hoặc thủ thư',
-                      })
-                    }
-                    else{
-                        window.location.replace('/dangNhap')
-                    }
-                },
-                error : function(err){
-                    console.error(err)
-                }
-            })
-        })
-    })
-})
-
 var page = 1
 
 $('.js-load-more').click(function(){
@@ -110,8 +62,10 @@ function appendBooks(books){
     html += '        <a href="/chiTietSach/'+book.id+'">';
     html += '            <img class="img-fluid img-card"';
     html += '                src="'+book.coverImage+'"></a>';
-    html += '        <button class="btn-base js-muon-sach"';
-    html += '            data-id-book="'+book.id+'">Mượn sách</button>';
+    html += '           <form action="/gioSach/themSachVaoGio" method="post">';
+    html += '              <input type="text" name="id" value="'+book.id+'" hidden>';
+    html += '              <button class="btn-base js-muon-sach">Mượn sách</button>';
+    html += '           </form>';
     html += '        <div class="text-content">';
     html += '            <div class="limit-text ten-sach"><i';
     html += '                    class="fa-solid fa-book"></i>';
