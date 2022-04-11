@@ -1,0 +1,42 @@
+<%- contentFor('head') %> 
+    <title>Mượn trả sách</title>
+    <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
+<%- contentFor('body') %> 
+
+
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD2') { %> 
+    <%- include('../particals/headerMod2') %>
+<% } %> 
+
+<div id="resultado"></div>
+<div id="camera"></div>
+
+<script>
+
+    Quagga.init({
+        inputStream: {
+            name: "Live",
+            type: "LiveStream",
+            target: document.querySelector('#camera')    // Or '#yourElement' (optional)
+        },
+        decoder: {
+            readers: ["code_128_reader"]
+        }
+    }, function (err) {
+        if (err) {
+            console.log(err);
+            return
+        }
+        console.log("Initialization finished. Ready to start");
+        Quagga.start();
+    });
+
+    Quagga.onDetected(function (data) {
+        console.log(data.codeResult.code);
+        document.querySelector('#resultado').innerText = data.codeResult.code;
+    });
+
+</script>

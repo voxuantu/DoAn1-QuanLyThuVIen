@@ -215,6 +215,10 @@ a {
     max-height: 300px;
     overflow-y: auto;
 }
+.notifi-box a {
+    color: black !important;
+    text-transform: none !important;
+}
 .notifi-box li{
     margin-right: 0;
     margin-left: 0;
@@ -234,6 +238,7 @@ a {
     padding: 15px 5px;
     height: 80px;
 }
+
 .notifi-item:hover{
     background-color: #eee;
 }

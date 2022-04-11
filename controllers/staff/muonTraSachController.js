@@ -96,6 +96,7 @@ class MuonTraSachController {
     async giveBookBack(req, res) {
         try {
             var now = new Date()
+            var maxDaysToBorrow = await Regulation.findOne({name : "Số ngày mượn tối đa/1 lần mượn"})
             var sachtra = JSON.parse(req.body.sachtra)
             var borrowTicketId = req.body.borrowTicketId
             sachtra.forEach(async (element) => {
@@ -133,7 +134,10 @@ class MuonTraSachController {
                 if (e.status != "Đang mượn") {
                     sosachtra++
                 }
-                if (e.dateGiveBack > borrowBookTicket.dateBorrow) {
+                var dateGiveBack = new Date(e.dateGiveBack)
+                var deadline = new Date(borrowBookTicket.dateBorrow)
+                deadline.setDate(deadline.getDate() + maxDaysToBorrow.value)
+                if (dateGiveBack > deadline) {
                     isLate = true;
                 }
             })
@@ -149,6 +153,13 @@ class MuonTraSachController {
         } catch (error) {
             console.log(error)
         }
+    }
+    //cho muon offline
+    async lendBookOffline(req, res){
+        const currentUser = await req.user
+        res.render('staff/muonSachOffline',{
+            currentUser : currentUser
+        })
     }
 }
 

@@ -16,5 +16,7 @@ router.get('/laySach', apiController.getBooks)
 router.get('/laySoLuotMuonSachTheoThang', apiController.getNumberOfBorrowBooksByMonth)
 router.get('/laySoTienPhatTheoThang', apiController.getFineByMonth)
 router.get('/layTop10SachMuonNhieuTrongTuan', apiController.getTop10OfBorrowedBook)
+router.get('/layThongBao', apiController.loadNotification)
+router.post('/checkThongBao', apiController.checkNotification)
 
 module.exports = router;

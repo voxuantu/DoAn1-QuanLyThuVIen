@@ -11,6 +11,7 @@ const Category = require('../models/category')
 const Author = require('../models/author')
 const FineTicket = require('../models/fineTicket')
 const urlHelper = require('../utils/url')
+const Notification = require('../models/notification')
 
 class APIController {
     async LayMa(req, res) {
@@ -373,6 +374,19 @@ class APIController {
         res.json({
             'data': data
         })
+    }
+    async loadNotification(req, res){
+        var notify = await Notification.find({watched : false})
+        res.json(notify)
+    }
+    async checkNotification(req, res){
+        var id = req.body.id
+        var notifiy = await Notification.findOneAndUpdate({_id : id}, {watched : true})
+        if(notifiy != null){
+            res.json("success")
+        } else {
+            res.json("error")
+        }
     }
 }
 

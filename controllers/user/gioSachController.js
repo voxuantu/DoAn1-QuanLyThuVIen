@@ -4,7 +4,7 @@ const LibraryCard = require('../../models/libraryCard')
 const BorrowBookTicket = require('../../models/borrowBookTicket')
 const DetailBorrowBookTicket = require('../../models/detailBorrowBookTicket')
 const urlHelper = require('../../utils/url')
-
+const Notification = require('../../models/notification')
 
 class GioSachController {
     //Load trang giỏ sách
@@ -136,6 +136,11 @@ class GioSachController {
                     })
                     await detailBorrowBookTicket.save()
                 });
+                var notify = new Notification({
+                    title : "Mượn sách",
+                    message : "Có độc giả cần mượn sách"
+                })
+                await notify.save()
                 var newCart = []
                 req.session.cart = newCart
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/trangCaNhan', {

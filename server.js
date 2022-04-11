@@ -58,6 +58,7 @@ db.once('open', () => console.log('Connected to Mongoose'))
 route(app)
 
 io.on('connection', (socket) => {
+    
     console.log('make socket connection ' + socket.id);
 
     socket.on('send-notification', data => {
