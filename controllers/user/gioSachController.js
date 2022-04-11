@@ -4,9 +4,10 @@ const LibraryCard = require('../../models/libraryCard')
 const BorrowBookTicket = require('../../models/borrowBookTicket')
 const DetailBorrowBookTicket = require('../../models/detailBorrowBookTicket')
 const urlHelper = require('../../utils/url')
-
+const Notification = require('../../models/notification')
 
 class GioSachController {
+
     //Load trang giỏ sách
     async index(req, res) {
         const currentUser = await req.user
@@ -21,6 +22,18 @@ class GioSachController {
         }
         var isDeleted = req.session.isDeleted
         req.session.isDeleted = false
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if (currentUser.role.name == 'USER') {
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         res.render('user/gioSach', {
             currentUser: currentUser,
             cart: cart,
@@ -136,6 +149,21 @@ class GioSachController {
                     })
                     await detailBorrowBookTicket.save()
                 });
+
+                var notify = new Notification({
+                    title: "Mượn sách",
+                    message: "Có độc giả cần mượn sách",
+                    receiver : null
+                })
+                await notify.save()
+
+                var io = req.app.get('socketio')
+                io.emit('show-notification', { 
+                    id : notify._id,
+                    title: 'Mượn sách',
+                    message: 'Có độc giả cần mượn sách' 
+                })
+                
                 var newCart = []
                 req.session.cart = newCart
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/trangCaNhan', {

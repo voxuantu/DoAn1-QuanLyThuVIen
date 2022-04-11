@@ -9,7 +9,18 @@ const urlHelper = require('../../utils/url')
 class QuanLySachController {
     async index(req, res) {
         const currentUser = await req.user
-
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+        
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         const books = await Book.find({}).populate('author')
         res.render('staff/quanLySach', {
             currentUser: currentUser,
@@ -49,6 +60,18 @@ class QuanLySachController {
         const categories = await Category.find({})
         const bookPublishers = await BookPublisher.find({})
         const authors = await Author.find({})
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+        
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         res.render('staff/themSach.ejs', {
             book : book,
             currentUser: currentUser,

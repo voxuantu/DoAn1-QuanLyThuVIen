@@ -8,6 +8,18 @@ class QuanLyDocGiaController {
     async index(req, res) {
         const currentUser = await req.user
         var readers = await LibraryCard.find({}).populate('accountId')
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+        
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         res.render('staff/quanLyDocGia', {
             currentUser: currentUser,
             readers: readers
@@ -16,6 +28,18 @@ class QuanLyDocGiaController {
     //Load trang thêm độc giả
     async loadCreate(req, res) {
         const currentUser = await req.user
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+        
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         res.render('staff/themDocGia', {
             currentUser: currentUser
         })

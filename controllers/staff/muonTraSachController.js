@@ -4,6 +4,8 @@ const Regulation = require('../../models/regulation')
 const Book = require('../../models/book')
 const FineTicket = require('../../models/fineTicket')
 const urlHelper = require('../../utils/url')
+const LibraryCard = require('../../models/libraryCard')
+const Notification = require('../../models/notification')
 
 
 class MuonTraSachController {
@@ -76,7 +78,23 @@ class MuonTraSachController {
                 detailsBorrowBookTiket[i].status = 'Đang mượn'
                 await detailsBorrowBookTiket[i].save()
             }
-            await BorrowBookTicket.findOneAndUpdate({ _id: req.body.borrowBookTicketId }, { statusBorrowBook: 'Đang mượn' })
+            var borrowBookTicket = await BorrowBookTicket.findOneAndUpdate({ _id: req.body.borrowBookTicketId }, { statusBorrowBook: 'Đang mượn' })
+            var libraryCard = await LibraryCard.findOne({_id : borrowBookTicket.libraryCard})
+
+            var notify = new Notification({
+                title : "Mượn sách",
+                message : "Yêu cầu mượn sách đã được chấp nhận",
+                receiver : libraryCard.accountId
+            })
+            await notify.save()
+
+            var io = req.app.get('socketio')
+            io.to(libraryCard.accountId.toString()).emit('show-notification-from-admin', 
+                {
+                    id : notify._id,
+                    title : "Mượn sách",
+                    message : "sách đã được châp nhận"
+                })
             res.redirect("back")
         } catch (error) {
             console.log(error)

@@ -13,7 +13,19 @@ class IndexController {
                                 .skip((12*page)-12)
                                 .limit(12)
         const url = '/api/laySach?&page=';
+
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
         
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         res.render('index', {
             cart: cart,
             currentUser : currentUser,

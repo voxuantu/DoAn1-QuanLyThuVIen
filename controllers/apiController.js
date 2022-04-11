@@ -12,6 +12,8 @@ const Author = require('../models/author')
 const FineTicket = require('../models/fineTicket')
 const urlHelper = require('../utils/url')
 const Comment = require("../models/comment")
+const Notification = require('../models/notification')
+
 
 class APIController {
     async LayMa(req, res) {
@@ -388,6 +390,24 @@ class APIController {
                                         .skip((4*page)-4)
                                         .limit(4)
         res.json(comments)
+    }
+    async loadNotificationForLibrarian(req, res){
+        var notify = await Notification.find({watched : false, receiver : null})
+        res.json(notify)
+    }
+    async loadNotificationForReader(req, res){
+        var currentUser = await req.user
+        var notify = await Notification.find({watched : false, receiver : currentUser._id})
+        res.json(notify)
+    }
+    async checkNotification(req, res){
+        var id = req.body.id
+        var notifiy = await Notification.findOneAndUpdate({_id : id}, {watched : true})
+        if(notifiy != null){
+            res.json("success")
+        } else {
+            res.json("error")
+        }
     }
 }
 

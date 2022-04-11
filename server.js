@@ -57,25 +57,7 @@ db.once('open', () => console.log('Connected to Mongoose'))
 
 route(app)
 
-io.on('connection', (socket) => {
-    console.log('make socket connection ' + socket.id);
 
-    socket.on('send-notification', data => {
-        console.log("send data for create notification")
-        console.log(data)
-        console.log(socket.id)
-        socket.broadcast.emit('show-notification', {title : data.title, message : data.message, socketId : socket.id})
-    });
-    socket.on('send-notification-to-special-client', data => {
-        console.log("send data for create notification")
-        console.log(data)
-        console.log(socket.id)
-        socket.to(data.socketId).emit('show-notification-from-admin', data)
-    });
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
-});
 
 //app.listen(process.env.PORT || 3000)
 server.listen(process.env.PORT || 3000)

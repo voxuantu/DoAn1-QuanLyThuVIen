@@ -17,5 +17,8 @@ router.get('/laySoLuotMuonSachTheoThang', apiController.getNumberOfBorrowBooksBy
 router.get('/laySoTienPhatTheoThang', apiController.getFineByMonth)
 router.get('/layTop10SachMuonNhieuTrongTuan', apiController.getTop10OfBorrowedBook)
 router.get('/layBinhLuan', apiController.getComments)
+router.get('/layThongBaoThuThu', apiController.loadNotificationForLibrarian)
+router.get('/layThongBaoDocGia', apiController.loadNotificationForReader)
+router.post('/checkThongBao', apiController.checkNotification)
 
 module.exports = router;
