@@ -267,6 +267,7 @@
                                         <th scope="col">Tên sách</th>
                                         <th scope="col">Tình trạng</th>
                                         <th scope="col">Ngày trả</th>
+                                        <th scope="col">Bình luận sách</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -290,7 +291,6 @@
                                 <p>Tiền phạt :</p>
                                 <p>0 đ</p>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -341,6 +341,46 @@
                             <button type="submit" id="ThayDoi" class="nutbam">Thay đổi</button>
                         </div>
                     </form>
+            </div>
+        </div>
+    </div>
+    <!-- modal bình luận sách -->
+    <div class="modal fade modal-binh-luan-sach" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable" style="max-width: 800px !important;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bình luận sách</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/trangCaNhan/binhLuanSach" method="post">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <img class="img-fluid" style="border-radius: 50%;" src="<%= currentUser.img %>" alt="">
+                            </div>
+                            <div class="col-sm-11">
+                                <span style="font-weight: 500;"><%= currentUser.displayName %></span>
+                                <div style="display: flex;">
+                                    <label for="inputEmail4" class="form-label">Nhấn vào 1 ngôi sao để xếp hạng</label>
+                                    <div class='rating reader ms-3'>
+                                        <i class='fa fa-star-o' id="star1" style="cursor: pointer"></i>
+                                        <i class='fa fa-star-o' id="star2" style="cursor: pointer"></i>
+                                        <i class='fa fa-star-o' id="star3" style="cursor: pointer"></i>
+                                        <i class='fa fa-star-o' id="star4" style="cursor: pointer"></i>
+                                        <i class='fa fa-star-o' id="star5" style="cursor: pointer"></i>
+                                    </div> 
+                                </div>
+                                <input type="text" name="starRating" id="voteStart" value="0" hidden>
+                                <input type="text" name="bookId" id="bookId" hidden>
+                                <input type="text" name="detailBorrowBookId" id="detailBorrowBookId" hidden>
+                                <textarea class="field" rows="4" name="content" id="" placeholder="Nhập nhận xét của bạn về sách..."></textarea>
+                                <div class="text-end">
+                                    <button type="submit" class="nutbam">Bình luận</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

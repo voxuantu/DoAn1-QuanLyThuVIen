@@ -19,6 +19,10 @@ const detailBorrowBookSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'Đang xử lý'
+    },
+    isComment:{
+        type: Boolean,
+        default: false
     }
 })
 

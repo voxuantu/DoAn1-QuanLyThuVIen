@@ -1,7 +1,6 @@
 <%- contentFor('head') %> 
     <title>Chi tiết sách</title>
 <%- contentFor('body') %>
-
 <% if (currentUser != null) { %> 
     <% if (currentUser.role.name=='ADMIN') { %>
         <%- include('../particals/headerAdmin') %>
@@ -39,6 +38,15 @@
                         <h6>Số trang : <span><%= book.pageCount %></span></h6>
                         <h6>Năm xuất bản : <span><%= book.publishedYear%></span></h6>
                     </div>
+                    <div class="mb-2">
+                        <% for( let i = 1; i <= 5; i++ ) { %>
+                            <% if (i <= book.starRating ) { %>
+                                <i class='fa fa-star yellowstar'></i>
+                            <% }else{ %>
+                                <i class='fa fa-star-o'></i>
+                            <% } %>
+                        <% } %>
+                    </div>
                 </div>
                 
                 <h6>Giới thiệu về sách :</h6>
@@ -48,39 +56,54 @@
                 <button id="btnAddBookToCart" type="button" data-id-book="<%= book.id %>"  class="btn btn-primary muonsach js-muon-sach">Mượn sách</button>
             </div>
         </div>
-        <!-- Tab giới thiệu và bình luận -->
-        <!-- <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#introduction">Giới thiệu về sách</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#comment-page">Bình Luận</a>
-            </li>
-        </ul> -->
-
-        <!-- Tab panes -->
-        <!-- <div class="tab-content">
-            <div class="tab-pane container active" id="introduction">
-                <p>Búp bê Raggedy Ann là một tựa sách kinh điển cũng xưa như chính tuổi đời của cô nàng búp bê vải
-                    Raggedy thân thuộc với biết bao bạn nhỏ khắp nơi trên toàn thế giới. Những chuyến phiêu lưu đầy
-                    mộng
-                    mơ nhưng cũng không kém phần tinh nghịch của các cô cậu búp bê, mà đứng đầu là cô nàng Raggedy
-                    Ann,
-                    đã đem đến cho độc giả những giây phút thư giãn, nhẹ nhàng; truyền tải những thông điệp ý nghĩa
-                    về
-                    thời thơ ấu, về tình bạn, tình yêu thương con người.</p>
-            </div>
-            <div class="tab-pane container fade" id="comment-page">
-                <p>Búp bê Raggedy Ann là một tựa sách kinh điển cũng xưa như chính tuổi đời của cô nàng búp bê vải
-                    Raggedy thân thuộc với biết bao bạn nhỏ khắp nơi trên toàn thế giới. Những chuyến phiêu lưu đầy
-                    mộng
-                    mơ nhưng cũng không kém phần tinh nghịch của các cô cậu búp bê, mà đứng đầu là cô nàng Raggedy
-                    Ann,
-                    đã đem đến cho độc giả những giây phút thư giãn, nhẹ nhàng; truyền tải những thông điệp ý nghĩa
-                    về
-                    thời thơ ấu, về tình bạn, tình yêu thương con người.</p>
-            </div>
-        </div> -->
+        <!-- Bình luận -->
+        <div class="binhluantitle mb-3">
+            <h5>Các bình luận của độc giả</h5>
+        </div>
+        <div>
+            <ul class="js-binh-luan" style="list-style: none;">
+                <% for( let i = 0; i < comments.length; i++ ) { %>
+                    <% var comment = comments[i] %> 
+                    <li>
+                        <% if (i > 0) { %>
+                            <hr>
+                        <% } %>
+                        <div class="row" >
+                            <div class="col-sm-1" style="text-align: center;">
+                                <img class="img-fluid" style="border-radius: 50%;" src="<%= comment.reader.img %>" alt="">
+                            </div>
+                            <div class="col-sm-11">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="font-weight: 500;"><%= comment.reader.displayName %></span>
+                                    <span><%= comment.dateComment.toLocaleDateString('vi-VN') %></span>
+                                </div>
+                                <div class="mb-2">
+                                    <% for( let i = 0; i < 5; i++ ) { %>
+                                        <% if (i < comment.starRating) { %>
+                                            <i class='fa fa-star yellowstar'></i>
+                                        <% }else{ %>
+                                            <i class='fa fa-star-o'></i>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                                <p style="background-color: #e8f0fe; border-radius: 5px; padding: 5px;">
+                                    <%= comment.content %>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                <% } %>
+            </ul>
+            <% if (comment) { %>
+                <div class="text-center">
+                    <button id="btn-xem-binh-luan" class="nutbam js-xem-binh-luan" data-bookId="<%= book._id %>">Xem thêm</button>
+                </div>
+            <% }else{ %>
+                <div class="text-center">
+                    <span>Sách chưa có bình luận từ độc giả</span>
+                </div>
+            <% } %> 
+        </div>
     </div>
 
     <!-- Gợi ý sách cùng thể loại -->
@@ -107,3 +130,5 @@
 </div>
 <%- include('../particals/footer') %>
 <script src="/javascript/TrangChu.js"></script>
+<script src="/javascript/chiTietSach.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>

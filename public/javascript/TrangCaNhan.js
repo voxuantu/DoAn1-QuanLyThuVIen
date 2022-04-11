@@ -1,3 +1,24 @@
+$(function(){
+    $("div.rating.reader i").each(function (i, object) {
+        $(this).click(function () {
+            $('#voteStart').val(i+1)
+            for (var j = 0; j < 5; j++) {
+                var id = "star" + (j + 1).toString();
+                if (j <= i) {
+                    var element = document.getElementById(id);
+                    element.classList.remove("fa-star-o");
+                    element.classList.add("fa-star");
+                    element.classList.add("yellowstar");
+                } else {
+                    var element = document.getElementById(id);
+                    element.classList.remove("fa-star");
+                    element.classList.remove("yellowstar");
+                    element.classList.add("fa-star-o");
+                }
+            }
+        })
+    })
+})
 $(document).ready( function () {
     $('#table-lich-su-muon-sach').DataTable();
 } );
@@ -84,6 +105,12 @@ function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals, fine)
                     }else if(bookBorrow[i].status == "Hư hỏng/mất"){
                         trangThai = `<mark class="dang-xu-ly">Hư hỏng/mất</mark>`
                     }
+                    var binhLuan
+                    if(bookBorrow[i].isComment){
+                        binhLuan = `<span>Đã bình luận</span>`
+                    }else{
+                        binhLuan = `<button class="nutbam" onclick="OpenModalBinhLuan('${book._id}','${bookBorrow[i]._id}')">Bình luận</button>`
+                    }
                     markup = `<tr>
                                 <td scope="row">
                                     ${i+1}
@@ -94,6 +121,7 @@ function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals, fine)
                                 <td>${book.name}</td>
                                 <td>${trangThai}</td>
                                 <td>${new Date(bookBorrow[i].dateGiveBack).toLocaleDateString('vi-VN')}</td>
+                                <td>${binhLuan}</td>
                             </tr>`
                     $('.modal-tra-sach tbody').append(markup)
                     $('.modal-tra-sach #thong-tin-khac #ngay-muon p:nth-child(2)').text(new Date(borrowBookTicket.dateBorrow).toLocaleDateString('vi-VN'))
@@ -140,6 +168,16 @@ function OpenImgDialog() {
     $(document).ready(function () {
         $('#imgUpload').trigger('click');
     })
+}
+
+function OpenModalBinhLuan(bookId,detailBorrowBookId){
+    $(document).ready(
+        function () {
+            $('.modal-binh-luan-sach').modal('show');
+            $('#bookId').val(bookId);
+            $('#detailBorrowBookId').val(detailBorrowBookId);
+        }
+    )
 }
 
 $(document).ready(function () {
