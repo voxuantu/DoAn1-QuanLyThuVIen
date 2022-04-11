@@ -43,6 +43,10 @@ const bookSchema = new mongoose.Schema({
     coverImage:{
         type: String,
         required: true
+    },
+    starRating:{
+        type: Number,
+        default: 0
     }
 })
 

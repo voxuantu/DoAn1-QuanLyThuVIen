@@ -3,6 +3,10 @@ const Account = require('../../models/account')
 const BorrowBookTicket = require('../../models/borrowBookTicket')
 const Regulation = require('../../models/regulation')
 const LibraryCard = require('../../models/libraryCard')
+const Comment = require("../../models/comment")
+const urlHelper = require("../../utils/url")
+const DetailBorrowBookTicket = require("../../models/detailBorrowBookTicket")
+const Book = require("../../models/book")
 
 class TrangCaNhanController {
     async index(req, res) {
@@ -66,6 +70,36 @@ class TrangCaNhanController {
         } catch (error) {
             console.log(error)
             res.send("Something went wrong please try again later..");
+        }
+    }
+    //Bình luận sách
+    async commentBook(req,res){
+        try {
+            const currentUser = await req.user
+            var comment = new Comment({
+                content: req.body.content,
+                starRating: req.body.starRating,
+                dateComment: new Date(),
+                bookId: req.body.bookId,
+                reader: currentUser.id
+            })
+            await comment.save()
+            await DetailBorrowBookTicket.findOneAndUpdate({_id: req.body.detailBorrowBookId},{isComment: true})
+            const comments = await Comment.find({bookId: req.body.bookId})
+            var starRating = 0
+            comments.forEach(e => {
+                starRating += e.starRating
+            });
+            starRating /= comments.length;
+            await Book.findOneAndUpdate({_id: req.body.bookId},{starRating: starRating})
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/chiTietSach/'+ req.body.bookId,{
+                type: 'success',
+                title: 'Thành công',
+                text: 'Bình luận sách thành công!'
+            })
+            res.redirect(redirectUrl)  
+        } catch (error) {
+            console.log(error)
         }
     }
 }

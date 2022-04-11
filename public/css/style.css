@@ -479,3 +479,21 @@ html{
 .table-nguoidung a{
     text-decoration: none;
 }
+/* Css phần bình luận */
+.binhluantitle {
+    border-bottom: 3px solid #31a2fa;
+}
+.binhluantitle h5{
+    background-color: #31a2fa;
+    color: white;
+    padding: 10px 5px;
+    margin: 0;
+    border-radius: 5px 5px 0 0;
+    width: fit-content;
+}
+.text-end{
+    text-align: end;
+}
+.yellowstar{
+    color: #f7941d !important
+}

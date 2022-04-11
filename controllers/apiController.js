@@ -11,7 +11,9 @@ const Category = require('../models/category')
 const Author = require('../models/author')
 const FineTicket = require('../models/fineTicket')
 const urlHelper = require('../utils/url')
+const Comment = require("../models/comment")
 const Notification = require('../models/notification')
+
 
 class APIController {
     async LayMa(req, res) {
@@ -374,6 +376,20 @@ class APIController {
         res.json({
             'data': data
         })
+    }
+    //Lấy bình luận theo load more
+    async getComments(req,res){
+        var page = req.query.page
+        var bookId = req.query.bookId
+        if(page == null){
+            page = 1
+        }
+        const comments = await Comment.find({bookId: bookId})
+                                        .populate('reader')
+                                        .sort({dateComment: -1})
+                                        .skip((4*page)-4)
+                                        .limit(4)
+        res.json(comments)
     }
     async loadNotificationForLibrarian(req, res){
         var notify = await Notification.find({watched : false, receiver : null})
