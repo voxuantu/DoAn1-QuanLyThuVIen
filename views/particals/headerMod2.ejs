@@ -75,7 +75,7 @@
 <script>
     $(document).ready(function(){
         $.ajax({
-            url: '/api/layThongBao',
+            url: '/api/layThongBaoThuThu',
             dataType: 'json',
             type: 'get',
             data: {},
@@ -135,7 +135,7 @@
         $('#notify-box li:first-child h2 span').text(parseInt(num) + 1)
         $('#dropdownNotify span').text(parseInt(num) + 1)
         var content = "<li>"
-                    +       "<a href='/muonTraSach'>"
+                    +       "<a onclick='ViewNotification(this)' data-bs-id='"+data.id+"'>"
                     +           "<div class='notifi-item'>"
                     +               "<img class='img-fluid rounded-circle ms-2 me-3' src='/icon/avatar.png' alt='avatar'>"
                     +               "<div>"

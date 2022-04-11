@@ -375,8 +375,13 @@ class APIController {
             'data': data
         })
     }
-    async loadNotification(req, res){
-        var notify = await Notification.find({watched : false})
+    async loadNotificationForLibrarian(req, res){
+        var notify = await Notification.find({watched : false, receiver : null})
+        res.json(notify)
+    }
+    async loadNotificationForReader(req, res){
+        var currentUser = await req.user
+        var notify = await Notification.find({watched : false, receiver : currentUser._id})
         res.json(notify)
     }
     async checkNotification(req, res){

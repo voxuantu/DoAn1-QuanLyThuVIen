@@ -13,6 +13,10 @@ const notificationSchema = new mongoose.Schema({
         type : Date,
         default : Date.now
     },
+    receiver : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Account'
+    },
     watched: {
         type: Boolean,
         default : false

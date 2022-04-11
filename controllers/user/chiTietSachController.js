@@ -12,6 +12,18 @@ class ChiTietSachController {
             const relatedBooks = await Book.find({category: book.category})
                                             .populate('author')
                                             .limit(4)
+                                            var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+    
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
             res.render('user/chiTietSach',{
                 cart: cart,
                 book: book,
