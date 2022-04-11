@@ -6,6 +6,18 @@ class QuyDinhController {
         const regulations = await Regulation.find({})
         var suaThanhCong = req.session.suaThanhCong
         req.session.suaThanhCong = false
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+        
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         res.render('admin/quyDinh',{
             currentUser: currentUser,
             regulations: regulations,

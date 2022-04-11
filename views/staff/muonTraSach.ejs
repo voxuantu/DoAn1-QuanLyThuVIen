@@ -55,7 +55,7 @@
                         <% for( let i = 0; i < phieuDangXuLy.length; i++ ) { %>
                             <% let user = phieuDangXuLy[i].libraryCard.accountId %>
                             <tr>
-                                <td scope="row"><%="MS" + phieuDaTraSach[i].borrowBookTicketId.toString().slice(16) %></td>
+                                <td scope="row"><%="MS" + phieuDangXuLy[i]._id.toString().slice(16) %></td>
                                 <td><%= user.displayName %></td>
                                 <td><%= new Date(phieuDangXuLy[i].dateBorrow).toLocaleDateString('vi-VN') %></td>
                                 <td><button type="button" class="nutbam js-modal-muon-sach" data-book-borrowed="<%= phieuDangXuLy[i]._id %>">Xem sách mượn</button></td>
@@ -105,7 +105,7 @@
                         <% for( let i = 0; i < phieuTraSach.length; i++ ) { %>
                             <% let user = phieuTraSach[i].libraryCard.accountId %>
                             <tr>
-                                <td scope="row"><%="MS" + phieuDaTraSach[i].borrowBookTicketId.toString().slice(16) %></td>
+                                <td scope="row"><%="MS" + phieuTraSach[i]._id.toString().slice(16) %></td>
                                 <td><%= user.displayName %></td>
                                 <td><%= new Date(phieuTraSach[i].dateBorrow).toLocaleDateString('vi-VN') %></td>
                                 <td>

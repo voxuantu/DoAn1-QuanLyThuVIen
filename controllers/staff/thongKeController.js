@@ -3,7 +3,18 @@ const DetailBorrowBookTicket = require('../../models/detailBorrowBookTicket')
 class ThongKeController {
     async index(req,res){
         const currentUser = await req.user
-
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+        
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         var data = []
         let date = new Date()
         let monday = new Date()

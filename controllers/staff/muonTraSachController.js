@@ -4,6 +4,8 @@ const Regulation = require('../../models/regulation')
 const Book = require('../../models/book')
 const FineTicket = require('../../models/fineTicket')
 const urlHelper = require('../../utils/url')
+const LibraryCard = require('../../models/libraryCard')
+const Notification = require('../../models/notification')
 
 
 class MuonTraSachController {
@@ -76,7 +78,23 @@ class MuonTraSachController {
                 detailsBorrowBookTiket[i].status = 'Đang mượn'
                 await detailsBorrowBookTiket[i].save()
             }
-            await BorrowBookTicket.findOneAndUpdate({ _id: req.body.borrowBookTicketId }, { statusBorrowBook: 'Đang mượn' })
+            var borrowBookTicket = await BorrowBookTicket.findOneAndUpdate({ _id: req.body.borrowBookTicketId }, { statusBorrowBook: 'Đang mượn' })
+            var libraryCard = await LibraryCard.findOne({_id : borrowBookTicket.libraryCard})
+
+            var notify = new Notification({
+                title : "Mượn sách",
+                message : "Yêu cầu mượn sách đã được chấp nhận",
+                receiver : libraryCard.accountId
+            })
+            await notify.save()
+
+            var io = req.app.get('socketio')
+            io.to(libraryCard.accountId.toString()).emit('show-notification-from-admin', 
+                {
+                    id : notify._id,
+                    title : "Mượn sách",
+                    message : "sách đã được châp nhận"
+                })
             res.redirect("back")
         } catch (error) {
             console.log(error)
@@ -96,6 +114,7 @@ class MuonTraSachController {
     async giveBookBack(req, res) {
         try {
             var now = new Date()
+            var maxDaysToBorrow = await Regulation.findOne({name : "Số ngày mượn tối đa/1 lần mượn"})
             var sachtra = JSON.parse(req.body.sachtra)
             var borrowTicketId = req.body.borrowTicketId
             sachtra.forEach(async (element) => {
@@ -133,7 +152,10 @@ class MuonTraSachController {
                 if (e.status != "Đang mượn") {
                     sosachtra++
                 }
-                if (e.dateGiveBack > borrowBookTicket.dateBorrow) {
+                var dateGiveBack = new Date(e.dateGiveBack)
+                var deadline = new Date(borrowBookTicket.dateBorrow)
+                deadline.setDate(deadline.getDate() + maxDaysToBorrow.value)
+                if (dateGiveBack > deadline) {
                     isLate = true;
                 }
             })
@@ -149,6 +171,13 @@ class MuonTraSachController {
         } catch (error) {
             console.log(error)
         }
+    }
+    //cho muon offline
+    async lendBookOffline(req, res){
+        const currentUser = await req.user
+        res.render('staff/muonSachOffline',{
+            currentUser : currentUser
+        })
     }
 }
 

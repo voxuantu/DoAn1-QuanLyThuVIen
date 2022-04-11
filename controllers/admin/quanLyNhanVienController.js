@@ -5,7 +5,18 @@ const bcrypt = require('bcrypt')
 class QuanLyNhanVienController {
     //Load trang quản lý nhân viên
     async index(req, res, next) {
-
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser._id.toString()
+                socket.join(roomName)
+            }
+            console.log(socket.rooms);
+        
+            socket.on('disconnect', () => {
+                console.log('user disconnected');
+            });
+        });
         const currentUser = await req.user
         var staffs = await Account.aggregate()
             .lookup({

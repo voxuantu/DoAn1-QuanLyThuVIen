@@ -136,6 +136,57 @@
         </div>
     </div>
 </header>
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url: '/api/layThongBaoThuThu',
+            dataType: 'json',
+            type: 'get',
+            data: {},
+            success: function (data1) {
+                $('#notify-box li:first-child h2 span').text(data1.length)
+                $('#dropdownNotify span').text(data1.length)
+                console.log(data1)
+                data1.forEach(element => {
+                    var content = "<li>"
+                            +       "<a onclick='ViewNotification(this)' data-bs-id='"+element._id+"'>"
+                            +           "<div class='notifi-item'>"
+                            +               "<img class='img-fluid rounded-circle ms-2 me-3' src='/icon/avatar.png' alt='avatar'>"
+                            +               "<div>"
+                            +                   "<h5>"+ element.title +"</h5>"
+                            +                   "<p>"+ element.message +"</p>"
+                            +               "</div>"
+                            +           "</div>"
+                            +       "</a>"
+                            +    "</li>"
+                    $('#notify-box').append(content)
+                });
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
+    function ViewNotification(a){
+        var id = a.getAttribute('data-bs-id')
+        $.ajax({
+            url: '/api/checkThongBao',
+            dataType: 'json',
+            type: 'post',
+            data: {
+                id : id
+            },
+            success: function (data1) {
+                if(data1 == 'success'){
+                    window.location.replace('/muonTraSach')
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+</script>
 <script defer>
     var socket = io();
 
@@ -144,21 +195,20 @@
     })
 
     function appendNotification(data){
+        var num = $('#notify-box li:first-child h2 span').text()
+        $('#notify-box li:first-child h2 span').text(parseInt(num) + 1)
+        $('#dropdownNotify span').text(parseInt(num) + 1)
         var content = "<li>"
-                    +        "<div class='notifi-item'>"
-                    +            "<img class='img-fluid rounded-circle ms-2 me-3' src='/icon/avatar.png' alt='avatar'>"
-                    +            "<div>"
-                    +                "<h5>"+ data.title +"</h5>"
-                    +                "<p>"+ data.message +"</p>"
-                    +            "</div>"
-                    +        "</div>"
+                    +       "<a onclick='ViewNotification(this)' data-bs-id='"+data.id+"'>"
+                    +           "<div class='notifi-item'>"
+                    +               "<img class='img-fluid rounded-circle ms-2 me-3' src='/icon/avatar.png' alt='avatar'>"
+                    +               "<div>"
+                    +                   "<h5>"+ data.title +"</h5>"
+                    +                   "<p>"+ data.message +"</p>"
+                    +               "</div>"
+                    +           "</div>"
+                    +       "</a>"
                     +    "</li>"
         $('#notify-box').append(content)
-        $('.navbar-nav').append(`<button id='confirm'>${data.socketId}</button>`)
-        $('#confirm').click(function(){
-            //alert("hello")
-            socket.emit('send-notification-to-special-client', {title : 'Mượn sách', message : 'Chap nhan muon sach', socketId : data.socketId})
-        })
     }
-   
 </script>
