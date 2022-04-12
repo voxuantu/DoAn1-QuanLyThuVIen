@@ -9,8 +9,11 @@ const libraryCardSchema = new mongoose.Schema({
     createdDate: {
         type: Date,
         required: true
+    },
+    idCard : {
+        type : String,
+        required : true
     }
-
 })
 
 module.exports  = mongoose.model('LibraryCard', libraryCardSchema);

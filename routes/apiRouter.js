@@ -20,5 +20,7 @@ router.get('/layBinhLuan', apiController.getComments)
 router.get('/layThongBaoThuThu', apiController.loadNotificationForLibrarian)
 router.get('/layThongBaoDocGia', apiController.loadNotificationForReader)
 router.post('/checkThongBao', apiController.checkNotification)
+router.post('/getABook', apiController.getABook)
+router.post('/bookLoanConfirmation', apiController.bookLoanConfirmation)
 
 module.exports = router;

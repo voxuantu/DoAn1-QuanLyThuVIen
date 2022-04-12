@@ -1,6 +1,7 @@
 <%- contentFor('head') %> 
     <title>Mượn trả sách</title>
-    <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script> -->
+    <script src="/javascript/html5qrcode.min.js"></script>
 <%- contentFor('body') %> 
 
 
@@ -11,32 +12,133 @@
     <%- include('../particals/headerMod2') %>
 <% } %> 
 
-<div id="resultado"></div>
-<div id="camera"></div>
+<div class="container" style="min-height: 500px;">
+  <div class="duong-dan-muc">
+      <a href="/trangChu">Trang chủ</a>
+      <i class="fa-solid fa-angle-right"></i>
+      <a href="/quanLyDocGia">Mượn sách offline</a>
+  </div>
+  <div class="timkiem mb-3" style="min-height: 450px;">
+    <div class="row">
+      <div class="col-sm-5">
+        <div id="reader"></div>
+      </div>
+      <div class="col-sm-7 main-datatable">
+        <form id="form-muon-sach">
+          <div class="row mb-2">
+            <label class="col-sm-3 col-form-label">Mã thẻ thư viện</label>
+            <div class="col-sm-9 form-group">
+                <input type="text" class="field" id="libraryCard">
+                <span class="errorMessage"></span>
+            </div>
+          </div>
+          <table id="table-sach" class="table mb-2 cust-datatable dataTable no-footer">
+            <thead>
+                <tr>
+                    <th scope="col">Stt</th>
+                    <th scope="col">Ảnh bìa</th>
+                    <th scope="col">Tên sách</th>
+                    <th scope="col">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+          <div class="col-sm-9 form-group">
+            <input hidden type="text" class="field" id="so-luong-sach">
+            <span class="errorMessage"></span>
+        </div>
+          <div class="text-end">
+            <button class="nutbam">Xác nhận</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../particals/footer') %>
 
-<script>
+<script src="/javascript/validator.js"></script>
 
-    Quagga.init({
-        inputStream: {
-            name: "Live",
-            type: "LiveStream",
-            target: document.querySelector('#camera')    // Or '#yourElement' (optional)
-        },
-        decoder: {
-            readers: ["code_128_reader"]
-        }
-    }, function (err) {
-        if (err) {
-            console.log(err);
-            return
-        }
-        console.log("Initialization finished. Ready to start");
-        Quagga.start();
-    });
-
-    Quagga.onDetected(function (data) {
-        console.log(data.codeResult.code);
-        document.querySelector('#resultado').innerText = data.codeResult.code;
-    });
-
+<script type="text/javascript">
+var sach = []
+function onScanSuccess(qrCodeMessage) {
+    if(jQuery.inArray(qrCodeMessage, sach) < 0){
+      $.ajax({
+            url: '/api/getABook',
+            type: 'post',
+            data: {
+                id: qrCodeMessage
+            },
+            success: function (data) {
+                if(data.quantity <= 0){
+                  Swal.fire('Thất bại!', `Sách ${data.name} không đủ số lượng!`, 'error')
+                } else {
+                  sach.push(qrCodeMessage)
+                  var markup = `<tr id='${data._id}'>
+                                  <td>${sach.length}</td>
+                                  <td>
+                                    <img src='${data.coverImage}' 
+                                    alt='${data.name}' class='img-fluid'>
+                                  </td>
+                                  <td>${data.name}</td>
+                                  <td><a class='js-delete-item-cart' onclick="deleteBook('${data._id}')"><i class='fa-solid fa-trash-can delete-item-cart'></i></a></td>
+                                </tr>`
+                  $('#table-sach tbody').append(markup)
+                  $('#so-luong-sach').val(sach.length)
+                }
+            },
+            error: function (err) {
+                console.error(err)
+            }
+        })
+    }
+    //document.getElementById('result').innerHTML = '<span class="result">'+qrCodeMessage+'</span>';
+}
+function onScanError(errorMessage) {
+  console.log(errorMessage)
+}
+var html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess, onScanError);
+function deleteBook(id){
+  var row = "#" + id
+  $(row).remove()
+  var index = sach.indexOf(id)
+  if(index > -1){
+    sach.splice(index,1)
+  }
+  if(sach.length == 0){
+    $('#so-luong-sach').val("")
+  } else {
+    $('#so-luong-sach').val(sach.length)
+  }
+}
+Validator({
+    form: '#form-muon-sach',
+    formGroupSelector : '.form-group',
+    errorSelector: '.errorMessage',
+    rules: [
+        Validator.isRequire('#libraryCard'),
+        Validator.isRequire('#so-luong-sach', "Vui lòng chọn sách")
+    ],
+    onSubmit: function (data) {
+        $.ajax({
+            url: '/api/bookLoanConfirmation',
+            dataType: 'json',
+            type: 'post',
+            data: {
+              libraryCard : $('#libraryCard').val(),
+              sachmuon : JSON.stringify(sach)
+            },
+            success: function (data1) {
+                window.location.replace(data1)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+});
 </script>

@@ -58,7 +58,7 @@ class APIController {
                 res.json("Mã đã hết hạn")
             }
             console.log(token)
-            if(token.token == code){
+            if (token.token == code) {
                 user.password = hashPassword
                 await user.save()
                 await token.delete()
@@ -71,10 +71,10 @@ class APIController {
             console.log(error)
         }
     }
-    async kiemTraNguoiDung(req, res){
+    async kiemTraNguoiDung(req, res) {
         try {
-            const user = await Account.findOne({username : req.body.username})
-            if(user){
+            const user = await Account.findOne({ username: req.body.username })
+            if (user) {
                 res.json(user._id)
             } else {
                 res.json("Không tìm thấy user")
@@ -84,22 +84,22 @@ class APIController {
         }
     }
 
-    async layChiTietPhieuMuon(req,res){
+    async layChiTietPhieuMuon(req, res) {
         try {
-            const numberOfRenewals = await Regulation.findOne({name: 'Số lần gia hạn sách'})
+            const numberOfRenewals = await Regulation.findOne({ name: 'Số lần gia hạn sách' })
             const borrowBookTicket = await BorrowBookTicket.findById(req.body.id)
-            const fineForOneBookLatePerDay = await Regulation.findOne({name : "Số tiền phạt trả sách trễ (1 cuốn/1 ngày)"})
+            const fineForOneBookLatePerDay = await Regulation.findOne({ name: "Số tiền phạt trả sách trễ (1 cuốn/1 ngày)" })
             var fineTicket
-            if(borrowBookTicket.fineTicket != null){
+            if (borrowBookTicket.fineTicket != null) {
                 fineTicket = await FineTicket.findById(borrowBookTicket.fineTicket)
             }
-            const bookBorrow = await DetailBorrowBookTicket.find({borrowBookTicketId: req.body.id}).populate('bookId')
+            const bookBorrow = await DetailBorrowBookTicket.find({ borrowBookTicketId: req.body.id }).populate('bookId')
             res.json({
                 numberOfRenewals: numberOfRenewals.value,
                 borrowBookTicket: borrowBookTicket,
                 bookBorrow: bookBorrow,
-                fine : fineTicket ? fineTicket.fine : 0,
-                fineForOneBookLatePerDay : fineForOneBookLatePerDay.value
+                fine: fineTicket ? fineTicket.fine : 0,
+                fineForOneBookLatePerDay: fineForOneBookLatePerDay.value
             })
         } catch (error) {
             console.log(error)
@@ -107,38 +107,38 @@ class APIController {
 
     }
     //Xóa hết sách ra khỏi giỏ
-    deleteAllBookFromCart(req,res){
+    deleteAllBookFromCart(req, res) {
         var cart = []
         req.session.cart = cart
         req.session.isDeleted = true
         res.redirect('/gioSach')
     }
-    async giaHanSash(req,res){
+    async giaHanSash(req, res) {
         try {
             const currentUser = await req.user
-            const numberOfExpirationDays = await Regulation.findOne({name: 'Hạn sử dụng thẻ thư viện ( ngày )'})
-            const libraryCard = await LibraryCard.findOne({accountId: currentUser.id})
+            const numberOfExpirationDays = await Regulation.findOne({ name: 'Hạn sử dụng thẻ thư viện ( ngày )' })
+            const libraryCard = await LibraryCard.findOne({ accountId: currentUser.id })
             var expiredDate = new Date(libraryCard.createdDate)
             expiredDate.setDate(expiredDate.getDate() + numberOfExpirationDays.value)
             var dateNow = new Date()
-           //Tạo lại phiếu mượn sách mới
-            if(expiredDate > dateNow){
+            //Tạo lại phiếu mượn sách mới
+            if (expiredDate > dateNow) {
                 const oldBorrowBookTicket = await BorrowBookTicket.findById(req.body.borrowBookTicketId)
-                const sachCanGiaHan = await DetailBorrowBookTicket.find({borrowBookTicketId: req.body.borrowBookTicketId})    
-                const numberOfDaysBorrowBook = await Regulation.findOne({name: 'Số ngày mượn tối đa/1 lần mượn'})
+                const sachCanGiaHan = await DetailBorrowBookTicket.find({ borrowBookTicketId: req.body.borrowBookTicketId })
+                const numberOfDaysBorrowBook = await Regulation.findOne({ name: 'Số ngày mượn tối đa/1 lần mượn' })
 
                 var newDateBorrow = new Date(oldBorrowBookTicket.dateBorrow)
                 newDateBorrow.setDate(newDateBorrow.getDate() + numberOfDaysBorrowBook.value)
 
 
-                await BorrowBookTicket.findOneAndUpdate({ _id: req.body.borrowBookTicketId },{statusBorrowBook: 'Đã trả'})
+                await BorrowBookTicket.findOneAndUpdate({ _id: req.body.borrowBookTicketId }, { statusBorrowBook: 'Đã trả' })
                 await DetailBorrowBookTicket.updateMany(
-                    {borrowBookTicketId: req.body.borrowBookTicketId},
-                    {status: 'Đã trả', dateGiveBack: newDateBorrow }
+                    { borrowBookTicketId: req.body.borrowBookTicketId },
+                    { status: 'Đã trả', dateGiveBack: newDateBorrow }
                 )
                 var borrorBookTicket = new BorrowBookTicket({
                     dateBorrow: newDateBorrow,
-                    libraryCard : libraryCard,
+                    libraryCard: libraryCard,
                     statusBorrowBook: "Đang mượn",
                     numberOfRenewals: 1
                 })
@@ -151,14 +151,14 @@ class APIController {
                     })
                     await detailBorrowBookTicket.save()
                 });
-                const redirectUrl = urlHelper.getEncodedMessageUrl('/trangCaNhan',{
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/trangCaNhan', {
                     type: 'success',
                     title: 'Thành công',
                     text: 'Gia hạn sách thành công!'
                 })
                 res.redirect(redirectUrl)
-            }else{
-                const redirectUrl = urlHelper.getEncodedMessageUrl('/trangCaNhan',{
+            } else {
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/trangCaNhan', {
                     type: 'error',
                     title: 'Thất bại',
                     text: 'Thẻ độc giả của bạn đã hết hạn. Vui lòng gia hạn thẻ!'
@@ -170,41 +170,41 @@ class APIController {
         }
 
     }
-    async layChiTietPhieuTra(req, res){
+    async layChiTietPhieuTra(req, res) {
         var borrowBookTicketId = req.body.id
-        const borrowedBooks = await DetailBorrowBookTicket.find({borrowBookTicketId : borrowBookTicketId}).populate('bookId')
+        const borrowedBooks = await DetailBorrowBookTicket.find({ borrowBookTicketId: borrowBookTicketId }).populate('bookId')
         var data = []
         var count = 0;
         borrowedBooks.forEach(e => {
             var row = {
-                bookName : e.bookId.name,
-                img : e.bookId.coverImage,
-                state : e.status,
-                daveGiveBack : e.dateGiveBack
+                bookName: e.bookId.name,
+                img: e.bookId.coverImage,
+                state: e.status,
+                daveGiveBack: e.dateGiveBack
             }
             data.push(row)
-            if(e.status == "Đã trả"){
+            if (e.status == "Đã trả") {
                 count++
             }
         })
         const borrowBookTicket = await BorrowBookTicket.findById(borrowBookTicketId)
         const libraryCard = await LibraryCard.findById(borrowBookTicket.libraryCard).populate('accountId')
         var fineTicket = null
-        if(borrowBookTicket.fineTicket != null){
+        if (borrowBookTicket.fineTicket != null) {
             fineTicket = await FineTicket.findById(borrowBookTicket.fineTicket)
         }
         res.json({
-            borrowedBooks : data,
-            reader : libraryCard.accountId.displayName,
-            state : borrowBookTicket.status,
-            dateBorrow : borrowBookTicket.dateBorrow,
-            numberOfBooksBorrowed : borrowedBooks.length,
-            numberOfReturnedBooks : count,
-            fineMoney : fineTicket ? fineTicket.fine : 0
+            borrowedBooks: data,
+            reader: libraryCard.accountId.displayName,
+            state: borrowBookTicket.status,
+            dateBorrow: borrowBookTicket.dateBorrow,
+            numberOfBooksBorrowed: borrowedBooks.length,
+            numberOfReturnedBooks: count,
+            fineMoney: fineTicket ? fineTicket.fine : 0
         })
     }
     //Lấy sách theo load more
-    async getBooks(req, res){
+    async getBooks(req, res) {
         var page = req.query.page;
         var categoryName = req.query.category;
         var filter = req.query.filter;
@@ -213,35 +213,35 @@ class APIController {
         console.log(categoryName)
         console.log(filter)
         console.log(filterType)
-        if(page == null){
+        if (page == null) {
             page = 1
         }
         try {
             let books
-            if(categoryName != null){
-                const category = await Category.findOne({name: categoryName})
-                books = await Book.find({category: category._id})
-                                        .populate('author')
-                                        .skip((12*page)-12)
-                                        .limit(12)
-            }else if(filter != null){
-                if(filterType == 1){
-                    books = await Book.find({name: {$regex: filter, $options: 'i'}})
-                                            .populate('author')
-                                            .skip((12*page)-12)
-                                            .limit(12)
-                }else if(filterType == 2){
-                    const author = await Author.findOne({name: {$regex: filter, $options: 'i'}})
-                    books = await Book.find({author : author._id})
-                                            .populate('author')
-                                            .skip((12*page)-12)
-                                            .limit(12)
+            if (categoryName != null) {
+                const category = await Category.findOne({ name: categoryName })
+                books = await Book.find({ category: category._id })
+                    .populate('author')
+                    .skip((12 * page) - 12)
+                    .limit(12)
+            } else if (filter != null) {
+                if (filterType == 1) {
+                    books = await Book.find({ name: { $regex: filter, $options: 'i' } })
+                        .populate('author')
+                        .skip((12 * page) - 12)
+                        .limit(12)
+                } else if (filterType == 2) {
+                    const author = await Author.findOne({ name: { $regex: filter, $options: 'i' } })
+                    books = await Book.find({ author: author._id })
+                        .populate('author')
+                        .skip((12 * page) - 12)
+                        .limit(12)
                 }
-            }else{
+            } else {
                 books = await Book.find({})
-                                        .populate('author')
-                                        .skip((12*page)-12)
-                                        .limit(12)
+                    .populate('author')
+                    .skip((12 * page) - 12)
+                    .limit(12)
             }
             var dataBooks = []
             books.forEach(e => {
@@ -255,47 +255,47 @@ class APIController {
             });
             res.json(dataBooks)
         } catch (error) {
-            console.log(error)   
+            console.log(error)
         }
     }
     //Lấy số lượt mượn sách theo tháng
-    async getNumberOfBorrowBooksByMonth(req, res){
+    async getNumberOfBorrowBooksByMonth(req, res) {
         var data = []
         let date = new Date()
         for (let i = 0; i < 12; i++) {
-           let begin = date.getFullYear() + '/' + (i+1) + '/1'
-           let end
-           if(i < 11){
-                end = date.getFullYear() + '/' + (i+2) +'/1'
-           }else{
+            let begin = date.getFullYear() + '/' + (i + 1) + '/1'
+            let end
+            if (i < 11) {
+                end = date.getFullYear() + '/' + (i + 2) + '/1'
+            } else {
                 end = (date.getFullYear() + 1) + '/1/1'
-           }
-           
-           let count = await BorrowBookTicket.countDocuments({dateBorrow : {$gte : begin, $lt: end}})
-           data.push(count) 
+            }
+
+            let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: begin, $lt: end } })
+            data.push(count)
         }
         res.json(data)
     }
     //Lấy số tiền phạt theo tháng
-    async getFineByMonth(req, res){
+    async getFineByMonth(req, res) {
         var data = []
         let date = new Date()
         for (let i = 0; i < 12; i++) {
-           let begin = date.getFullYear() + '/' + (i+1) + '/1'
-           let end
-           if(i < 11){
-                end = date.getFullYear() + '/' + (i+2) +'/1'
-           }else{
+            let begin = date.getFullYear() + '/' + (i + 1) + '/1'
+            let end
+            if (i < 11) {
+                end = date.getFullYear() + '/' + (i + 2) + '/1'
+            } else {
                 end = (date.getFullYear() + 1) + '/1/1'
-           }
-           
-           let count = await FineTicket.countDocuments({dateFine : {$gte : begin, $lt: end}})
-           data.push(count) 
+            }
+
+            let count = await FineTicket.countDocuments({ dateFine: { $gte: begin, $lt: end } })
+            data.push(count)
         }
         res.json(data)
     }
     //Lấy top 10 sách mượn nhiều nhất trong tuần
-    async getTop10OfBorrowedBook(req,res){
+    async getTop10OfBorrowedBook(req, res) {
         var data = []
         let date = new Date()
         let monday = new Date()
@@ -303,22 +303,22 @@ class APIController {
             case 0:
                 monday.setDate(date.getDate() - 6)
                 break;
-            case 1: 
+            case 1:
                 monday.setDate(date.getDate())
                 break;
-            case 2: 
+            case 2:
                 monday.setDate(date.getDate() - 1)
                 break;
-            case 3: 
+            case 3:
                 monday.setDate(date.getDate() - 2)
                 break;
-            case 4: 
+            case 4:
                 monday.setDate(date.getDate() - 3)
                 break;
-            case 5: 
+            case 5:
                 monday.setDate(date.getDate() - 4)
                 break;
-            case 6: 
+            case 6:
                 monday.setDate(date.getDate() - 5)
                 break;
             default:
@@ -329,84 +329,123 @@ class APIController {
             case 0:
                 sunday.setDate(date.setDate())
                 break;
-            case 1:  
+            case 1:
                 sunday.setDate(date.getDate() + 6)
                 break;
-            case 2: 
+            case 2:
                 sunday.setDate(date.getDate() + 5)
                 break;
-            case 3: 
+            case 3:
                 sunday.setDate(date.getDate() + 4)
                 break;
-            case 4: 
+            case 4:
                 sunday.setDate(date.getDate() + 3)
                 break;
-            case 5: 
+            case 5:
                 sunday.setDate(date.getDate() + 2)
                 break;
-            case 6: 
+            case 6:
                 sunday.setDate(date.getDate() + 1)
                 break;
             default:
                 break;
         }
         const chiTietMuonSach = await DetailBorrowBookTicket.find({})
-                                            .populate({
-                                                path: 'borrowBookTicketId',
-                                                match: {dateBorrow: {$gte: monday, $lte: sunday}},
-                                                select: 'dateBorrow'
-                                            })
-                                            .populate('bookId', 'name')
+            .populate({
+                path: 'borrowBookTicketId',
+                match: { dateBorrow: { $gte: monday, $lte: sunday } },
+                select: 'dateBorrow'
+            })
+            .populate('bookId', 'name')
         chiTietMuonSach.forEach(e => {
             var isExist = false
-           for (let i = 0; i < data.length; i++) {
-               if(data[i].bookName == e.bookId.name){
-                   data[i].count +=1
-                   isExist = true
-               }
-           }
-           if(!isExist){
-               var row = {
-                   bookName: e.bookId.name,
-                   count : 1
-               }
-               data.push(row)
-           }
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].bookName == e.bookId.name) {
+                    data[i].count += 1
+                    isExist = true
+                }
+            }
+            if (!isExist) {
+                var row = {
+                    bookName: e.bookId.name,
+                    count: 1
+                }
+                data.push(row)
+            }
         });
         res.json({
             'data': data
         })
     }
     //Lấy bình luận theo load more
-    async getComments(req,res){
+    async getComments(req, res) {
         var page = req.query.page
         var bookId = req.query.bookId
-        if(page == null){
+        if (page == null) {
             page = 1
         }
-        const comments = await Comment.find({bookId: bookId})
-                                        .populate('reader')
-                                        .sort({dateComment: -1})
-                                        .skip((4*page)-4)
-                                        .limit(4)
+        const comments = await Comment.find({ bookId: bookId })
+            .populate('reader')
+            .sort({ dateComment: -1 })
+            .skip((4 * page) - 4)
+            .limit(4)
         res.json(comments)
     }
-    async loadNotificationForLibrarian(req, res){
-        var notify = await Notification.find({watched : false, receiver : null})
+    // lấy thông báo cho thủ thư
+    async loadNotificationForLibrarian(req, res) {
+        var notify = await Notification.find({ watched: false, receiver: null })
         res.json(notify)
     }
-    async loadNotificationForReader(req, res){
+    // lấy thông báo cho độc giả
+    async loadNotificationForReader(req, res) {
         var currentUser = await req.user
-        var notify = await Notification.find({watched : false, receiver : currentUser._id})
+        var notify = await Notification.find({ watched: false, receiver: currentUser._id })
         res.json(notify)
     }
-    async checkNotification(req, res){
+    // check đã đọc thông báo
+    async checkNotification(req, res) {
         var id = req.body.id
-        var notifiy = await Notification.findOneAndUpdate({_id : id}, {watched : true})
-        if(notifiy != null){
+        var notifiy = await Notification.findOneAndUpdate({ _id: id }, { watched: true })
+        if (notifiy != null) {
             res.json("success")
         } else {
             res.json("error")
+        }
+    }
+    // lấy thông tin về 1 cuốn sách
+    async getABook(req, res) {
+        var id = req.body.id
+        var book = await Book.findById(id)
+        res.json(book)
+    }
+    // xác nhận mượn sách
+    async bookLoanConfirmation(req, res) {
+        try {
+            var sachmuon = JSON.parse(req.body.sachmuon)
+            var libraryCard = req.body.libraryCard
+            var card = await LibraryCard.findOne({idCard : libraryCard})
+            var borrowTicket = new BorrowBookTicket({
+                libraryCard: card._id,
+                statusBorrowBook: "Đang mượn",
+                dateBorrow: new Date(),
+            })
+            await borrowTicket.save()
+            sachmuon.forEach(async e => {
+                var detailBorrowBookTicket = new DetailBorrowBookTicket({
+                    bookId: e,
+                    borrowBookTicketId: borrowTicket._id,
+                    status : "Đang mượn"
+                })
+                await detailBorrowBookTicket.save()
+            })
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/muonTraSach/choMuonOffline', {
+                type: 'success',
+                title: 'Thành công',
+                text: 'Xác nhận mượn sách thành công!'
+            })
+            res.json(redirectUrl)
+        } catch (error){
+            console.log(error)
         }
     }
 }
