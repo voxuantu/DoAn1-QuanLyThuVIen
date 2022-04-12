@@ -126,12 +126,12 @@ class GioSachController {
         expiredDate.setDate(expiredDate.getDate() + numberOfExpirationDays.value)
         var dateNow = new Date()
         if (expiredDate > dateNow) {
-            let dangMuon = await BorrowBookTicket.findOne({ libraryCard: libraryCard._id, statusBorrowBook: "Đang mượn" })
+            let dangMuon = await BorrowBookTicket.findOne({ libraryCard: libraryCard._id, statusBorrowBook: ["Đang mượn","Đang xử lý"] })
             if (dangMuon != null) {
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/trangChu', {
                     type: 'warning',
                     title: 'Thất bại',
-                    text: 'Bạn không thể mượn sách vì bạn chưa trả sách của phiếu trước.'
+                    text: 'Bạn không thể mượn sách vì bạn chưa trả sách của phiếu trước hoặc phiếu trước đang được xử lý.'
                 })
                 var newCart = []
                 req.session.cart = newCart
