@@ -31,16 +31,26 @@ class QuanLyNhaXuatBanControler {
     }
     async create(req, res) {
         try {
-            const bookPublisher = new BookPublisher({
-                name: req.body.tenNhaXB
-            })
-            await bookPublisher.save()
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
-                type: 'success',
-                title: 'Thành công',
-                text: 'Thêm nhà xuất bản thành công!'
-            })
-            res.redirect(redirectUrl)
+            const checkBookPublisher = await BookPublisher.findOne({name: req.body.tenNhaXB })
+            if(checkBookPublisher != null){
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
+                    type: 'warning',
+                    title: 'Thất bại',
+                    text: '"'+ req.body.tenNhaXB + '" đã có trong danh sách. '
+                })
+                res.redirect(redirectUrl)
+            }else{
+                const bookPublisher = new BookPublisher({
+                    name: req.body.tenNhaXB
+                })
+                await bookPublisher.save()
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
+                    type: 'success',
+                    title: 'Thành công',
+                    text: 'Thêm nhà xuất bản thành công!'
+                })
+                res.redirect(redirectUrl)
+            }
         } catch (error) {
             res.json(error)
         }
@@ -49,13 +59,24 @@ class QuanLyNhaXuatBanControler {
         try {
             var idNbx = req.body.idNbx
             var tenNbx = req.body.tenNbx
-            await BookPublisher.findOneAndUpdate({ _id: idNbx }, { name: tenNbx })
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
-                type: 'success',
-                title: 'Thành công',
-                text: 'Sửa nhà xuất bản thành công!'
-            })
-            res.redirect(redirectUrl)
+            let oldBookPublisher = await BookPublisher.findById(idNbx)
+            let checkBookPublisher = await BookPublisher.findOne({name: tenNbx})
+            if(checkBookPublisher == null || checkBookPublisher._id.toString() == oldBookPublisher._id.toString()){
+                await BookPublisher.findOneAndUpdate({ _id: idNbx }, { name: tenNbx })
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
+                    type: 'success',
+                    title: 'Thành công',
+                    text: 'Sửa nhà xuất bản thành công!'
+                })
+                res.redirect(redirectUrl)
+            }else{
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
+                    type: 'warning',
+                    title: 'Thất bại',
+                    text: '"'+ tenNbx + '" đã có trong danh sách. '
+                })
+                res.redirect(redirectUrl)
+            }
         } catch (error) {
             res.json(error)
         }

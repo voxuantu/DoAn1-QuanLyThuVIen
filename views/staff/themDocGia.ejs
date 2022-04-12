@@ -34,20 +34,20 @@
         <div class="col-sm-9">
             <div class="timkiem mb-2" id="themsuasach">
                 <h3 class="text-center">Thêm độc giả</h3>
-                <form id="FormThemMoi" action="/quanLyDocGia/themDocGia" method="post">
+                <form id="FormThemMoi" method="post">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="mb-2">
                                 <label class="form-label" for="username">Tên đăng nhập :</label>
                                 <div class="form-group">
-                                    <input class="field" type="text" name="username" id="username">
+                                    <input class="field" type="text" name="username" id="username" value="<%= username %>" disabled>
                                     <span class="errorMessage"></span>
                                 </div>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label" for="password">Mật khẩu :</label>
                                 <div class="form-group">
-                                    <input class="field" type="password" name="password" id="password">
+                                    <input class="field" type="password" name="password" id="password" value="<%= password %>" disabled>
                                     <span class="errorMessage"></span>
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                                     <span class="errorMessage"></span>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-5">Thêm mới</button>
+                            <button type="submit" class="btn btn-primary mt-5 js-them-doc-gia">Thêm mới</button>
                         </div>
                     </div>
                 </form>

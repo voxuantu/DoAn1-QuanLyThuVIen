@@ -29,16 +29,26 @@ class QuanLyNhaXuatBanControler {
     }
     async create(req, res) {
         try {
-            const author = new Author({
-                name: req.body.tentacgia
-            })
-            await author.save()
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
-                type: 'success',
-                title: 'Thành công',
-                text: 'Thêm tác giả thành công!'
-            })
-            res.redirect(redirectUrl)
+            const checkAuthor = await Author.findOne({name: req.body.tentacgia})
+            if(checkAuthor != null){
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
+                    type: 'warning',
+                    title: 'Thất bại',
+                    text: 'Tác giả "'+req.body.tentacgia+'" đã có trong danh sách.'
+                })
+                res.redirect(redirectUrl)
+            }else{
+                const author = new Author({
+                    name: req.body.tentacgia
+                })
+                await author.save()
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
+                    type: 'success',
+                    title: 'Thành công',
+                    text: 'Thêm tác giả thành công!'
+                })
+                res.redirect(redirectUrl)
+            }
         } catch (error) {
             res.json(error)
         }
@@ -47,14 +57,25 @@ class QuanLyNhaXuatBanControler {
         try {
             var idTacGia = req.body.idTacGia
             var tenTacGia = req.body.tenTacGia
-            await Author.findOneAndUpdate({ _id: idTacGia }, { name: tenTacGia })
-            //req.session.suaThanhCong = true
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
-                type: 'success',
-                title: 'Thành công',
-                text: 'Sửa tác giả thành công!'
-            })
-            res.redirect(redirectUrl)
+            let oldAuthor = await Author.findById(idTacGia)
+            let checkAuthor = await Author.findOne({name: tenTacGia})
+            if(checkAuthor == null || checkAuthor._id.toString() == oldAuthor._id.toString()){
+                await Author.findOneAndUpdate({ _id: idTacGia }, { name: tenTacGia })
+                //req.session.suaThanhCong = true
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
+                    type: 'success',
+                    title: 'Thành công',
+                    text: 'Sửa tác giả thành công!'
+                })
+                res.redirect(redirectUrl)
+            }else{
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
+                    type: 'warning',
+                    title: 'Thất bại',
+                    text: 'Tác giả "'+tenTacGia+'" đã có trong danh sách.'
+                })
+                res.redirect(redirectUrl)
+            }
         } catch (error) {
             res.json(error)
         }

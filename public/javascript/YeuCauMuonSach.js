@@ -233,7 +233,7 @@ $(document).ready(function () {
                 if ("Trả sách thành công") {
                     window.location.replace('/muonTraSach')
                 }
-                // console.log(data1)
+                //console.log(data1)
             },
             error: function (err) {
                 console.log(err)

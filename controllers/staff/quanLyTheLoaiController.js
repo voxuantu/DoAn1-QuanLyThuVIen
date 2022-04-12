@@ -24,16 +24,26 @@ class QuanLyTheLoaiController {
     }
     async create(req, res) {
         try {
-            const category = new Category({
-                name: req.body.categoryName
-            })
-            await category.save()
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
-                type: 'success',
-                title: 'Thành công',
-                text: 'Thêm thể loại thành công!'
-            })
-            res.redirect(redirectUrl)
+            let checkCategory = await Category.findOne({name: req.body.categoryName})
+            if(checkCategory != null){
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
+                    type: 'warning',
+                    title: 'Thất bại',
+                    text: 'Thể loại "'+req.body.categoryName +'" đã có trong danh sách.'
+                })
+                res.redirect(redirectUrl)
+            }else{
+                const category = new Category({
+                    name: req.body.categoryName
+                })
+                await category.save()
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
+                    type: 'success',
+                    title: 'Thành công',
+                    text: 'Thêm thể loại thành công!'
+                })
+                res.redirect(redirectUrl)
+            }
         } catch (error) {
             res.json(error)
         }
@@ -42,14 +52,26 @@ class QuanLyTheLoaiController {
         try {
             var idTheLoai = req.body.idLoai
             var tenTheLoai = req.body.tenLoai
-            await Category.findOneAndUpdate({ _id: idTheLoai }, { name: tenTheLoai })
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
-                type: 'success',
-                title: 'Thành công',
-                text: 'Sửa thể loại thành công!'
-            })
-            res.redirect(redirectUrl)
+            const oldCategory = await Category.findById(idTheLoai)
+            const checkCategory = await Category.findOne({name: tenTheLoai})
+            if(checkCategory == null || checkCategory._id.toString() == oldCategory._id.toString()){
+                await Category.findOneAndUpdate({ _id: idTheLoai }, { name: tenTheLoai })
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
+                    type: 'success',
+                    title: 'Thành công',
+                    text: 'Sửa thể loại thành công!'
+                })
+                res.redirect(redirectUrl)
+            }else{
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
+                    type: 'warning',
+                    title: 'Thất bại',
+                    text: 'Thể loại "'+tenTheLoai+'" đã có trong danh sách.'
+                })
+                res.redirect(redirectUrl)
+            }
         } catch (error) {
+            console.log(error)
             res.json(error)
         }
     }
