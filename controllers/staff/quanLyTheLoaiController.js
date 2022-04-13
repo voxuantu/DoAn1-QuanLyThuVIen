@@ -24,7 +24,8 @@ class QuanLyTheLoaiController {
     }
     async create(req, res) {
         try {
-            let checkCategory = await Category.findOne({name: req.body.categoryName})
+            var tenTheLoai = req.body.categoryName
+            let checkCategory = await Category.findOne({name: {$regex: tenTheLoai, $options: 'i'}})
             if(checkCategory != null){
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{
                     type: 'warning',
@@ -53,7 +54,7 @@ class QuanLyTheLoaiController {
             var idTheLoai = req.body.idLoai
             var tenTheLoai = req.body.tenLoai
             const oldCategory = await Category.findById(idTheLoai)
-            const checkCategory = await Category.findOne({name: tenTheLoai})
+            const checkCategory = await Category.findOne({name: {$regex: tenTheLoai, $options: 'i'}})
             if(checkCategory == null || checkCategory._id.toString() == oldCategory._id.toString()){
                 await Category.findOneAndUpdate({ _id: idTheLoai }, { name: tenTheLoai })
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTheLoai',{

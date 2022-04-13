@@ -29,7 +29,8 @@ class QuanLyNhaXuatBanControler {
     }
     async create(req, res) {
         try {
-            const checkAuthor = await Author.findOne({name: req.body.tentacgia})
+            var tenTacGia = req.body.tentacgia
+            const checkAuthor = await Author.findOne({name: {$regex: tenTacGia, $options: 'i'}})
             if(checkAuthor != null){
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
                     type: 'warning',
@@ -58,7 +59,7 @@ class QuanLyNhaXuatBanControler {
             var idTacGia = req.body.idTacGia
             var tenTacGia = req.body.tenTacGia
             let oldAuthor = await Author.findById(idTacGia)
-            let checkAuthor = await Author.findOne({name: tenTacGia})
+            let checkAuthor = await Author.findOne({name: {$regex: tenTacGia, $options: 'i'}})
             if(checkAuthor == null || checkAuthor._id.toString() == oldAuthor._id.toString()){
                 await Author.findOneAndUpdate({ _id: idTacGia }, { name: tenTacGia })
                 //req.session.suaThanhCong = true

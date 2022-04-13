@@ -31,7 +31,8 @@ class QuanLyNhaXuatBanControler {
     }
     async create(req, res) {
         try {
-            const checkBookPublisher = await BookPublisher.findOne({name: req.body.tenNhaXB })
+            var tenNXB = req.body.tenNhaXB
+            const checkBookPublisher = await BookPublisher.findOne({name: {$regex: tenNXB, $options: 'i'} })
             if(checkBookPublisher != null){
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
                     type: 'warning',
@@ -60,7 +61,7 @@ class QuanLyNhaXuatBanControler {
             var idNbx = req.body.idNbx
             var tenNbx = req.body.tenNbx
             let oldBookPublisher = await BookPublisher.findById(idNbx)
-            let checkBookPublisher = await BookPublisher.findOne({name: tenNbx})
+            let checkBookPublisher = await BookPublisher.findOne({name: {$regex: tenNbx, $options: 'i'}})
             if(checkBookPublisher == null || checkBookPublisher._id.toString() == oldBookPublisher._id.toString()){
                 await BookPublisher.findOneAndUpdate({ _id: idNbx }, { name: tenNbx })
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
