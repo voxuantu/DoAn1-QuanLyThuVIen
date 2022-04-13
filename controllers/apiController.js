@@ -13,6 +13,8 @@ const FineTicket = require('../models/fineTicket')
 const urlHelper = require('../utils/url')
 const Comment = require("../models/comment")
 const Notification = require('../models/notification')
+var QRCode = require('qrcode');
+const fs = require('fs')
 
 
 class APIController {
@@ -423,7 +425,7 @@ class APIController {
         try {
             var sachmuon = JSON.parse(req.body.sachmuon)
             var libraryCard = req.body.libraryCard
-            var card = await LibraryCard.findOne({idCard : libraryCard})
+            var card = await LibraryCard.findOne({ idCard: libraryCard })
             var borrowTicket = new BorrowBookTicket({
                 libraryCard: card._id,
                 statusBorrowBook: "Đang mượn",
@@ -434,7 +436,7 @@ class APIController {
                 var detailBorrowBookTicket = new DetailBorrowBookTicket({
                     bookId: e,
                     borrowBookTicketId: borrowTicket._id,
-                    status : "Đang mượn"
+                    status: "Đang mượn"
                 })
                 await detailBorrowBookTicket.save()
             })
@@ -444,7 +446,41 @@ class APIController {
                 text: 'Xác nhận mượn sách thành công!'
             })
             res.json(redirectUrl)
-        } catch (error){
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    // lấy qrcode
+    async getQRcode(req, res) {
+        var id = req.body.id
+        const book = await Book.findById(req.body.id)
+        QRCode.toDataURL(id, function (err, url) {
+            res.json({
+                url: url,
+                name: book.name
+            })
+        })
+    }
+    // tạo ảnh cho qr code
+    async createImageQRcode(req, res) {
+        try{
+            var id = req.body.id
+            console.log(id)
+            var name = req.body.name
+            const qr = await QRCode.toFile(`./public/images/QRCode/${name}.png`, id);
+            res.json('success')
+            //console.log(qr)
+        }catch(err){
+            console.log(err)
+        }
+    }
+    deleteImageQRcode(req, res){
+        try {
+            var name = req.body.name
+            var path = `./public/images/QRCode/${name}.png`
+            fs.unlinkSync(path)
+            res.json('success')
+        } catch (error) {
             console.log(error)
         }
     }

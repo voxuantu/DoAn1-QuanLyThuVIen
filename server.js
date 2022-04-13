@@ -12,7 +12,6 @@ const session = require('express-session')
 const methodOverride = require('method-override')
 const cloudinary = require('cloudinary').v2;
 
-
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");

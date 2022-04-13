@@ -122,7 +122,7 @@ class MuonTraSachController {
                     { bookId: element.id, borrowBookTicketId: borrowTicketId }, {
                     status: element.tinhtrang,
                     dateGiveBack: now
-                })
+                }).exec()
             });
             var tienphat = parseInt(req.body.tienphat)
             if (tienphat > 0) {
@@ -149,6 +149,7 @@ class MuonTraSachController {
             var isLate = false
             var borrowBookTicket = await BorrowBookTicket.findById(borrowTicketId)
             sachmuon.forEach(e => {
+                
                 if (e.status != "Đang mượn") {
                     sosachtra++
                 }
@@ -165,8 +166,8 @@ class MuonTraSachController {
                     await BorrowBookTicket.findOneAndUpdate({ _id: borrowTicketId }, { statusBorrowBook: "Trễ hẹn" })
                 }
             }
-            console.log("sach tra : " + sosachtra)
-            console.log("sach muon : " + sachmuon.length)
+            //console.log("sach tra : " + sosachtra)
+            //console.log("sach muon : " + sachmuon.length)
             res.json("Trả sách thành công")
         } catch (error) {
             console.log(error)

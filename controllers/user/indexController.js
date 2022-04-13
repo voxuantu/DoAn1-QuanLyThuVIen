@@ -20,10 +20,10 @@ class IndexController {
                 var roomName = currentUser._id.toString()
                 socket.join(roomName)
             }
-            console.log(socket.adapter.rooms);
+            //console.log(socket.adapter.rooms);
         
             socket.on('disconnect', () => {
-                console.log('user disconnected');
+                //console.log('user disconnected');
             });
         });
         res.render('index', {

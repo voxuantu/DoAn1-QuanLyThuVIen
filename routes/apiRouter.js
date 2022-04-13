@@ -22,5 +22,7 @@ router.get('/layThongBaoDocGia', apiController.loadNotificationForReader)
 router.post('/checkThongBao', apiController.checkNotification)
 router.post('/getABook', apiController.getABook)
 router.post('/bookLoanConfirmation', apiController.bookLoanConfirmation)
-
+router.post('/getQRcode', apiController.getQRcode)
+router.post('/saveQRcode', apiController.createImageQRcode)
+router.post('/deleteQRcode', apiController.deleteImageQRcode)
 module.exports = router;
