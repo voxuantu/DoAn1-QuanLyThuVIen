@@ -22,7 +22,7 @@ class ChiTietSachController {
                                             .limit(4)
                                             var io = req.app.get('socketio')
         io.on('connection', (socket) => {
-            if(currentUser.role.name == 'USER'){
+            if(currentUser && currentUser.role.name == 'USER'){
                 var roomName = currentUser._id.toString()
                 socket.join(roomName)
             }
