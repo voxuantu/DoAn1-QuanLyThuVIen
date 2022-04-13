@@ -11,10 +11,10 @@ class QuanLyNhanVienController {
                 var roomName = currentUser._id.toString()
                 socket.join(roomName)
             }
-            console.log(socket.rooms);
+            //console.log(socket.rooms);
         
             socket.on('disconnect', () => {
-                console.log('user disconnected');
+                //console.log('user disconnected');
             });
         });
         const currentUser = await req.user

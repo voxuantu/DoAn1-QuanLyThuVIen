@@ -12,10 +12,10 @@ class QuyDinhController {
                 var roomName = currentUser._id.toString()
                 socket.join(roomName)
             }
-            console.log(socket.rooms);
+            //console.log(socket.rooms);
         
             socket.on('disconnect', () => {
-                console.log('user disconnected');
+                //console.log('user disconnected');
             });
         });
         res.render('admin/quyDinh',{

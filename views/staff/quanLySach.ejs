@@ -77,6 +77,10 @@
                                                 <i class="fa-solid fa-pen-to-square action-book" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                                 title="Chỉnh sửa sách"></i>
                                             </a>
+                                            <a onclick="OpenQRCode(this)" data-id-book="<%= books[i].id %>">
+                                                <i class="fa-solid fa-qrcode" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Xem QR-code"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 <% } %>
@@ -88,6 +92,24 @@
         </div>
     </div>
 </div>
+// modal QR-code
+<div id="modalQrCode" class="modal modal-QRCode" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">QR-code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <img id="qrcode">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/javascript/validator.js"></script>
 <script src="/javascript/TrangQuanLySach.js"></script>
 <script src="/javascript/TrangChu.js"></script>
 <script src="/javascript/showToolTip.js"></script>
