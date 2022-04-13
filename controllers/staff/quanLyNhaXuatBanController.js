@@ -11,13 +11,20 @@ class QuanLyNhaXuatBanControler {
             var io = req.app.get('socketio')
             io.on('connection', (socket) => {
                 if (currentUser.role.name == 'USER') {
-                    var roomName = currentUser._id.toString()
-                    socket.join(roomName)
+                    var roomName = currentUser.email
+
+                    const clients = io.sockets.adapter.rooms.get(roomName)
+                    const numClients = clients ? clients.size : 0
+                    if (numClients == 0) {
+                        socket.join(roomName)
+                    }
                 }
-                //console.log(socket.rooms);
 
                 socket.on('disconnect', () => {
-                    //console.log('user disconnected');
+                    if(currentUser && currentUser.role.name == 'USER'){
+                        var roomName = currentUser.email
+                        socket.leave(roomName)
+                    }
                 });
             });
             res.render('staff/quanLyNhaXuatBan', {
@@ -32,15 +39,15 @@ class QuanLyNhaXuatBanControler {
     async create(req, res) {
         try {
             var tenNXB = req.body.tenNhaXB
-            const checkBookPublisher = await BookPublisher.findOne({name: {$regex: tenNXB, $options: 'i'} })
-            if(checkBookPublisher != null){
+            const checkBookPublisher = await BookPublisher.findOne({ name: { $regex: tenNXB, $options: 'i' } })
+            if (checkBookPublisher != null) {
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
                     type: 'warning',
                     title: 'Thất bại',
-                    text: '"'+ req.body.tenNhaXB + '" đã có trong danh sách. '
+                    text: '"' + req.body.tenNhaXB + '" đã có trong danh sách. '
                 })
                 res.redirect(redirectUrl)
-            }else{
+            } else {
                 const bookPublisher = new BookPublisher({
                     name: req.body.tenNhaXB
                 })
@@ -61,8 +68,8 @@ class QuanLyNhaXuatBanControler {
             var idNbx = req.body.idNbx
             var tenNbx = req.body.tenNbx
             let oldBookPublisher = await BookPublisher.findById(idNbx)
-            let checkBookPublisher = await BookPublisher.findOne({name: {$regex: tenNbx, $options: 'i'}})
-            if(checkBookPublisher == null || checkBookPublisher._id.toString() == oldBookPublisher._id.toString()){
+            let checkBookPublisher = await BookPublisher.findOne({ name: { $regex: tenNbx, $options: 'i' } })
+            if (checkBookPublisher == null || checkBookPublisher._id.toString() == oldBookPublisher._id.toString()) {
                 await BookPublisher.findOneAndUpdate({ _id: idNbx }, { name: tenNbx })
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
                     type: 'success',
@@ -70,11 +77,11 @@ class QuanLyNhaXuatBanControler {
                     text: 'Sửa nhà xuất bản thành công!'
                 })
                 res.redirect(redirectUrl)
-            }else{
+            } else {
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhaXuatBan', {
                     type: 'warning',
                     title: 'Thất bại',
-                    text: '"'+ tenNbx + '" đã có trong danh sách. '
+                    text: '"' + tenNbx + '" đã có trong danh sách. '
                 })
                 res.redirect(redirectUrl)
             }
