@@ -6,15 +6,17 @@ function initialize(passport){
     const authenticateUser = async function(username, password, done){
         let user = await getUserByUsername(username)
         if(user == null){
-            return done(null, false, {message: 'No user with that username'})
+            return done(null, false, {message: 'Không người dùng nào có tài khoản đó'})
         }
 
         try {
-            if( await bcrypt.compare(password, user.password)){
+            if( await bcrypt.compare(password, user.password) && user.isBlock == false){
                 
                 return done(null,user)
+            }else if(user.isBlock == true){
+                return done(null, false, {message: 'Tài khoản này hiện đang bị khóa'})
             }else{
-                return done(null, false, {message: 'Password incorrect'})
+                return done(null, false, {message: 'Mật khẩu không chính xác'})
             }
         } catch (error) {
             return done(error)

@@ -53,6 +53,49 @@ Validator({
     }
 });
 
+$(document).ready(
+    $('.js-delete-staff').each(function(i,obj){
+        $(this).click(function(){
+            var id = $(this).attr('data-id')
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: true
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Bạn có muốn xóa nhân viên này không?',
+                text: "Nếu xóa thì dữ liêu sẽ không khôi phục lại được",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Không',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/quanLyNhanVien/xoaNhanVien',
+                        dataType: 'json',
+                        type: 'post',
+                        data: {
+                            id: id
+                        },
+                        success: function (data) {
+                            window.location.replace(data);
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    })
+                }
+            })
+        })
+    })
+);
+
 $(document).ready( function () {
     var dataTable = $('#table-nhan-vien').DataTable();
     $('#searchBox').keyup(function(){
