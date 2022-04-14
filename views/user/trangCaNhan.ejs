@@ -314,14 +314,20 @@
                                 <label for="newpass" class="form-label">Mật khẩu mới</label>
                                 <input type="text" style="display: none;" id="userId" name="userId" value="<%= currentUser.id%>">
                                 <div class="form-group">
-                                    <input type="password" class="field" name="newpass" id="newpass" placeholder="Mật khẩu mới...">
+                                    <div style="position: relative;">
+                                        <input type="password" class="field" name="newpass" id="newpass" placeholder="Mật khẩu mới...">
+                                        <i id="show-hid-newpass" class="fa-solid fa-eye show-or-hide-password"></i>
+                                    </div>
                                     <span class="errorMessage"></span>
                                 </div>
                             </div>
                             <div class="mb-2">
                                 <label for="renewpass" class="form-label">Nhập lại mật khẩu mới</label>
                                 <div class="form-group">
-                                    <input type="password" class="field" id="renewpass" placeholder="Nhập lại mật khẩu mới...">
+                                    <div style="position: relative;">
+                                        <input type="password" class="field" id="renewpass" placeholder="Nhập lại mật khẩu mới...">
+                                        <i id="show-hid-renewpass" class="fa-solid fa-eye show-or-hide-password"></i>
+                                    </div>
                                     <span class="errorMessage"></span>
                                 </div>
                             </div>

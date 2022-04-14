@@ -145,3 +145,13 @@ Validator.isNumber = function (selector, message) {
         }
     }
 }
+
+Validator.isFormatPassword = function (selector, message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+            return regex.test(value) ? undefined : message || 'Không đúng format'
+        }
+    }
+}

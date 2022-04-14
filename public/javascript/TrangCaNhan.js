@@ -226,6 +226,7 @@ Validator({
     errorSelector : '.errorMessage',
     rules : [
         Validator.isRequire('#FormDoiMatKhau #newpass'),
+        Validator.isFormatPassword('#FormDoiMatKhau #newpass', "Mật khẩu phải chứa ít nhất 8 kí tự bao gồm kí tự đặc biêt, kí tự hoa, kí tự thường và số"),
         Validator.isRequire('#FormDoiMatKhau #code'),
         Validator.isConfirmed('#renewpass', function () {
             return document.querySelector('#FormDoiMatKhau #newpass').value;
@@ -278,5 +279,31 @@ $(document).ready(function(){
                 }
             })
         })
+    })
+    var newpass = document.getElementById('newpass')
+    var renewpass = document.getElementById('renewpass')
+    var showhidenewpass = document.getElementById('show-hid-newpass')
+    var showhiderenewpass = document.getElementById('show-hid-renewpass')
+    showhidenewpass.addEventListener('click', function(){
+        if(newpass.type === "password"){
+            newpass.type = 'text'
+            showhidenewpass.classList.remove("fa-eye")
+            showhidenewpass.classList.add("fa-eye-slash")
+        } else {
+            newpass.type = 'password'
+            showhidenewpass.classList.remove("fa-eye-slash")
+            showhidenewpass.classList.add("fa-eye")
+        }
+    })
+    showhiderenewpass.addEventListener('click', function(){
+        if(renewpass.type === "password"){
+            renewpass.type = 'text'
+            showhiderenewpass.classList.remove("fa-eye")
+            showhiderenewpass.classList.add("fa-eye-slash")
+        } else {
+            renewpass.type = 'password'
+            showhiderenewpass.classList.remove("fa-eye-slash")
+            showhiderenewpass.classList.add("fa-eye")
+        }
     })
 })
