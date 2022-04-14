@@ -1,0 +1,67 @@
+<%- contentFor('head') %>
+    <title>Quản lý độc giả</title>
+<%- contentFor('body') %>
+
+<% if (currentUser.role.name=='ADMIN') { %>
+    <%- include('../particals/headerAdmin') %>
+<% } else if (currentUser.role.name=='MOD1') { %>
+    <%- include('../particals/headerMod1') %>
+<% } %> 
+
+<div class="container" style="min-height: 500px;">
+    <div class="duong-dan-muc">
+        <a href="/trangChu">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a href="/quanLyDocGia/taiKhoanBiChan">Tài khoản bị chặn</a>
+    </div>
+    <div class="row">
+        <div id="ql-sach">
+            <div class="timkiem mb-2" style="min-height: 600px; position: relative; padding-bottom: 10px;">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-end">
+                            <input class="field" type="text" id="searchBox" name="tuKhoa"
+                                placeholder="Nhập từ khóa tìm kiếm...">
+                        </div>
+                    </div>
+                </div>
+                <div class="main-datatable">
+                    <table id="table-doc-gia-bi-chan" class="table mb-3 cust-datatable dataTable no-footer">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Mã thẻ thư viện</th>
+                                <th scope="col">Tên độc giả</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < blockReaders.length; i++ ) { %>
+                                <tr>
+                                    <td><%= (i+1) %></td>
+                                    <td><%= blockReaders[i].idCard %></td>
+                                    <td><%= blockReaders[i].accountId.displayName %></td>
+                                    <td><%= blockReaders[i].accountId.phone %></td>
+                                    <td><%= blockReaders[i].accountId.email %></td>
+                                    <td>
+                                        <i class="fa-solid fa-unlock js-unblock-user" data-user-id="<%= blockReaders[i].accountId._id %>" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            title="Bỏ chặn người dùng"></i>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/javascript/showToolTip.js"></script>
+<script src="/javascript/quanLyTaiKhoanBiChan.js"></script>
+<%- include('../particals/footer') %>

@@ -164,7 +164,21 @@ class QuanLyNhanVienController {
             console.log(error)
         }
     }
-    //Tìm kiếm nhân viên
+    //Xóa nhân viên
+    async delete(req,res){
+        try {
+            var id = req.body.id
+            await Account.deleteOne({_id: id})
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhanVien', {
+                type: 'success',
+                title: 'Thành công',
+                text: 'Xóa nhân viên thành công!'
+            })
+            res.json(redirectUrl)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 module.exports = new QuanLyNhanVienController;

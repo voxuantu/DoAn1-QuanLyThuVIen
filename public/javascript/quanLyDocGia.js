@@ -50,6 +50,49 @@ Validator({
     }
 });
 
+$(document).ready(
+    $('.js-block-user').each(function(i,obj){
+        $(this).click(function(){
+            var id = $(this).attr('data-user-id')
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: true
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Bạn có muốn chặn người dùng này không?',
+                text: "Tài khoản này sẽ bị vô hiệu hóa sau khi chặn",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Không',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/quanLyDocGia/chanDocGia',
+                        dataType: 'json',
+                        type: 'post',
+                        data: {
+                            id: id
+                        },
+                        success: function (data) {
+                            window.location.replace(data);
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    })
+                }
+            })
+        })
+    })
+);
+
 
 $(document).ready( function () {
     var dataTable = $('#table-doc-gia').DataTable();

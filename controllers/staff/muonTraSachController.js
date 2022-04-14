@@ -135,59 +135,64 @@ class MuonTraSachController {
             var now = new Date()
             var maxDaysToBorrow = await Regulation.findOne({name : "Số ngày mượn tối đa/1 lần mượn"})
             var sachtra = JSON.parse(req.body.sachtra)
+            sachtra.forEach(e => {
+                console.log('sach tra: '+ e.id + " " + e.tinhtrang)
+            });
             var borrowTicketId = req.body.borrowTicketId
             sachtra.forEach(async (element) => {
                 var detaiBorrow = await DetailBorrowBookTicket.findOneAndUpdate(
                     { bookId: element.id, borrowBookTicketId: borrowTicketId }, {
                     status: element.tinhtrang,
                     dateGiveBack: now
-                }).exec()
+                })
             });
-            var tienphat = parseInt(req.body.tienphat)
-            if (tienphat > 0) {
-                var borrowBookTicket = await BorrowBookTicket.findById(borrowTicketId)
-                if (borrowBookTicket.fineTicket == null) {
-                    var fineTicket = new FineTicket({
-                        dateFine: now,
-                        fine: tienphat
-                    })
-                    fineTicket = await fineTicket.save()
-                } else {
-                    var fineTicket = await FineTicket.findOneAndUpdate({
-                        _id: borrowBookTicket.fineTicket
-                    }, {
-                        dateFine: now,
-                        fine: tienphat
-                    })
-                }
+            setTimeout(async function(){
+                var tienphat = parseInt(req.body.tienphat)
+                if (tienphat > 0) {
+                    var borrowBookTicket = await BorrowBookTicket.findById(borrowTicketId)
+                    if (borrowBookTicket.fineTicket == null) {
+                        var fineTicket = new FineTicket({
+                            dateFine: now,
+                            fine: tienphat
+                        })
+                        fineTicket = await fineTicket.save()
+                    } else {
+                        var fineTicket = await FineTicket.findOneAndUpdate({
+                            _id: borrowBookTicket.fineTicket
+                        }, {
+                            dateFine: now,
+                            fine: tienphat
+                        })
+                    }
 
-                await BorrowBookTicket.findOneAndUpdate({ _id: borrowTicketId }, { fineTicket: fineTicket._id })
-            }
-            var sosachtra = 0
-            var sachmuon = await DetailBorrowBookTicket.find({ borrowBookTicketId: borrowTicketId })
-            var isLate = false
-            var borrowBookTicket = await BorrowBookTicket.findById(borrowTicketId)
-            sachmuon.forEach(e => {
-                
-                if (e.status != "Đang mượn") {
-                    sosachtra++
+                    await BorrowBookTicket.findOneAndUpdate({ _id: borrowTicketId }, { fineTicket: fineTicket._id })
                 }
-                var dateGiveBack = new Date(e.dateGiveBack)
-                var deadline = new Date(borrowBookTicket.dateBorrow)
-                deadline.setDate(deadline.getDate() + maxDaysToBorrow.value)
-                if (dateGiveBack > deadline) {
-                    isLate = true;
+                var sosachtra = 0
+                var sachmuon = await DetailBorrowBookTicket.find({ borrowBookTicketId: borrowTicketId })
+                var isLate = false
+                var borrowBookTicket = await BorrowBookTicket.findById(borrowTicketId)
+                sachmuon.forEach(e => {
+                    console.log(e.status)
+                    if (e.status != "Đang mượn") {
+                        sosachtra++
+                    }
+                    var dateGiveBack = new Date(e.dateGiveBack)
+                    var deadline = new Date(borrowBookTicket.dateBorrow)
+                    deadline.setDate(deadline.getDate() + maxDaysToBorrow.value)
+                    if (dateGiveBack > deadline) {
+                        isLate = true;
+                    }
+                })
+                if (sosachtra == sachmuon.length) {
+                    await BorrowBookTicket.findOneAndUpdate({ _id: borrowTicketId }, { statusBorrowBook: "Đã trả" })
+                    if (isLate) {
+                        await BorrowBookTicket.findOneAndUpdate({ _id: borrowTicketId }, { statusBorrowBook: "Trễ hẹn" })
+                    }
                 }
-            })
-            if (sosachtra == sachmuon.length) {
-                await BorrowBookTicket.findOneAndUpdate({ _id: borrowTicketId }, { statusBorrowBook: "Đã trả" })
-                if (isLate) {
-                    await BorrowBookTicket.findOneAndUpdate({ _id: borrowTicketId }, { statusBorrowBook: "Trễ hẹn" })
-                }
-            }
-            //console.log("sach tra : " + sosachtra)
-            //console.log("sach muon : " + sachmuon.length)
-            res.json("Trả sách thành công")
+                console.log("sach tra : " + sosachtra)
+                console.log("sach muon : " + sachmuon.length)
+                res.json("Trả sách thành công")
+            },100)
         } catch (error) {
             console.log(error)
         }

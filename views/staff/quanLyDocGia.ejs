@@ -29,70 +29,59 @@
         <a href="/quanLyDocGia">Quản độc giả</a>
     </div>
     <div class="row">
-        <div class="col-sm-2">
-            <div class="left_menu timkiem" style="padding: 0 !important;">
-                <div class="theloai">
-                    <h5>Quản lý</h5>
-                </div>
-                <div class="dstheloai">
-                    <ul>
-                        <li><a href="/quanLyDocGia">Độc giả</a></li>
-                        <li><a href="/quanLyNhanVien">Nhân viên</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-10">
-            <div id="ql-sach">
-                <div class="timkiem mb-2" style="min-height: 600px; position: relative; padding-bottom: 10px;">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <a href="/quanLyDocGia/themDocGia" class="nut-them-moi">
-                                <button class="nutbam">Thêm độc giả</button>
-                            </a>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-end">
-                                <input class="field" type="text" id="searchBox" name="tuKhoa"
-                                    placeholder="Nhập từ khóa tìm kiếm...">
-                            </div>
+        <div id="ql-sach">
+            <div class="timkiem mb-2" style="min-height: 600px; position: relative; padding-bottom: 10px;">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <a href="/quanLyDocGia/themDocGia" class="nut-them-moi">
+                            <button class="nutbam">Thêm độc giả</button>
+                        </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-end">
+                            <input class="field" type="text" id="searchBox" name="tuKhoa"
+                                placeholder="Nhập từ khóa tìm kiếm...">
                         </div>
                     </div>
-                    <div class="main-datatable">
-                        <table id="table-doc-gia" class="table mb-3 cust-datatable dataTable no-footer">
-                            <thead>
+                </div>
+                <div class="main-datatable">
+                    <table id="table-doc-gia" class="table mb-3 cust-datatable dataTable no-footer">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Mã thẻ thư viện</th>
+                                <th scope="col">Tên độc giả</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Ngày thẻ hết hạn</th>
+                                <th scope="col">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < readers.length; i++ ) { %>
                                 <tr>
-                                    <th scope="col">Tên độc giả</th>
-                                    <th scope="col">Số điện thoại</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Ngày thẻ hết hạn</th>
-                                    <th scope="col">Thao tác</th>
+                                    <td><%= (i+1) %></td>
+                                    <td><%= readers[i].idCard %></td>
+                                    <td><%= readers[i].accountId.displayName %></td>
+                                    <td><%= readers[i].accountId.phone %></td>
+                                    <td><%= readers[i].accountId.email %></td>
+                                    <td>
+                                        <% if (subtractDays(addDays(readers[i].createdDate,180)) <= 7) { %>
+                                            <mark class="dang-xu-ly"><%= addDays(readers[i].createdDate,180).toISOString().split('T')[0] %></mark>
+                                        <% }else{ %>
+                                            <mark class="da-tra"><%= addDays(readers[i].createdDate,180).toISOString().split('T')[0] %></mark>
+                                        <% } %> 
+                                    </td>
+                                    <td>
+                                        <a class="js-block-user" data-user-id="<%= readers[i].accountId._id %>">
+                                            <i class="fa-solid fa-ban" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            title="Chặn người dùng"></i>
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <% for( let i = 0; i < readers.length; i++ ) { %>
-                                    <tr>
-                                        <td><%= readers[i].accountId.displayName %></td>
-                                        <td><%= readers[i].accountId.phone %></td>
-                                        <td><%= readers[i].accountId.email %></td>
-                                        <td>
-                                            <% if (subtractDays(addDays(readers[i].createdDate,180)) <= 7) { %>
-                                                <mark class="dang-xu-ly"><%= addDays(readers[i].createdDate,180).toISOString().split('T')[0] %></mark>
-                                            <% }else{ %>
-                                                <mark class="da-tra"><%= addDays(readers[i].createdDate,180).toISOString().split('T')[0] %></mark>
-                                            <% } %> 
-                                        </td>
-                                        <td>
-                                            <a>
-                                                <i class="fa-solid fa-ban" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                title="Chặn người dùng"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
+                            <% } %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

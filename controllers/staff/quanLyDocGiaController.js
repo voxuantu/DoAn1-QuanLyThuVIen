@@ -10,7 +10,36 @@ class QuanLyDocGiaController {
     //Load trang quản lý độc giả
     async index(req, res) {
         const currentUser = await req.user
-        var readers = await LibraryCard.find({}).populate('accountId')
+        var readers = await LibraryCard.aggregate()
+        .lookup({
+            from: 'accounts',
+            localField: 'accountId',
+            foreignField: '_id',
+            as: 'accountId',
+            let: {
+                accountId: "$accountId"
+            },
+            pipeline: [
+                {
+                    $match: {
+                        $expr: {
+                            $and: [
+                                {
+                                    $eq: ["$_id", "$$accountId"]
+                                },
+                                {
+                                    $eq: ["$isBlock", false]
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        })
+        .unwind({
+            path: '$accountId',
+            preserveNullAndEmptyArrays: false
+        })
         var io = req.app.get('socketio')
         io.on('connection', (socket) => {
             if(currentUser.role.name == 'USER'){
@@ -130,7 +159,90 @@ class QuanLyDocGiaController {
             console.log(error)
         }
     }
-    //Tìm kiếm độc giả
+    //Chặn độc giả
+    async block(req, res){
+        try {
+            var id = req.body.id
+            await Account.findOneAndUpdate({_id:id}, {isBlock: true})
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyDocGia', {
+                type: 'success',
+                title: 'Thành công',
+                text: 'Chặn người dùng thành công!'
+            })
+            res.json(redirectUrl)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    //Load danh sách độc giả bị chặn
+    async loadBlockReader(req,res){
+        try {
+            const currentUser = await req.user
+            var blockReaders = await LibraryCard.aggregate()
+            .lookup({
+                from: 'accounts',
+                localField: 'accountId',
+                foreignField: '_id',
+                as: 'accountId',
+                let: {
+                    accountId: "$accountId"
+                },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $and: [
+                                    {
+                                        $eq: ["$_id", "$$accountId"]
+                                    },
+                                    {
+                                        $eq: ["$isBlock", true]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            })
+            .unwind({
+                path: '$accountId',
+                preserveNullAndEmptyArrays: false
+            })
+            var io = req.app.get('socketio')
+            io.on('connection', (socket) => {
+                if(currentUser.role.name == 'USER'){
+                    var roomName = currentUser._id.toString()
+                    socket.join(roomName)
+                }
+                //console.log(socket.rooms);
+            
+                socket.on('disconnect', () => {
+                    //console.log('user disconnected');
+                });
+            });
+            res.render('staff/quanLyTaiKhoanBiChan', {
+                currentUser: currentUser,
+                blockReaders: blockReaders
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    //Bỏ chặn độc giả
+    async unBlock(req, res){
+        try {
+            var id = req.body.id
+            await Account.findOneAndUpdate({_id: id}, {isBlock: false})
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyDocGia/taiKhoanBiChan', {
+                type: 'success',
+                title: 'Thành công',
+                text: 'Bỏ chặn người dùng thành công!'
+            })
+            res.json(redirectUrl)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 module.exports = new QuanLyDocGiaController;

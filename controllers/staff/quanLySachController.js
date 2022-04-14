@@ -51,7 +51,8 @@ class QuanLySachController {
                 coverImage: secure_url
             })
             await book.save();
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1', {
+
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach',{
                 type: 'success',
                 title: 'Thành công',
                 text: 'Thêm sách thành công!'
@@ -197,7 +198,8 @@ class QuanLySachController {
             book.quantity = req.body.soluong
 
             await book.save()
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1', {
+
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach',{
                 type: 'success',
                 title: 'Thành công',
                 text: 'Sửa sách thành công!'
@@ -210,7 +212,8 @@ class QuanLySachController {
     async delete(req, res) {
         try {
             await Book.deleteOne({ _id: req.body.id })
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach/1', {
+
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach',{
                 type: 'success',
                 title: 'Thành công',
                 text: 'Xóa sách thành công!'
