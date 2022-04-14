@@ -11,38 +11,45 @@ const Book = require("../../models/book")
 class TrangCaNhanController {
     async index(req, res) {
         const currentUser = await req.user
-        if(currentUser.role.name == 'USER'){
-            const libraryCard = await LibraryCard.findOne({accountId: currentUser._id})
+        if (currentUser.role.name == 'USER') {
+            const libraryCard = await LibraryCard.findOne({ accountId: currentUser._id })
             var cart = req.session.cart
-            const borrowBookCard = await BorrowBookTicket.aggregate().match({libraryCard: libraryCard._id}).lookup({
+            const borrowBookCard = await BorrowBookTicket.aggregate().match({ libraryCard: libraryCard._id }).lookup({
                 from: 'detailborrowbooks',
                 localField: '_id',
                 foreignField: 'borrowBookTicketId',
                 as: 'bookBorrowed'
             })
-            const maxBorrowDates = await Regulation.findOne({name: 'Số ngày mượn tối đa/1 lần mượn'})
+            const maxBorrowDates = await Regulation.findOne({ name: 'Số ngày mượn tối đa/1 lần mượn' })
 
             var io = req.app.get('socketio')
             io.on('connection', (socket) => {
-                if(currentUser.role.name == 'USER'){
-                    var roomName = currentUser._id.toString()
-                    socket.join(roomName)
+                if (currentUser.role.name == 'USER') {
+                    var roomName = currentUser.email
+
+                    const clients = io.sockets.adapter.rooms.get(roomName)
+                    const numClients = clients ? clients.size : 0
+                    if (numClients == 0) {
+                        socket.join(roomName)
+                    }
                 }
-                //console.log(socket.rooms);
-                
+
                 socket.on('disconnect', () => {
-                    //console.log('user disconnected');
+                    if (currentUser && currentUser.role.name == 'USER') {
+                        var roomName = currentUser.email
+                        socket.leave(roomName)
+                    }
                 });
             });
 
-            res.render('user/trangCaNhan', { 
+            res.render('user/trangCaNhan', {
                 currentUser: currentUser,
                 cart: cart,
                 borrowBookCard: borrowBookCard,
                 maxBorrowDates: maxBorrowDates.value
             });
-        }else{
-            res.render('staff/trangCaNhanStaff',{
+        } else {
+            res.render('staff/trangCaNhanStaff', {
                 currentUser: currentUser
             })
         }
@@ -73,7 +80,7 @@ class TrangCaNhanController {
         }
     }
     //Bình luận sách
-    async commentBook(req,res){
+    async commentBook(req, res) {
         try {
             const currentUser = await req.user
             var comment = new Comment({
@@ -84,20 +91,20 @@ class TrangCaNhanController {
                 reader: currentUser.id
             })
             await comment.save()
-            await DetailBorrowBookTicket.findOneAndUpdate({_id: req.body.detailBorrowBookId},{isComment: true})
-            const comments = await Comment.find({bookId: req.body.bookId})
+            await DetailBorrowBookTicket.findOneAndUpdate({ _id: req.body.detailBorrowBookId }, { isComment: true })
+            const comments = await Comment.find({ bookId: req.body.bookId })
             var starRating = 0
             comments.forEach(e => {
                 starRating += e.starRating
             });
             starRating /= comments.length;
-            await Book.findOneAndUpdate({_id: req.body.bookId},{starRating: starRating})
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/chiTietSach/'+ req.body.bookId,{
+            await Book.findOneAndUpdate({ _id: req.body.bookId }, { starRating: starRating })
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/chiTietSach/' + req.body.bookId, {
                 type: 'success',
                 title: 'Thành công',
                 text: 'Bình luận sách thành công!'
             })
-            res.redirect(redirectUrl)  
+            res.redirect(redirectUrl)
         } catch (error) {
             console.log(error)
         }

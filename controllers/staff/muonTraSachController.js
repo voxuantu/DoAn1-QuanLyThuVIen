@@ -49,6 +49,25 @@ class MuonTraSachController {
             }
             data.push(row)
         })
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if(currentUser.role.name == 'USER'){
+                var roomName = currentUser.email
+
+                const clients = io.sockets.adapter.rooms.get(roomName)
+                const numClients = clients ? clients.size : 0
+                if(numClients == 0){
+                    socket.join(roomName)
+                }
+            }
+        
+            socket.on('disconnect', () => {
+                if(currentUser && currentUser.role.name == 'USER'){
+                    var roomName = currentUser.email
+                    socket.leave(roomName)
+                }
+            });
+        });
         const maxBorrowDates = await Regulation.findOne({ name: 'Số ngày mượn tối đa/1 lần mượn' })
         res.render('staff/muonTraSach', {
             currentUser: currentUser,
@@ -79,7 +98,7 @@ class MuonTraSachController {
                 await detailsBorrowBookTiket[i].save()
             }
             var borrowBookTicket = await BorrowBookTicket.findOneAndUpdate({ _id: req.body.borrowBookTicketId }, { statusBorrowBook: 'Đang mượn' })
-            var libraryCard = await LibraryCard.findOne({_id : borrowBookTicket.libraryCard})
+            var libraryCard = await LibraryCard.findOne({_id : borrowBookTicket.libraryCard}).populate('accountId')
 
             var notify = new Notification({
                 title : "Mượn sách",
@@ -89,7 +108,7 @@ class MuonTraSachController {
             await notify.save()
 
             var io = req.app.get('socketio')
-            io.to(libraryCard.accountId.toString()).emit('show-notification-from-admin', 
+            io.to(libraryCard.accountId.email).emit('show-notification-from-admin', 
                 {
                     id : notify._id,
                     title : "Mượn sách",

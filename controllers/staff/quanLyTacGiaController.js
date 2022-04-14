@@ -10,13 +10,20 @@ class QuanLyNhaXuatBanControler {
             var io = req.app.get('socketio')
             io.on('connection', (socket) => {
                 if (currentUser.role.name == 'USER') {
-                    var roomName = currentUser._id.toString()
-                    socket.join(roomName)
+                    var roomName = currentUser.email
+
+                    const clients = io.sockets.adapter.rooms.get(roomName)
+                    const numClients = clients ? clients.size : 0
+                    if (numClients == 0) {
+                        socket.join(roomName)
+                    }
                 }
-                //console.log(socket.rooms);
 
                 socket.on('disconnect', () => {
-                    //console.log('user disconnected');
+                    if (currentUser && currentUser.role.name == 'USER') {
+                        var roomName = currentUser.email
+                        socket.leave(roomName)
+                    }
                 });
             });
             res.render('staff/quanLyTacGia', {
@@ -30,15 +37,15 @@ class QuanLyNhaXuatBanControler {
     async create(req, res) {
         try {
             var tenTacGia = req.body.tentacgia
-            const checkAuthor = await Author.findOne({name: {$regex: tenTacGia, $options: 'i'}})
-            if(checkAuthor != null){
+            const checkAuthor = await Author.findOne({ name: { $regex: tenTacGia, $options: 'i' } })
+            if (checkAuthor != null) {
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
                     type: 'warning',
                     title: 'Thất bại',
-                    text: 'Tác giả "'+req.body.tentacgia+'" đã có trong danh sách.'
+                    text: 'Tác giả "' + req.body.tentacgia + '" đã có trong danh sách.'
                 })
                 res.redirect(redirectUrl)
-            }else{
+            } else {
                 const author = new Author({
                     name: req.body.tentacgia
                 })
@@ -59,8 +66,8 @@ class QuanLyNhaXuatBanControler {
             var idTacGia = req.body.idTacGia
             var tenTacGia = req.body.tenTacGia
             let oldAuthor = await Author.findById(idTacGia)
-            let checkAuthor = await Author.findOne({name: {$regex: tenTacGia, $options: 'i'}})
-            if(checkAuthor == null || checkAuthor._id.toString() == oldAuthor._id.toString()){
+            let checkAuthor = await Author.findOne({ name: { $regex: tenTacGia, $options: 'i' } })
+            if (checkAuthor == null || checkAuthor._id.toString() == oldAuthor._id.toString()) {
                 await Author.findOneAndUpdate({ _id: idTacGia }, { name: tenTacGia })
                 //req.session.suaThanhCong = true
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
@@ -69,11 +76,11 @@ class QuanLyNhaXuatBanControler {
                     text: 'Sửa tác giả thành công!'
                 })
                 res.redirect(redirectUrl)
-            }else{
+            } else {
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyTacGia', {
                     type: 'warning',
                     title: 'Thất bại',
-                    text: 'Tác giả "'+tenTacGia+'" đã có trong danh sách.'
+                    text: 'Tác giả "' + tenTacGia + '" đã có trong danh sách.'
                 })
                 res.redirect(redirectUrl)
             }

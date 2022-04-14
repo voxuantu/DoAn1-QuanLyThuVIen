@@ -5,13 +5,20 @@ class LienHeController {
         var io = req.app.get('socketio')
         io.on('connection', (socket) => {
             if(currentUser && currentUser.role.name == 'USER'){
-                var roomName = currentUser._id.toString()
-                socket.join(roomName)
+                var roomName = currentUser.email
+
+                const clients = io.sockets.adapter.rooms.get(roomName)
+                const numClients = clients ? clients.size : 0
+                if(numClients == 0){
+                    socket.join(roomName)
+                }
             }
-            //console.log(socket.rooms);
         
             socket.on('disconnect', () => {
-                //console.log('user disconnected');
+                if (currentUser && currentUser.role.name == 'USER') {
+                    var roomName = currentUser.email
+                    socket.leave(roomName)
+                }
             });
         });
         res.render('user/lienHe',{

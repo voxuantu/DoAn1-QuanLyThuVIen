@@ -2,7 +2,7 @@ const Category = require('../../models/category')
 const BookPublisher = require('../../models/bookPublisher')
 const Author = require('../../models/author')
 const Book = require('../../models/book')
-const {bufferUpload} = require('../../utils/uploadImage')
+const { bufferUpload } = require('../../utils/uploadImage')
 const urlHelper = require('../../utils/url')
 
 
@@ -11,14 +11,21 @@ class QuanLySachController {
         const currentUser = await req.user
         var io = req.app.get('socketio')
         io.on('connection', (socket) => {
-            if(currentUser.role.name == 'USER'){
-                var roomName = currentUser._id.toString()
-                socket.join(roomName)
+            if (currentUser.role.name == 'USER') {
+                var roomName = currentUser.email
+
+                const clients = io.sockets.adapter.rooms.get(roomName)
+                const numClients = clients ? clients.size : 0
+                if (numClients == 0) {
+                    socket.join(roomName)
+                }
             }
-            console.log(socket.rooms);
-        
+
             socket.on('disconnect', () => {
-                console.log('user disconnected');
+                if (currentUser && currentUser.role.name == 'USER') {
+                    var roomName = currentUser.email
+                    socket.leave(roomName)
+                }
             });
         });
         const books = await Book.find({}).populate('author')
@@ -44,6 +51,7 @@ class QuanLySachController {
                 coverImage: secure_url
             })
             await book.save();
+
             const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach',{
                 type: 'success',
                 title: 'Thành công',
@@ -62,18 +70,25 @@ class QuanLySachController {
         const authors = await Author.find({})
         var io = req.app.get('socketio')
         io.on('connection', (socket) => {
-            if(currentUser.role.name == 'USER'){
-                var roomName = currentUser._id.toString()
-                socket.join(roomName)
+            if (currentUser.role.name == 'USER') {
+                var roomName = currentUser.email
+
+                const clients = io.sockets.adapter.rooms.get(roomName)
+                const numClients = clients ? clients.size : 0
+                if (numClients == 0) {
+                    socket.join(roomName)
+                }
             }
-            //console.log(socket.rooms);
-        
+
             socket.on('disconnect', () => {
-                //console.log('user disconnected');
+                if (currentUser && currentUser.role.name == 'USER') {
+                    var roomName = currentUser.email
+                    socket.leave(roomName)
+                }
             });
         });
         res.render('staff/themSach.ejs', {
-            book : book,
+            book: book,
             currentUser: currentUser,
             categories: categories,
             bookPublishers: bookPublishers,
@@ -132,8 +147,27 @@ class QuanLySachController {
             const categories = await Category.find({})
             const bookPublishers = await BookPublisher.find({})
             const authors = await Author.find({})
+            var io = req.app.get('socketio')
+            io.on('connection', (socket) => {
+                if (currentUser.role.name == 'USER') {
+                    var roomName = currentUser.email
+
+                    const clients = io.sockets.adapter.rooms.get(roomName)
+                    const numClients = clients ? clients.size : 0
+                    if (numClients == 0) {
+                        socket.join(roomName)
+                    }
+                }
+
+                socket.on('disconnect', () => {
+                    if (currentUser && currentUser.role.name == 'USER') {
+                        var roomName = currentUser.email
+                        socket.leave(roomName)
+                    }
+                });
+            });
             res.render('staff/suaSach.ejs', {
-                book : book,
+                book: book,
                 currentUser: currentUser,
                 categories: categories,
                 bookPublishers: bookPublishers,
@@ -164,6 +198,7 @@ class QuanLySachController {
             book.quantity = req.body.soluong
 
             await book.save()
+
             const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach',{
                 type: 'success',
                 title: 'Thành công',
@@ -177,6 +212,7 @@ class QuanLySachController {
     async delete(req, res) {
         try {
             await Book.deleteOne({ _id: req.body.id })
+
             const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach',{
                 type: 'success',
                 title: 'Thành công',

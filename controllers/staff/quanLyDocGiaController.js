@@ -43,13 +43,20 @@ class QuanLyDocGiaController {
         var io = req.app.get('socketio')
         io.on('connection', (socket) => {
             if(currentUser.role.name == 'USER'){
-                var roomName = currentUser._id.toString()
-                socket.join(roomName)
+                var roomName = currentUser.email
+
+                const clients = io.sockets.adapter.rooms.get(roomName)
+                const numClients = clients ? clients.size : 0
+                if(numClients == 0){
+                    socket.join(roomName)
+                }
             }
-            //console.log(socket.rooms);
         
             socket.on('disconnect', () => {
-                //console.log('user disconnected');
+                if(currentUser && currentUser.role.name == 'USER'){
+                    var roomName = currentUser.email
+                    socket.leave(roomName)
+                }
             });
         });
         res.render('staff/quanLyDocGia', {
@@ -63,8 +70,13 @@ class QuanLyDocGiaController {
         var io = req.app.get('socketio')
         io.on('connection', (socket) => {
             if(currentUser.role.name == 'USER'){
-                var roomName = currentUser._id.toString()
-                socket.join(roomName)
+                var roomName = currentUser.email
+
+                const clients = io.sockets.adapter.rooms.get(roomName)
+                const numClients = clients ? clients.size : 0
+                if(numClients == 0){
+                    socket.join(roomName)
+                }
             }
             console.log(socket.rooms);
         
@@ -121,9 +133,11 @@ class QuanLyDocGiaController {
                     account.img = 'https://res.cloudinary.com/cake-shop/image/upload/v1647313381/femaleAvatar_klsqxv.jpg'
                 }
                 const newAccount = await account.save()
+                const num = await LibraryCard.find({}).count().exec()
                 const newLibraryCard = new LibraryCard({
                     accountId: newAccount.id,
-                    createdDate: new Date()
+                    createdDate: new Date(),
+                    idCard : "LBC" + (num + 1)
                 })
                 await newLibraryCard.save()
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyDocGia', {
