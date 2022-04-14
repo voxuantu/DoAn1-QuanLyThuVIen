@@ -25,11 +25,17 @@
                     <form id="form2">
                         <input type="text" class="field" name="userId" id="userId" style="display: none;">
                         <div class="form-group">
-                            <input type="password" class="field" name="newpass" id="newpass" placeholder="Mật khẩu mới...">
+                            <div style="position: relative;">
+                                <input type="password" class="field" name="newpass" id="newpass" placeholder="Mật khẩu mới...">
+                                <i id="show-hide-newpass" class="fa-solid fa-eye show-or-hide-password"></i>
+                            </div>
                             <span class="errorMessage"></span>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="field" id="renewpass" placeholder="Nhập lại mật khẩu mới...">
+                            <div style="position: relative;">
+                                <input type="password" class="field" id="renewpass" placeholder="Nhập lại mật khẩu mới...">
+                                <i id="show-hide-renewpass" class="fa-solid fa-eye show-or-hide-password"></i>
+                            </div>
                             <span class="errorMessage"></span>
                         </div>
                         <div class="form-group  mb-3">
