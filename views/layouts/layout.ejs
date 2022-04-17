@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/css/cssInput.css">
     <link rel="stylesheet" href="/css/cssTable.css">
+    <link rel="stylesheet" href="/css/cssLoader.css">
     <link rel="stylesheet" type="text/css" href="/css/datatable/jquery.dataTables.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="/css/datatable/dataTables.bootstrap5.min.css"> -->
 
@@ -28,9 +29,15 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascript/datatable/jquery.dataTables.min.js"></script>
     <!-- <script src="/javascript/datatable/dataTables.bootstrap5.min.js"></script> -->
-    
+    <script src="/javascript/loader.js"></script>
+
 </head>
 <body>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+    
     <%- body%> 
+    
 </body>
 </html>
