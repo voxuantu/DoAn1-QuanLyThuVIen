@@ -9,18 +9,18 @@ class QuanLyNhanVienController {
     async index(req, res, next) {
         var io = req.app.get('socketio')
         io.on('connection', (socket) => {
-            if(currentUser.role.name == 'USER'){
+            if (currentUser.role.name == 'USER') {
                 var roomName = currentUser.email
 
                 const clients = io.sockets.adapter.rooms.get(roomName)
                 const numClients = clients ? clients.size : 0
-                if(numClients == 0){
+                if (numClients == 0) {
                     socket.join(roomName)
                 }
             }
-        
+
             socket.on('disconnect', () => {
-                if(currentUser && currentUser.role.name == 'USER'){
+                if (currentUser && currentUser.role.name == 'USER') {
                     var roomName = currentUser.email
                     socket.leave(roomName)
                 }
@@ -65,6 +65,25 @@ class QuanLyNhanVienController {
     }
     //Load trang thêm nhân viên
     async loadCreate(req, res) {
+        var io = req.app.get('socketio')
+        io.on('connection', (socket) => {
+            if (currentUser.role.name == 'USER') {
+                var roomName = currentUser.email
+
+                const clients = io.sockets.adapter.rooms.get(roomName)
+                const numClients = clients ? clients.size : 0
+                if (numClients == 0) {
+                    socket.join(roomName)
+                }
+            }
+
+            socket.on('disconnect', () => {
+                if (currentUser && currentUser.role.name == 'USER') {
+                    var roomName = currentUser.email
+                    socket.leave(roomName)
+                }
+            });
+        });
         const currentUser = await req.user
         const roles = await Role.find({})
         var staffs = await Account.aggregate()
@@ -97,8 +116,8 @@ class QuanLyNhanVienController {
                 path: '$role',
                 preserveNullAndEmptyArrays: false
             })
-        var username = 'nhanvien'+ staffs.length
-        var password = '@NhanVien'+staffs.length
+        var username = 'nhanvien' + staffs.length
+        var password = '@NhanVien' + staffs.length
         res.render('admin/themNhanVien', {
             currentUser: currentUser,
             roles: roles,
@@ -109,24 +128,24 @@ class QuanLyNhanVienController {
     //Thêm nhân viên
     async create(req, res) {
         try {
-            const checkPhone = await Account.findOne({phone: req.body.phone})
-            const checkEmail = await Account.findOne({email: req.body.email})
-            if(checkEmail != null && checkPhone != null){
+            const checkPhone = await Account.findOne({ phone: req.body.phone })
+            const checkEmail = await Account.findOne({ email: req.body.email })
+            if (checkEmail != null && checkPhone != null) {
                 res.json({
                     type: 'That bai',
                     message: 'Số điện thoại và email này đã được sử dụng'
                 })
-            }else if(checkEmail != null){
+            } else if (checkEmail != null) {
                 res.json({
                     type: 'That bai',
                     message: 'Email này đã được sử dụng'
                 })
-            }else if(checkPhone != null){
+            } else if (checkPhone != null) {
                 res.json({
                     type: 'That bai',
                     message: 'Số điện thoại này đã được sử dụng.'
                 })
-            }else{
+            } else {
                 const hashPassword = await bcrypt.hash(req.body.password, 10)
                 const account = new Account({
                     username: req.body.username,
@@ -148,7 +167,7 @@ class QuanLyNhanVienController {
                 const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhanVien', {
                     type: 'success',
                     title: 'Thành công',
-                    text: 'Thêm nhân viên thành công! Tài khoản và mật khẩu đã được gửi vô gmail "'+req.body.email+'"'
+                    text: 'Thêm nhân viên thành công! Tài khoản và mật khẩu đã được gửi vô gmail "' + req.body.email + '"'
                 })
                 //Gửi thông tin tài khoản và mật khẩu cho người dùng
                 const subject = 'Thông tin tài khoản và mật khẩu'
@@ -433,10 +452,10 @@ class QuanLyNhanVienController {
         }
     }
     //Xóa nhân viên
-    async delete(req,res){
+    async delete(req, res) {
         try {
             var id = req.body.id
-            await Account.deleteOne({_id: id})
+            await Account.deleteOne({ _id: id })
             const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyNhanVien', {
                 type: 'success',
                 title: 'Thành công',
