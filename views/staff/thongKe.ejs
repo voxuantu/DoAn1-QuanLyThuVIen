@@ -14,20 +14,103 @@
         <i class="fa-solid fa-angle-right"></i>
         <a href="">Thống kê</a>
     </div>
-    <div class="timkiem">
-        <div class="row" >
-            <div class="col-sm-6" style="max-height: 400px;">
-                <h5>Thống kê số lượt mượn sách</h5>
-                <canvas id="BieuDoSoLuotMuonSach"></canvas>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="left_menu timkiem" style="padding: 0 !important;">
+                <div class="theloai">
+                    <h6>Loại biểu đồ</h6>
+                </div>
+                <div style="padding: 5px 10px;">
+                    <div class="form-check">
+                        <input class="form-check-input" id="ChartType1" type="radio" name="ChartType" value="luot muon" checked>
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Lượt mượn sách
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" id="ChartType2" type="radio" name="ChartType" value="tien phat">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Tiền phạt
+                        </label>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-6" style="max-height: 400px;">
-                <h5>Thống kê số tiền phạt</h5>
-                <canvas id="BieuDoSoTienPhat"></canvas>
+            <div class="left_menu timkiem" style="padding: 0 !important;">
+                <div class="theloai">
+                    <h6>Thời gian</h6>
+                </div>
+                <div style="padding: 5px 10px;">
+                    <div class="form-check">
+                        <input class="form-check-input js-choose-time" type="radio" name="typeOfTimeChart" value="theo thang" checked>
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Theo tháng
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input js-choose-time" type="radio" name="typeOfTimeChart" value="trong thang">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Trong tháng
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input js-choose-time" type="radio" name="typeOfTimeChart" value="trong tuan">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Trong tuần
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 main-datatable mt-5">
-                <label for="tableTop10BorrowedBook">Bảng top 10 sách được mượn nhiều nhất trong tuần</label>
+        <div class="col-sm-9">
+            <div class="timkiem" style="max-height: 500px;">
+                <div class="text-center">
+                    <h5 id="titleChart">Biểu đồ số lượt mượn sách</h5>
+                </div>
+                <canvas id="BieuDo"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="timkiem main-datatable">
+                <div class="text-center mb-3">
+                    <h5 for="tableLostBook">Bảng số sách bị hư hỏng/mất</h5>
+                </div>
+                <div style="display: flex;" class="mb-3">
+                    <label class="mt-1 me-2" for="thang">Tháng</label>
+                    <select style="width: fit-content" class="form-select" name="thang" id="thang" onchange="laySachMatTheoThang()">
+                       <% for( let i = 1; i <= 12; i++ ) { %>
+                            <% if (i == month) { %>
+                                <option value="<%= i %>" selected><%= i %></option>
+                            <% }else{ %>
+                                <option value="<%= i %>"><%= i %></option>
+                            <% } %> 
+                       <% } %>
+                    </select>
+                </div>
+                <table id="tableLostBook" class="table mb-3 cust-datatable dataTable no-footer js-table-lost-book">
+                    <thead>
+                        <th>STT</th>
+                        <th>Tên sách</th>
+                        <th>số lượng</th>
+                    </thead>
+                    <tbody>
+                        <% for( let i = 0; i < sachMat.length; i++ ) { %>
+                            <tr>
+                                <td><%= i+1 %></td>
+                                <td><%= sachMat[i].bookName %></td>
+                                <td><%= sachMat[i].lostNumber %></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="timkiem main-datatable">
+                <div class="text-center mb-3">
+                    <h5 for="tableTop10BorrowedBook">Bảng top 10 sách được mượn nhiều nhất trong tuần</h5>
+                </div>
                 <table id="tableTop10BorrowedBook" class="table mb-3 cust-datatable dataTable no-footer">
                     <thead>
                         <th>STT</th>

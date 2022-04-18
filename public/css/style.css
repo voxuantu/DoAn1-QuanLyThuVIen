@@ -73,6 +73,7 @@ a {
     margin-bottom: 50px;
     margin-top: 20px;
     background-color: white;
+    border-radius: 5px;
 }
 .timkiem .title {
     display: flex;
@@ -105,6 +106,12 @@ a {
     align-items: center;
 }
 .left_menu .theloai h5 {
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+}
+.left_menu .theloai h6 {
     color: white;
     text-align: center;
     text-transform: uppercase;
