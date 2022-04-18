@@ -1,61 +1,39 @@
+var data = []
+var labels = []
 $(document).ready(function(){
     $('#tableTop10BorrowedBook').DataTable();
+    $('#tableLostBook').DataTable();
 })
-
-function getNumberOfBorrowBooksByMonth(){
-    var numberOfBorrowBooksByMonth = []
+$(document).ready(
     $.ajax({
         type: 'get',
-        url: '/api/laySoLuotMuonSachTheoThang',
+        url: '/api/laySoLuotMuonSach',
         dataType: 'json',
-        success: function(data){
-            data.forEach(e => {
-                numberOfBorrowBooksByMonth.push(e)
+        data:{
+            type: 'theo thang'
+        },
+        success: function(dataChart){
+            dataChart.data.forEach(e => {
+                data.push(e)
             });
+            dataChart.labels.forEach(e => {
+                labels.push(e)
+            })
         },
         error: function(req, status, error){
             alert(error)
         }
     })
-    return numberOfBorrowBooksByMonth
-}
+)
 
-function getFineByMonth(){
-    var fineByMonth = []
-    $.ajax({
-        type: 'get',
-        url: '/api/laySoTienPhatTheoThang',
-        dataType: 'json',
-        success: function(data){
-            data.forEach(e => {
-                fineByMonth.push(e)
-            });
-        },
-        error: function(req, status, error){
-            alert(error)
-        }
-    })
-    return fineByMonth
-}
+let BieuDo = document.getElementById('BieuDo').getContext('2d');
 
-Chart.defaults.font.family = 'Roboto';
-Chart.defaults.font.size = 15;
-Chart.defaults.color = 'black';
-
-
-//BIỂU ĐỒ SỐ LƯỢT MƯỢN SÁCH
-var dataNumberOfBorrowBooksByMonth = getNumberOfBorrowBooksByMonth()
-
-console.log(dataNumberOfBorrowBooksByMonth)
-
-let BieuDoSoLuotMuonSach = document.getElementById('BieuDoSoLuotMuonSach').getContext('2d');
-
-let chartSoLuotMuonSach = new Chart(BieuDoSoLuotMuonSach, {
+let chart = new Chart(BieuDo, {
     type: 'line',
     data: {
-        labels: ["Th1", "Th2", "Th3", "Th4", "Th5", "Th6", "Th7", "Th8", "Th9", "Th10", "Th11", "Th12"],
+        labels: labels,
         datasets: [{
-            label: "Lượt mượn",
+            label: 'Lượt mượn',
             lineTension: 0.3,
             backgroundColor: "rgba(78, 115, 223, 0.05)",
             borderColor: "rgba(78, 115, 223, 1)",
@@ -64,7 +42,7 @@ let chartSoLuotMuonSach = new Chart(BieuDoSoLuotMuonSach, {
             pointHoverRadius: 5,
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: dataNumberOfBorrowBooksByMonth
+            data: data
         }],
     },
     options: {
@@ -78,67 +56,187 @@ let chartSoLuotMuonSach = new Chart(BieuDoSoLuotMuonSach, {
             }
         },
         plugins: {
-            title: {
+            legend: {
                 display: true,
-                text: 'Bảng thống kê số lượt mượn sách',
-                font:{
-                    size:18
-                }
-            },
-            legend:{
-                display:true,
-                position:'bottom'
+                position: 'bottom'
             }
         },
     }
 })
 
+Chart.defaults.font.family = 'Roboto';
+Chart.defaults.font.size = 15;
+Chart.defaults.color = 'black';
 
-//BIỂU ĐỒ SỐ TIỀN PHẠT 
 
-var dataFineByMonth = getFineByMonth()
+//BIỂU ĐỒ 
 
-let BieuDoSoTienPhat = document.getElementById('BieuDoSoTienPhat').getContext('2d');
+console.log(data)
+console.log(labels)
 
-let chartSoTienPhat = new Chart(BieuDoSoTienPhat, {
-    type: 'line',
-    data: {
-        labels: ["Th1", "Th2", "Th3", "Th4", "Th5", "Th6", "Th7", "Th8", "Th9", "Th10", "Th11", "Th12"],
-        datasets: [{
-            label: "Tiền phạt",
-            lineTension: 0.3,
-            backgroundColor: "rgba(244, 67, 54, 0.05)",
-            borderColor: "rgba(244, 67, 54, 1)",
-            pointRadius: 3,
-            pointBackgroundColor: "rgba(244, 67, 54, 1)",
-            pointHoverRadius: 5,
-            pointHitRadius: 10,
-            pointBorderWidth: 2,
-            data: dataFineByMonth
-        }],
-    },
-    options: {
-        maintainAspectRatio: false,
-        layout: {
-            padding: {
-                left: 10,
-                right: 25,
-                top: 25,
-                bottom: 25
+
+var LuotMuonSach = document.getElementById('ChartType1')
+var TienPhat = document.getElementById('ChartType2')
+$(document).ready(
+    $('.js-choose-time').each(function(i,obj){
+        $(this).click(function(){
+            var chartType
+            if(LuotMuonSach.checked){
+                chartType = 1
+            }else if(TienPhat.checked){
+                chartType=2
             }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Bảng thống kê số tiền phạt',
-                font:{
-                    size:18
-                }
-            },
-            legend:{
-                display:true,
-                position:'bottom'
+            var type = $(this).attr('value')
+            if(chartType == 1){
+                $.ajax({
+                    type: 'get',
+                    url: '/api/laySoLuotMuonSach',
+                    dataType: 'json',
+                    data:{
+                        type: type
+                    },
+                    success: function(dataChart){
+                        data.length = 0
+                        dataChart.data.forEach(e => {
+                            data.push(e)
+                        });
+                        labels.length = 0
+                        dataChart.labels.forEach(e => {
+                            labels.push(e)
+                        })
+                        console.log(data)
+                        console.log(labels)
+                        $('#titleChart').text('Biểu đồ số lượt mượn sách')
+                        let BieuDo = document.getElementById('BieuDo').getContext('2d');
+                        chart.destroy();
+                        chart = new Chart(BieuDo, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Lượt mượn',
+                                    lineTension: 0.3,
+                                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                    borderColor: "rgba(78, 115, 223, 1)",
+                                    pointRadius: 3,
+                                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                                    pointHoverRadius: 5,
+                                    pointHitRadius: 10,
+                                    pointBorderWidth: 2,
+                                    data: data
+                                }],
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                layout: {
+                                    padding: {
+                                        left: 10,
+                                        right: 25,
+                                        top: 25,
+                                        bottom: 25
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom'
+                                    }
+                                },
+                            }
+                        })
+                    },
+                    error: function(req, status, error){
+                        alert(error)
+                    }
+                })
+            }else if(chartType == 2){
+                $.ajax({
+                    type: 'get',
+                    url: '/api/laySoTienPhat',
+                    dataType: 'json',
+                    data:{
+                        type: type
+                    },
+                    success: function(dataChart){
+                        data.length = 0
+                        dataChart.data.forEach(e => {
+                            data.push(e)
+                        });
+                        labels.length = 0
+                        dataChart.labels.forEach(e => {
+                            labels.push(e)
+                        })
+                        console.log(data)
+                        console.log(labels)
+                        $('#titleChart').text('Biểu đồ số tiền phạt')
+                        let BieuDo = document.getElementById('BieuDo').getContext('2d');
+                        chart.destroy();
+                        chart = new Chart(BieuDo, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Tiền phạt',
+                                    lineTension: 0.3,
+                                    backgroundColor: "rgba(244, 67, 54, 0.05)",
+                                    borderColor: "rgba(244, 67, 54, 1)",
+                                    pointRadius: 3,
+                                    pointBackgroundColor: "rgba(244, 67, 54, 1)",
+                                    pointHoverRadius: 5,
+                                    pointHitRadius: 10,
+                                    pointBorderWidth: 2,
+                                    data: data
+                                }],
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                layout: {
+                                    padding: {
+                                        left: 10,
+                                        right: 25,
+                                        top: 25,
+                                        bottom: 25
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom'
+                                    }
+                                },
+                            }
+                        })
+                    },
+                    error: function(req, status, error){
+                        alert(error)
+                    }
+                })
             }
+        })
+    })
+)
+
+function laySachMatTheoThang(){
+    var thang = document.getElementById('thang').value;
+    $.ajax({
+        url: '/api/laySachHuHongHoacMat',
+        type: 'get',
+        dataType: 'json',
+        data: {
+            thang: thang
         },
-    }
-})
+        success: function(data){
+            $(".js-table-lost-book tbody tr").remove()
+            var html = ''
+            for (let i = 0; i < data.length; i++) {
+                const e = data[i];
+                html += '<tr>';
+                html += '    <td>'+(i+1)+'</td>';
+                html += '    <td>'+e.bookName+'</td>';
+                html += '    <td>'+e.lostNumber+'</td>';
+                html += '</tr>';   
+            }
+            $('.js-table-lost-book tbody').append(html)
+        }
+    })
+}

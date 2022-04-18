@@ -525,41 +525,282 @@ class APIController {
             console.log(error)
         }
     }
-    //Lấy số lượt mượn sách theo tháng
-    async getNumberOfBorrowBooksByMonth(req, res) {
+    //Lấy số lượt mượn sách
+    async getNumberOfBorrowBooks(req, res) {
+        var type = req.query.type
+        console.log(type)
         var data = []
+        var labels = []
         let date = new Date()
-        for (let i = 0; i < 12; i++) {
-            let begin = date.getFullYear() + '/' + (i + 1) + '/1'
-            let end
-            if (i < 11) {
-                end = date.getFullYear() + '/' + (i + 2) + '/1'
-            } else {
-                end = (date.getFullYear() + 1) + '/1/1'
-            }
+        console.log('Ngay hien tai: '+ date)
+        if(type == 'theo thang'){
+            for (let i = 0; i < 12; i++) {
+                let begin = date.getFullYear() + '/' + (i + 1) + '/1'
+                let end
+                if (i < 11) {
+                    end = date.getFullYear() + '/' + (i + 2) + '/1'
+                } else {
+                    end = (date.getFullYear() + 1) + '/1/1'
+                }
 
-            let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: begin, $lt: end } })
-            data.push(count)
+                let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: begin, $lt: end } })
+                data.push(count)
+                labels.push('Th'+(i+1))
+            }
+        }else if(type == 'trong thang'){
+            var isLeapYear = false
+            var year = date.getFullYear()
+            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                isLeapYear = true
+            }
+            var month = date.getMonth() + 1
+            var dates
+            switch (month) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    dates = 31
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    dates = 30
+                    break;
+                case 2:
+                    if (isLeapYear) {
+                        dates = 29
+                    } else {
+                        dates = 28
+                    }
+                    break;
+            }
+            for (let i = 1; i <= dates; i++) {
+                var dateFilter = new Date(date.getFullYear(),date.getMonth(), i )
+                var dateFilter1 = new Date(date.getFullYear(),date.getMonth(),(i+1) )
+                let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: dateFilter, $lte: dateFilter1 } })
+                data.push(count)
+                if (date.getDate() == i) {
+                    labels.push('Hôm nay')
+                } else {
+                    labels.push(i)
+                }
+            }
+        } else if (type == 'trong tuan') {
+            let monday = new Date()
+            switch (date.getDay()) {
+                case 0:
+                    monday.setDate(date.getDate() - 6)
+                    break;
+                case 1:
+                    monday.setDate(date.getDate())
+                    break;
+                case 2:
+                    monday.setDate(date.getDate() - 1)
+                    break;
+                case 3:
+                    monday.setDate(date.getDate() - 2)
+                    break;
+                case 4:
+                    monday.setDate(date.getDate() - 3)
+                    break;
+                case 5:
+                    monday.setDate(date.getDate() - 4)
+                    break;
+                case 6:
+                    monday.setDate(date.getDate() - 5)
+                    break;
+                default:
+                    break;
+            }
+            console.log(monday)
+            let dateOfMonday = monday.getDate()
+            console.log(dateOfMonday)
+            for (let i = 0; i < 7; i++) {
+                var dateFilter = new Date(date.getFullYear(),date.getMonth(),(dateOfMonday + i) )
+                var dateFilter1 = new Date(date.getFullYear(),date.getMonth(),(dateOfMonday + i+1) )
+                console.log(dateFilter)
+                console.log(dateFilter1)
+                console.log("----")
+                let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: dateFilter, $lt: dateFilter1 }})
+                data.push(count)
+                switch (i) {
+                    case 0:
+                        labels.push('Thứ hai')
+                        break;
+                    case 1:
+                        labels.push('Thứ ba')
+                        break;
+                    case 2:
+                        labels.push('Thứ tư')
+                        break;
+                    case 3:
+                        labels.push('Thứ năm')
+                        break;
+                    case 4:
+                        labels.push('thứ sáu')
+                        break;
+                    case 5:
+                        labels.push('Thứ bảy')
+                        break;
+                    case 6:
+                        labels.push('Chủ nhật')
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
-        res.json(data)
+        res.json({
+            data: data,
+            labels: labels
+        })
     }
     //Lấy số tiền phạt theo tháng
-    async getFineByMonth(req, res) {
+    async getFine(req, res) {
+        var type = req.query.type
+        console.log(type)
         var data = []
+        var labels = []
         let date = new Date()
-        for (let i = 0; i < 12; i++) {
-            let begin = date.getFullYear() + '/' + (i + 1) + '/1'
-            let end
-            if (i < 11) {
-                end = date.getFullYear() + '/' + (i + 2) + '/1'
-            } else {
-                end = (date.getFullYear() + 1) + '/1/1'
+        if(type == 'theo thang'){
+            for (let i = 0; i < 12; i++) {
+                let begin = date.getFullYear() + '/' + (i + 1) + '/1'
+                let end
+                if (i < 11) {
+                    end = date.getFullYear() + '/' + (i + 2) + '/1'
+                } else {
+                    end = (date.getFullYear() + 1) + '/1/1'
+                }
+                let fineTickets = await FineTicket.find({ dateFine: { $gte: begin, $lt: end } })
+                var sum = 0
+                fineTickets.forEach(e => {
+                    sum += e.fine
+                });
+                data.push(sum)
+                labels.push('Th'+(i+1))
             }
-
-            let count = await FineTicket.countDocuments({ dateFine: { $gte: begin, $lt: end } })
-            data.push(count)
+        }else if(type == 'trong thang'){
+            var isLeapYear = false
+            var year = date.getFullYear()
+            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                isLeapYear = true
+            }
+            var month = date.getMonth()
+            var dates
+            switch (month+1) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    dates = 31
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    dates = 30
+                    break;
+                case 2:
+                    if (isLeapYear) {
+                        dates = 29
+                    } else {
+                        dates = 28
+                    }
+                    break;
+            }
+            for (let i = 1; i <= dates; i++) {
+                var dateFilter = new Date(date.getFullYear(),date.getMonth(), i )
+                var dateFilter1 = new Date(date.getFullYear(),date.getMonth(),(i+1) )
+                let fineTickets = await FineTicket.find({ dateFine: { $gte: dateFilter, $lte: dateFilter1 } })
+                var sum = 0
+                fineTickets.forEach(e => {
+                    sum += e.fine
+                });
+                data.push(sum)
+                if (date.getDate() == i) {
+                    labels.push('Hôm nay')
+                } else {
+                    labels.push(i)
+                }
+            }
+        } else if (type == 'trong tuan') {
+            let monday = new Date()
+            switch (date.getDay()) {
+                case 0:
+                    monday.setDate(date.getDate() - 6)
+                    break;
+                case 1:
+                    monday.setDate(date.getDate())
+                    break;
+                case 2:
+                    monday.setDate(date.getDate() - 1)
+                    break;
+                case 3:
+                    monday.setDate(date.getDate() - 2)
+                    break;
+                case 4:
+                    monday.setDate(date.getDate() - 3)
+                    break;
+                case 5:
+                    monday.setDate(date.getDate() - 4)
+                    break;
+                case 6:
+                    monday.setDate(date.getDate() - 5)
+                    break;
+                default:
+                    break;
+            }
+            console.log(monday)
+            let dateOfMonday = monday.getDate()
+            console.log(dateOfMonday)
+            for (let i = 0; i < 7; i++) {
+                var dateFilter = new Date(date.getFullYear(),date.getMonth(),(dateOfMonday + i) )
+                var dateFilter1 = new Date(date.getFullYear(),date.getMonth(),(dateOfMonday + i+1) )
+                let fineTickets = await FineTicket.find({ dateFine: { $gte: dateFilter, $lte: dateFilter1 } })
+                var sum = 0
+                fineTickets.forEach(e => {
+                    sum += e.fine
+                });
+                data.push(sum)
+                switch (i) {
+                    case 0:
+                        labels.push('Thứ hai')
+                        break;
+                    case 1:
+                        labels.push('Thứ ba')
+                        break;
+                    case 2:
+                        labels.push('Thứ tư')
+                        break;
+                    case 3:
+                        labels.push('Thứ năm')
+                        break;
+                    case 4:
+                        labels.push('thứ sáu')
+                        break;
+                    case 5:
+                        labels.push('Thứ bảy')
+                        break;
+                    case 6:
+                        labels.push('Chủ nhật')
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
-        res.json(data)
+        res.json({
+            data: data,
+            labels: labels
+        })
     }
     //Lấy top 10 sách mượn nhiều nhất trong tuần
     async getTop10OfBorrowedBook(req, res) {
@@ -749,6 +990,40 @@ class APIController {
             console.log(error)
         }
     }
+    //Lấy số sách bị hư hỏng/mất
+    async getLostBook(req,res){
+        var month = req.query.thang-1
+        console.log(month)
+        var date = new Date()
+        var begin = new Date(date.getFullYear(), month, 1)
+        var end = new Date(date.getFullYear(), month+1, 1)
+        console.log('beign '+begin)
+        console.log('end '+end)
+        const lostBook = await DetailBorrowBookTicket.aggregate([
+            {
+                $match:{ 
+                    status: "Hư hỏng/mất",
+                    dateGiveBack: {$gte: begin, $lt: end}
+                }
+            },
+            {
+                $group:{
+                    _id: "$bookId",
+                    count: {$sum: 1}
+                }
+            }   
+        ])
+        var sachMat = []
+        for (let i = 0; i < lostBook.length; i++) {
+            const e = lostBook[i];
+            const b = await Book.findById(e._id)
+            var row = {
+                bookName : b.name,
+                lostNumber: e.count
+            }
+            sachMat.push(row)
+        }
+        res.json(sachMat)
+    }
 }
-
 module.exports = new APIController
