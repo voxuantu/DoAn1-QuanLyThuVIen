@@ -1,0 +1,105 @@
+<%- contentFor('head') %> 
+    <title>Thanh toán online</title>
+<%- contentFor('body') %> 
+
+<% if (currentUser != null) { %> 
+  <% if (currentUser.role.name=='ADMIN') { %>
+      <%- include('../particals/headerAdmin') %>
+  <% } else if (currentUser.role.name=='MOD1') { %>
+      <%- include('../particals/headerMod1') %>
+  <% } else if (currentUser.role.name=='MOD2') { %> 
+      <%- include('../particals/headerMod2') %>
+  <% } else { %>
+      <%- include('../particals/header') %>
+  <% } %> 
+<% } else { %> 
+  <%- include('../particals/header') %>
+<% } %> 
+
+
+<div class="container" style="min-height: 500px;">
+    <div class="duong-dan-muc">
+        <a href="/trangCaNhan">Trang chủ</a>
+        <i class="fa-solid fa-angle-right"></i>
+        <a>Thanh toán online</a>
+    </div>
+    <div class="timkiem mb-3" style="min-height: 450px;">
+        <form id="form-thanh-toan" action="/trangCaNhan/taoHoaDonGiaHan" method="post">
+            <div class="mb-2">
+                <label for="orderType" class="form-label">Loại hàng hóa</label>
+                <div class="form-group">
+                    <select class="field" id="orderType" name="orderType">
+                        <option value="topup">Nạp tiền điện thoại</option>
+                        <option value="billpayment">Thanh toán hóa đơn</option>
+                        <option value="fashion">Thời trang</option>
+                    </select>
+                    <span class="errorMessage"></span>
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="amount" class="form-label">Số tiền</label>
+                <div class="form-group">
+                    <input class="field" type="number" id="amount" name="amount" placeholder='Số tiền'>
+                    <span class="errorMessage"></span>
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="orderDescription" class="form-label">Nội dung thanh toán</label>
+                <div class="form-group">
+                    <textarea class="field" id="orderDescription" name="orderDescription" placeholder="Nội dung thanh toán"></textarea>
+                    <span class="errorMessage"></span>
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="bankCode" class="form-label">Ngân hàng</label>
+                <div class="form-group">
+                    <select class="field" id="bankCode" name="bankCode">
+                        <option value="">Không chọn</option>
+                        <option value="VNPAYQR">Ngân hàng VNPAYQR</option>
+                        <option value="NCB">Ngân hàng NCB</option>
+                        <option value="SCB">Ngân hàng SCB</option>
+                        <option value="SACOMBANK">Ngân hàng SACOMBANK</option>
+                        <option value="EXIMBANK">Ngân hàng EXIMBANK</option>
+                        <option value="MSBANK">Ngân hàng MSBANK</option>
+                        <option value="NAMABANK">Ngân hàng NAMABANK</option>
+                        <option value="VISA">Ngân hàng VISA</option>
+                        <option value="VNMART">Ngân hàng VNMART</option>
+                        <option value="VIETINBANK">Ngân hàng VIETINBANK</option>
+                        <option value="VIETCOMBANK">Ngân hàng VIETCOMBANK</option>
+                        <option value="HDBANK">Ngân hàng HDBANK</option>
+                        <option value="DONGABANK">Ngân hàng Dong A</option>
+                        <option value="TPBANK">Ngân hàng Tp Bank</option>
+                        <option value="OJB">Ngân hàng OceanBank</option>
+                        <option value="BIDV">Ngân hàng BIDV</option>
+                        <option value="TECHCOMBANK">Ngân hàng Techcombank</option>
+                        <option value="VPBANK">Ngân hàng VPBank</option>
+                        <option value="AGRIBANK">Ngân hàng AGRIBANK</option>
+                        <option value="MBBANK">Ngân hàng MBBank</option>
+                        <option value="ACB">Ngân hàng ACB</option>
+                        <option value="OCB">Ngân hàng OCB</option>
+                        <option value="SHB">Ngân hàng SHB</option>
+                        <option value="IVB">Ngân hàng IVB</option>
+                    </select>
+                    <span class="errorMessage"></span>
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="language" class="form-label">Ngôn ngữ</label>
+                <div class="form-group">
+                    <select class="field" id="language" name="language">
+                        <option value="vn">Tiếng Việt</option>
+                        <option value="en">English</option>
+                    </select>
+                    <span class="errorMessage"></span>
+                </div>
+            </div>
+            <div class="text-end">
+                <button class="nutbam" type="submit">Thanh toán</button>
+            </div>
+        </form>
+    </div>
+</div>
+<%- include('../particals/footer') %>
+
+<script src="/javascript/validator.js"></script>
+<script src="/javascript/formThanhtoan.js"></script>
