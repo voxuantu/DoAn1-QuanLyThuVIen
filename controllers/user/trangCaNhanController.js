@@ -338,7 +338,7 @@ class TrangCaNhanController {
         req.write(requestBody);
         req.end();
     }
-    momoReturn(req, res) {
+    async momoReturn(req, res) {
         const currentUser = await req.user
         const libraryCard = await LibraryCard.findOne({ accountId: currentUser._id })
         var cart = req.session.cart
