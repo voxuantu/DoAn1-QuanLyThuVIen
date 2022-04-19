@@ -12,5 +12,7 @@ router.post('/taoHoaDonGiaHan', trangCaNhanController.vnpayOnline)
 router.get('/taoHoaDonGiaHan', trangCaNhanController.loadFormThanhToan)
 router.get('/vnpay_return', trangCaNhanController.vnpayReturn)
 router.get('/success', trangCaNhanController.vnpayReturn)
+router.get('/successMoMo', trangCaNhanController.momoReturn)
+router.get('/momo', trangCaNhanController.momo)
 
 module.exports = router;

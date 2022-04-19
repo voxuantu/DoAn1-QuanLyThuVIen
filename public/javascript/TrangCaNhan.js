@@ -260,6 +260,8 @@ Validator({
     }
 })
 
+
+
 $(document).ready(function(){
     $('.js-view-detail').each(function(i,obj){
         var status = $(this).attr('data-status')
