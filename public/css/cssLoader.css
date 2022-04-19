@@ -25,19 +25,19 @@
 	0% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
-		border: 4px solid #3678f4;
+		border: 4px solid #f44336;
 		border-left-color: transparent;
 	}
 	50% {
 		-webkit-transform: rotate(180deg);
 		transform: rotate(180deg);
-		border: 4px solid #4d69e6;
+		border: 4px solid #673ab7;
 		border-left-color: transparent;
 	}
 	100% {
 		-webkit-transform: rotate(360deg);
 		transform: rotate(360deg);
-		border: 4px solid #4670e6;
+		border: 4px solid #f44336;
 		border-left-color: transparent;
 	}
 }
@@ -45,17 +45,17 @@
 @-webkit-keyframes loader {
 	0% {
 		-webkit-transform: rotate(0deg);
-		border: 4px solid #3678f4;
+		border: 4px solid #f44336;
 		border-left-color: transparent;
 	}
 	50% {
 		-webkit-transform: rotate(180deg);
-		border: 4px solid #0b29af;
+		border: 4px solid #673ab7;
 		border-left-color: transparent;
 	}
 	100% {
 		-webkit-transform: rotate(360deg);
-		border: 4px solid #4670e6;
+		border: 4px solid #f44336;
 		border-left-color: transparent;
 	}
 }
