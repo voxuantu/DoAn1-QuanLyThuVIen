@@ -90,6 +90,46 @@ $(document).ready(
                 }
             })
         })
+    }),
+    $('.js-gia-han-the').each(function(i,obj){
+        $(this).click(function(){
+            var id = $(this).attr('data-library-card-id')
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: true
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Bạn có muốn gia hạn thẻ thư viện cho độc giả này không?',
+                text: "Thẻ thư viện của độc giả này sẽ được gia hạn sau khi bạn chọn có",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Không',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/quanLyDocGia/giaHanTheThuVien',
+                        dataType: 'json',
+                        type: 'post',
+                        data: {
+                            id: id
+                        },
+                        success: function (data) {
+                            window.location.replace(data);
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    })
+                }
+            })
+        })
     })
 );
 
