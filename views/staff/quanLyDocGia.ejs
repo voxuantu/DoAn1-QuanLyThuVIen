@@ -67,15 +67,19 @@
                                     <td><%= readers[i].accountId.email %></td>
                                     <td>
                                         <% if (subtractDays(addDays(readers[i].createdDate,180)) <= 7) { %>
-                                            <mark class="dang-xu-ly"><%= addDays(readers[i].createdDate,180).toISOString().split('T')[0] %></mark>
+                                            <mark class="dang-xu-ly"><%= addDays(readers[i].createdDate,180).toLocaleDateString('vi-VN') %></mark>
                                         <% }else{ %>
-                                            <mark class="da-tra"><%= addDays(readers[i].createdDate,180).toISOString().split('T')[0] %></mark>
+                                            <mark class="da-tra"><%= addDays(readers[i].createdDate,180).toLocaleDateString('vi-VN') %></mark>
                                         <% } %> 
                                     </td>
                                     <td>
                                         <a class="js-block-user" data-user-id="<%= readers[i].accountId._id %>">
                                             <i class="fa-solid fa-ban" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                             title="Chặn người dùng"></i>
+                                        </a>
+                                        <a class="js-gia-han-the" data-library-card-id="<%= readers[i]._id %>">
+                                            <i class="fa-solid fa-address-card" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            title="Gia hạn thẻ"></i>
                                         </a>
                                     </td>
                                 </tr>

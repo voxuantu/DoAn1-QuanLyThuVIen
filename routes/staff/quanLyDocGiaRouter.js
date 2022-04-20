@@ -8,5 +8,6 @@ router.get('/taiKhoanBiChan', quanLyDocGiaController.loadBlockReader)
 router.post('/themDocGia', quanLyDocGiaController.create)
 router.post('/chanDocGia', quanLyDocGiaController.block)
 router.post('/boChanDocGia', quanLyDocGiaController.unBlock)
+router.post('/giaHanTheThuVien', quanLyDocGiaController.giaHanThe)
 
 module.exports = router;

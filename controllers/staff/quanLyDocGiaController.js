@@ -4,6 +4,7 @@ const LibraryCard = require('../../models/libraryCard')
 const bcrypt = require('bcrypt')
 const urlHelper = require('../../utils/url')
 const sendEmail = require('../../utils/sendEmail')
+const Regulation = require('../../models/regulation')
 
 
 class QuanLyDocGiaController {
@@ -511,6 +512,26 @@ class QuanLyDocGiaController {
             console.log(error)
         }
     }
+  //Gia hạn thẻ độc giả
+  async giaHanThe(req, res) {
+    try {
+      var libraryCardId = req.body.id
+      const libraryCard = await LibraryCard.findById(libraryCardId)
+      var hanSuDungThe = await Regulation.findOne({ name: "Hạn sử dụng thẻ thư viện ( ngày )" })
+      var date = new Date(libraryCard.createdDate)
+      date.setDate(date.getDate() + hanSuDungThe.value)
+      libraryCard.createdDate = date
+      await libraryCard.save()
+      const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyDocGia', {
+        type: 'success',
+        title: 'Thành công',
+        text: 'Gia hạn thẻ thư viện thành công!'
+      })
+      res.json(redirectUrl)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = new QuanLyDocGiaController;
