@@ -22,7 +22,7 @@ class TrangCaNhanController {
                 as: 'bookBorrowed'
             })
             const maxBorrowDates = await Regulation.findOne({ name: 'Số ngày mượn tối đa/1 lần mượn' })
-
+            var hanSuDungThe = await Regulation.findOne({ name: "Hạn sử dụng thẻ thư viện ( ngày )" })
             var io = req.app.get('socketio')
             io.on('connection', (socket) => {
                 if (currentUser.role.name == 'USER') {
@@ -42,12 +42,13 @@ class TrangCaNhanController {
                     }
                 });
             });
-
             res.render('user/trangCaNhan', {
                 currentUser: currentUser,
                 cart: cart,
                 borrowBookCard: borrowBookCard,
-                maxBorrowDates: maxBorrowDates.value
+                maxBorrowDates: maxBorrowDates.value,
+                libraryCard : libraryCard,
+                hanSuDungThe : hanSuDungThe
             });
         } else {
             res.render('staff/trangCaNhanStaff', {
@@ -109,7 +110,7 @@ class TrangCaNhanController {
             console.log(error)
         }
     }
-    // Thanh toán online
+    // Thanh toán vnpay online
     vnpayOnline(req, res, next) {
         var ipAddr = req.headers['x-forwarded-for'] ||
             req.connection.remoteAddress ||
@@ -166,6 +167,7 @@ class TrangCaNhanController {
 
         res.redirect(vnpUrl)
     }
+    // kết quả trả về từ vnpay
     async vnpayReturn(req, res) {
         var vnp_Params = req.query;
 
@@ -220,7 +222,7 @@ class TrangCaNhanController {
             })
         }
     }
-    // hiển thị form thanh toán
+    // hiển thị form thanh toán vnpay
     async loadFormThanhToan(req, res) {
         const currentUser = await req.user
         const libraryCard = await LibraryCard.findOne({ accountId: currentUser._id })
@@ -239,6 +241,7 @@ class TrangCaNhanController {
             maxBorrowDates: maxBorrowDates.value
         })
     }
+    // thanh toán thành công vnpay
     async success(req, res) {
         const currentUser = await req.user
         const libraryCard = await LibraryCard.findOne({ accountId: currentUser._id })
@@ -258,6 +261,7 @@ class TrangCaNhanController {
             maxBorrowDates: maxBorrowDates.value
         })
     }
+    // thanh toán bằng momo
     momo(req1, res) {
         //https://developers.momo.vn/#/docs/en/aiov2/?id=payment-method
         //parameters
@@ -338,6 +342,7 @@ class TrangCaNhanController {
         req.write(requestBody);
         req.end();
     }
+    // kết quả trả về từ momo
     async momoReturn(req, res) {
         const currentUser = await req.user
         const libraryCard = await LibraryCard.findOne({ accountId: currentUser._id })
@@ -363,10 +368,6 @@ class TrangCaNhanController {
             maxBorrowDates: maxBorrowDates.value
         })
     }
-
-}
-function momoCreatePayment() {
-
 
 }
 
