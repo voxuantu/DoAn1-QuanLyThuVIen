@@ -129,15 +129,21 @@
                 <h5>THÔNG TIN THẺ</h5>
                 <div class="row">
                     <p>Mã thẻ</p>
-                    <p>MF32313</p>
+                    <p><%= libraryCard.idCard %></p>
                 </div>
                 <div class="row">
                     <p>Hạn thẻ</p>
-                    <p>20/3/2022</p>
+                    <p><%= addDays(libraryCard.createdDate, hanSuDungThe.value).toLocaleDateString('vi-VN') %> </p>
                 </div>
-                <div class="gia-han-the">
-                    <a  class="nutbam">Gia hạn thẻ</a>
-                </div>
+                <div class="dropdown text-center">
+                    <button class="nutbam dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      Thanh toán
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="/trangCaNhan/taoHoaDonGiaHan">Bằng VnPay</a></li>
+                      <li><a class="dropdown-item" href="/trangCaNhan/momo">Bằng MoMo</a></li>
+                    </ul>
+                  </div>
 
             </div>
         </div>
