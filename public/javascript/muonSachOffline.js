@@ -1,16 +1,17 @@
 var sach = ["abcd"]
 function onScanSuccess(qrCodeMessage) {
-    var isExist = false;
-    console.log(sach)
-    console.log(qrCodeMessage)
-    for (let i = 0; i < sach.length; i++) {
-        if(qrCodeMessage == sach[i]){
-            isExist = true
-            break;
-        }
-    }
-    console.log('isExist: '+isExist)
-    if (isExist == false) {
+    // var isExist = false;
+    // console.log(sach)
+    // console.log(qrCodeMessage)
+    // for (let i = 0; i < sach.length; i++) {
+    //     if(qrCodeMessage == sach[i]){
+    //         isExist = true
+    //         break;
+    //     }
+    // }
+    // console.log('isExist: '+isExist)
+    console.log($.inArray(qrCodeMessage, sach))
+    if ($.inArray(qrCodeMessage, sach) == -1) {
         $.ajax({
             url: '/api/getABook',
             type: 'post',
