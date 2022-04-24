@@ -532,8 +532,8 @@ class APIController {
         var data = []
         var labels = []
         let date = new Date()
-        console.log('Ngay hien tai: '+ date)
-        if(type == 'theo thang'){
+        console.log('Ngay hien tai: ' + date)
+        if (type == 'theo thang') {
             for (let i = 0; i < 12; i++) {
                 let begin = date.getFullYear() + '/' + (i + 1) + '/1'
                 let end
@@ -545,9 +545,9 @@ class APIController {
 
                 let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: begin, $lt: end } })
                 data.push(count)
-                labels.push('Th'+(i+1))
+                labels.push('Th' + (i + 1))
             }
-        }else if(type == 'trong thang'){
+        } else if (type == 'trong thang') {
             var isLeapYear = false
             var year = date.getFullYear()
             if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
@@ -580,8 +580,8 @@ class APIController {
                     break;
             }
             for (let i = 1; i <= dates; i++) {
-                var dateFilter = new Date(date.getFullYear(),date.getMonth(), i )
-                var dateFilter1 = new Date(date.getFullYear(),date.getMonth(),(i+1) )
+                var dateFilter = new Date(date.getFullYear(), date.getMonth(), i)
+                var dateFilter1 = new Date(date.getFullYear(), date.getMonth(), (i + 1))
                 let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: dateFilter, $lte: dateFilter1 } })
                 data.push(count)
                 if (date.getDate() == i) {
@@ -621,12 +621,12 @@ class APIController {
             let dateOfMonday = monday.getDate()
             console.log(dateOfMonday)
             for (let i = 0; i < 7; i++) {
-                var dateFilter = new Date(date.getFullYear(),date.getMonth(),(dateOfMonday + i) )
-                var dateFilter1 = new Date(date.getFullYear(),date.getMonth(),(dateOfMonday + i+1) )
+                var dateFilter = new Date(date.getFullYear(), date.getMonth(), (dateOfMonday + i))
+                var dateFilter1 = new Date(date.getFullYear(), date.getMonth(), (dateOfMonday + i + 1))
                 console.log(dateFilter)
                 console.log(dateFilter1)
                 console.log("----")
-                let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: dateFilter, $lt: dateFilter1 }})
+                let count = await BorrowBookTicket.countDocuments({ dateBorrow: { $gte: dateFilter, $lt: dateFilter1 } })
                 data.push(count)
                 switch (i) {
                     case 0:
@@ -667,7 +667,7 @@ class APIController {
         var data = []
         var labels = []
         let date = new Date()
-        if(type == 'theo thang'){
+        if (type == 'theo thang') {
             for (let i = 0; i < 12; i++) {
                 let begin = date.getFullYear() + '/' + (i + 1) + '/1'
                 let end
@@ -682,9 +682,9 @@ class APIController {
                     sum += e.fine
                 });
                 data.push(sum)
-                labels.push('Th'+(i+1))
+                labels.push('Th' + (i + 1))
             }
-        }else if(type == 'trong thang'){
+        } else if (type == 'trong thang') {
             var isLeapYear = false
             var year = date.getFullYear()
             if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
@@ -692,7 +692,7 @@ class APIController {
             }
             var month = date.getMonth()
             var dates
-            switch (month+1) {
+            switch (month + 1) {
                 case 1:
                 case 3:
                 case 5:
@@ -717,8 +717,8 @@ class APIController {
                     break;
             }
             for (let i = 1; i <= dates; i++) {
-                var dateFilter = new Date(date.getFullYear(),date.getMonth(), i )
-                var dateFilter1 = new Date(date.getFullYear(),date.getMonth(),(i+1) )
+                var dateFilter = new Date(date.getFullYear(), date.getMonth(), i)
+                var dateFilter1 = new Date(date.getFullYear(), date.getMonth(), (i + 1))
                 let fineTickets = await FineTicket.find({ dateFine: { $gte: dateFilter, $lte: dateFilter1 } })
                 var sum = 0
                 fineTickets.forEach(e => {
@@ -762,8 +762,8 @@ class APIController {
             let dateOfMonday = monday.getDate()
             console.log(dateOfMonday)
             for (let i = 0; i < 7; i++) {
-                var dateFilter = new Date(date.getFullYear(),date.getMonth(),(dateOfMonday + i) )
-                var dateFilter1 = new Date(date.getFullYear(),date.getMonth(),(dateOfMonday + i+1) )
+                var dateFilter = new Date(date.getFullYear(), date.getMonth(), (dateOfMonday + i))
+                var dateFilter1 = new Date(date.getFullYear(), date.getMonth(), (dateOfMonday + i + 1))
                 let fineTickets = await FineTicket.find({ dateFine: { $gte: dateFilter, $lte: dateFilter1 } })
                 var sum = 0
                 fineTickets.forEach(e => {
@@ -930,28 +930,59 @@ class APIController {
     async bookLoanConfirmation(req, res) {
         try {
             var sachmuon = JSON.parse(req.body.sachmuon)
-            var libraryCard = req.body.libraryCard
-            var card = await LibraryCard.findOne({ idCard: libraryCard })
-            var borrowTicket = new BorrowBookTicket({
-                libraryCard: card._id,
-                statusBorrowBook: "Đang mượn",
-                dateBorrow: new Date(),
-            })
-            await borrowTicket.save()
-            sachmuon.forEach(async e => {
-                var detailBorrowBookTicket = new DetailBorrowBookTicket({
-                    bookId: e,
-                    borrowBookTicketId: borrowTicket._id,
-                    status: "Đang mượn"
+            var libraryCardId = req.body.libraryCard
+
+            const numberOfExpirationDays = await Regulation.findOne({ name: 'Hạn sử dụng thẻ thư viện ( ngày )' })
+            var libraryCard = await LibraryCard.findOne({ idCard: libraryCardId })
+            var expiredDate = new Date(libraryCard.createdDate)
+            expiredDate.setDate(expiredDate.getDate() + numberOfExpirationDays.value)
+            console.log("ngay het han : " + expiredDate)
+            console.log("ngay hien tai : " + dateNow)
+            var dateNow = new Date()
+            if (expiredDate > dateNow) {
+                let dangMuon = await BorrowBookTicket.findOne({ libraryCard: libraryCard._id, statusBorrowBook: ["Đang mượn", "Đang xử lý"] })
+                if (dangMuon != null) {
+                    const redirectUrl = urlHelper.getEncodedMessageUrl('/muonTraSach/choMuonOffline', {
+                        type: 'warning',
+                        title: 'Thất bại',
+                        text: 'Bạn không thể mượn sách vì bạn chưa trả sách của phiếu trước hoặc phiếu trước đang được xử lý.'
+                    })
+                    var newCart = []
+                    req.session.cart = newCart
+                    res.json(redirectUrl)
+                } else {
+                    var borrowTicket = new BorrowBookTicket({
+                        libraryCard: libraryCard._id,
+                        statusBorrowBook: "Đang mượn",
+                        dateBorrow: new Date(),
+                    })
+                    await borrowTicket.save()
+                    sachmuon.forEach(async e => {
+                        var detailBorrowBookTicket = new DetailBorrowBookTicket({
+                            bookId: e,
+                            borrowBookTicketId: borrowTicket._id,
+                            status: "Đang mượn"
+                        })
+                        await detailBorrowBookTicket.save()
+                    })
+                    const redirectUrl = urlHelper.getEncodedMessageUrl('/muonTraSach/choMuonOffline', {
+                        type: 'success',
+                        title: 'Thành công',
+                        text: 'Xác nhận mượn sách thành công!'
+                    })
+                    res.json(redirectUrl)
+                }
+            } else {
+                const redirectUrl = urlHelper.getEncodedMessageUrl('/muonTraSach/choMuonOffline', {
+                    type: 'error',
+                    title: 'Thất bại',
+                    text: 'Thẻ thư viện của bạn đã hết hạn. Vui lòng gia hạn thẻ để tiếp tục mượn sách!'
                 })
-                await detailBorrowBookTicket.save()
-            })
-            const redirectUrl = urlHelper.getEncodedMessageUrl('/muonTraSach/choMuonOffline', {
-                type: 'success',
-                title: 'Thành công',
-                text: 'Xác nhận mượn sách thành công!'
-            })
-            res.json(redirectUrl)
+                var newCart = []
+                req.session.cart = newCart
+    
+                res.json(redirectUrl)
+            }
         } catch (error) {
             console.log(error)
         }
@@ -969,18 +1000,18 @@ class APIController {
     }
     // tạo ảnh cho qr code
     async createImageQRcode(req, res) {
-        try{
+        try {
             var id = req.body.id
             console.log(id)
             var name = req.body.name
             const qr = await QRCode.toFile(`./public/images/QRCode/${name}.png`, id);
             res.json('success')
             //console.log(qr)
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
     }
-    deleteImageQRcode(req, res){
+    deleteImageQRcode(req, res) {
         try {
             var name = req.body.name
             var path = `./public/images/QRCode/${name}.png`
@@ -991,34 +1022,34 @@ class APIController {
         }
     }
     //Lấy số sách bị hư hỏng/mất
-    async getLostBook(req,res){
-        var month = req.query.thang-1
+    async getLostBook(req, res) {
+        var month = req.query.thang - 1
         console.log(month)
         var date = new Date()
         var begin = new Date(date.getFullYear(), month, 1)
-        var end = new Date(date.getFullYear(), month+1, 1)
-        console.log('beign '+begin)
-        console.log('end '+end)
+        var end = new Date(date.getFullYear(), month + 1, 1)
+        console.log('beign ' + begin)
+        console.log('end ' + end)
         const lostBook = await DetailBorrowBookTicket.aggregate([
             {
-                $match:{ 
+                $match: {
                     status: "Hư hỏng/mất",
-                    dateGiveBack: {$gte: begin, $lt: end}
+                    dateGiveBack: { $gte: begin, $lt: end }
                 }
             },
             {
-                $group:{
+                $group: {
                     _id: "$bookId",
-                    count: {$sum: 1}
+                    count: { $sum: 1 }
                 }
-            }   
+            }
         ])
         var sachMat = []
         for (let i = 0; i < lostBook.length; i++) {
             const e = lostBook[i];
             const b = await Book.findById(e._id)
             var row = {
-                bookName : b.name,
+                bookName: b.name,
                 lostNumber: e.count
             }
             sachMat.push(row)

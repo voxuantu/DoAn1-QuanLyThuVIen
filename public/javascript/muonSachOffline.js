@@ -1,18 +1,9 @@
-var sach = ["abcd"]
+var sach = []
+var sach1 = []
 function onScanSuccess(qrCodeMessage) {
-    // var isExist = false;
-    // console.log(sach)
-    // console.log(qrCodeMessage)
-    // for (let i = 0; i < sach.length; i++) {
-    //     if(qrCodeMessage == sach[i]){
-    //         isExist = true
-    //         break;
-    //     }
-    // }
-    // console.log('isExist: '+isExist)
-    console.log($.inArray(qrCodeMessage, sach))
-    if ($.inArray(qrCodeMessage, sach) == -1) {
-        sach.push(qrCodeMessage)
+    console.log($.inArray(qrCodeMessage, sach1))
+    if ($.inArray(qrCodeMessage, sach1) == -1) {
+        sach1.push(qrCodeMessage)
         $.ajax({
             url: '/api/getABook',
             type: 'post',
@@ -21,9 +12,11 @@ function onScanSuccess(qrCodeMessage) {
             },
             success: function (data) {
                 if (data.quantity <= 0) {
+                    const index = sach1.indexOf(qrCodeMessage)
+                    sach1.splice(index,1)
                     Swal.fire('Thất bại!', `Sách ${data.name} không đủ số lượng!`, 'error')
                 } else {
-                    
+                    sach.push(qrCodeMessage)
                     console.log(sach)
                     var markup = `<tr id='${data._id}'>
                                   <td>${sach.length}</td>
@@ -73,7 +66,6 @@ Validator({
         Validator.isRequire('#so-luong-sach', "Vui lòng chọn sách")
     ],
     onSubmit: function (data) {
-        sach.splice(0, 1)
         console.log(sach)
         $.ajax({
             url: '/api/bookLoanConfirmation',
