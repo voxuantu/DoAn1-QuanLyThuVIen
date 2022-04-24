@@ -159,9 +159,11 @@ class TrangCaNhanController {
 
         var querystring = require('qs');
         var signData = querystring.stringify(vnp_Params, { encode: false });
+        
         var crypto = require("crypto");
         var hmac = crypto.createHmac("sha512", secretKey);
-        var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
+        var signed = hmac.update(new Buffer.from(signData)).digest("hex"); 
+        console.log("signed : " + signed)
         vnp_Params['vnp_SecureHash'] = signed;
         vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
 
@@ -185,7 +187,8 @@ class TrangCaNhanController {
         var signData = querystring.stringify(vnp_Params, { encode: false });
         var crypto = require("crypto");
         var hmac = crypto.createHmac("sha512", secretKey);
-        var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
+        
+        var signed = hmac.update(new Buffer.from(signData)).digest("hex"); 
 
         const currentUser = await req.user
         const libraryCard = await LibraryCard.findOne({ accountId: currentUser._id })
