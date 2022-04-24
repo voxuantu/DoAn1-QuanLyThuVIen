@@ -1,6 +1,16 @@
 var sach = ["abcd"]
 function onScanSuccess(qrCodeMessage) {
-    if (jQuery.inArray(qrCodeMessage, sach) < 0) {
+    var isExist = false;
+    console.log(sach)
+    console.log(qrCodeMessage)
+    for (let i = 0; i < sach.length; i++) {
+        if(qrCodeMessage == sach[i]){
+            isExist = true
+            break;
+        }
+    }
+    console.log('isExist: '+isExist)
+    if (isExist == false) {
         $.ajax({
             url: '/api/getABook',
             type: 'post',
