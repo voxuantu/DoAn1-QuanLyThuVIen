@@ -326,10 +326,10 @@ class TrangCaNhanController {
             console.log(`Headers: ${JSON.stringify(response.headers)}`);
             response.setEncoding('utf8');
             response.on('data', (body) => {
-                console.log('Body: ');
-                console.log(body);
-                console.log('payUrl: ');
-                console.log(JSON.parse(body).payUrl);
+                // console.log('Body: ');
+                // console.log(body);
+                // console.log('payUrl: ');
+                // console.log(JSON.parse(body).payUrl);
                 res.redirect(JSON.parse(body).payUrl)
             });
             response.on('end', () => {
