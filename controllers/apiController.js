@@ -952,7 +952,7 @@ class APIController {
                     res.json(redirectUrl)
                 } else {
                     var borrowTicket = new BorrowBookTicket({
-                        libraryCard: library._id,
+                        libraryCard: libraryCard._id,
                         statusBorrowBook: "Đang mượn",
                         dateBorrow: new Date(),
                     })
