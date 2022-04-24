@@ -12,6 +12,7 @@ function onScanSuccess(qrCodeMessage) {
     // console.log('isExist: '+isExist)
     console.log($.inArray(qrCodeMessage, sach))
     if ($.inArray(qrCodeMessage, sach) == -1) {
+        sach.push(qrCodeMessage)
         $.ajax({
             url: '/api/getABook',
             type: 'post',
@@ -22,7 +23,7 @@ function onScanSuccess(qrCodeMessage) {
                 if (data.quantity <= 0) {
                     Swal.fire('Thất bại!', `Sách ${data.name} không đủ số lượng!`, 'error')
                 } else {
-                    sach.push(qrCodeMessage)
+                    
                     console.log(sach)
                     var markup = `<tr id='${data._id}'>
                                   <td>${sach.length}</td>
