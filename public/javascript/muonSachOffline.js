@@ -1,4 +1,4 @@
-var sach = []
+var sach = ["abcd"]
 function onScanSuccess(qrCodeMessage) {
     if (jQuery.inArray(qrCodeMessage, sach) < 0) {
         $.ajax({
@@ -60,6 +60,8 @@ Validator({
         Validator.isRequire('#so-luong-sach', "Vui lòng chọn sách")
     ],
     onSubmit: function (data) {
+        sach.splice(0, 1)
+        console.log(sach)
         $.ajax({
             url: '/api/bookLoanConfirmation',
             dataType: 'json',
