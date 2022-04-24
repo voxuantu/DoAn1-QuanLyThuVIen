@@ -22,9 +22,9 @@ module.exports = (email, subject, amp) => {
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            res.json(error);
+            console.log(error);
         } else {
-            res.json('Email sent: ' + info.response);
+            console.log('Email sent: ' + info.response);
         }
     });
 }
