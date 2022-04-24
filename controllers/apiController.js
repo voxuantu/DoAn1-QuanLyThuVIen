@@ -936,9 +936,9 @@ class APIController {
             var libraryCard = await LibraryCard.findOne({ idCard: libraryCardId })
             var expiredDate = new Date(libraryCard.createdDate)
             expiredDate.setDate(expiredDate.getDate() + numberOfExpirationDays.value)
+            var dateNow = new Date()
             console.log("ngay het han : " + expiredDate)
             console.log("ngay hien tai : " + dateNow)
-            var dateNow = new Date()
             if (expiredDate > dateNow) {
                 let dangMuon = await BorrowBookTicket.findOne({ libraryCard: libraryCard._id, statusBorrowBook: ["Đang mượn", "Đang xử lý"] })
                 if (dangMuon != null) {
@@ -952,7 +952,7 @@ class APIController {
                     res.json(redirectUrl)
                 } else {
                     var borrowTicket = new BorrowBookTicket({
-                        libraryCard: libraryCard._id,
+                        libraryCard: library._id,
                         statusBorrowBook: "Đang mượn",
                         dateBorrow: new Date(),
                     })
