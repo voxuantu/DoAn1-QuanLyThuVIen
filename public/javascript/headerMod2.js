@@ -12,7 +12,7 @@ $(document).ready(function () {
                 var content = "<li>"
                     + "<a onclick='ViewNotification(this)' data-bs-id='" + element._id + "'>"
                     + "<div class='notifi-item'>"
-                    + "<img class='img-fluid rounded-circle ms-2 me-3' src='/icon/avatar.png' alt='avatar'>"
+                    + "<img class='img-fluid rounded-circle ms-2 me-3' src='/icon/notification-bell.png' alt='avatar'>"
                     + "<div>"
                     + "<h5>" + element.title + "</h5>"
                     + "<p>" + element.message + "</p>"

@@ -122,6 +122,22 @@ class MuonTraSachController {
     //từ chối cho mượn sách
     async refuseToLendBook(req, res) {
         try {
+            var borrowBookTicket = await BorrowBookTicket.findById(req.body.borrowBookTicketId)
+            var libraryCard = await LibraryCard.findOne({_id : borrowBookTicket.libraryCard}).populate('accountId')
+            var notify = new Notification({
+                title : "Mượn sách",
+                message : "Yêu cầu mượn sách của bạn bị từ chối",
+                receiver : libraryCard.accountId
+            })
+            await notify.save()
+
+            var io = req.app.get('socketio')
+            io.to(libraryCard.accountId.email).emit('show-notification-from-admin', 
+                {
+                    id : notify._id,
+                    title : "Mượn sách",
+                    message : "Yêu cầu mượn sách của bạn bị từ chối"
+                })
             await DetailBorrowBookTicket.deleteMany({ borrowBookTicketId: req.body.borrowBookTicketId })
             await BorrowBookTicket.deleteOne({ _id: req.body.borrowBookTicketId })
             res.redirect("back")
@@ -145,6 +161,10 @@ class MuonTraSachController {
                     status: element.tinhtrang,
                     dateGiveBack: now
                 })
+                if(element.tinhtrang == 'Đã trả'){
+                    var book = await Book.findById(element.id)
+                    await Book.findOneAndUpdate({_id: element.id},{quantity: book.quantity+1 })
+                }
             });
             setTimeout(async function(){
                 var tienphat = parseInt(req.body.tienphat)
