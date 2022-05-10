@@ -112,9 +112,6 @@ function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals, fine)
                         binhLuan = `<button class="nutbam" onclick="OpenModalBinhLuan('${book._id}','${bookBorrow[i]._id}')">Bình luận</button>`
                     }
                     markup = `<tr>
-                                <td scope="row">
-                                    ${i+1}
-                                </td>
                                 <td>
                                     <img src="${book.coverImage}" alt="${book.name}" class="img-fluid">
                                 </td>
