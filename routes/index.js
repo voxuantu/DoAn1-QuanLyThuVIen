@@ -50,6 +50,7 @@ function route (app) {
     app.use('/quanLyNhanVien',checkAuthenticated, checkPermissions(['ADMIN']), quanLyNhanVienRouter)
 
     app.use('/trangChu', indexRouter)
+    app.use('/', indexRouter)
     
 }
 

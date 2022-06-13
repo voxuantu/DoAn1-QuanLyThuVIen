@@ -97,6 +97,7 @@ class APIController {
     async layChiTietPhieuMuon(req, res) {
         try {
             const numberOfRenewals = await Regulation.findOne({ name: 'Số lần gia hạn sách' })
+            const numberOfDateToBorrwoBook = await Regulation.findOne({ name: 'Số ngày mượn tối đa/1 lần mượn' })
             const borrowBookTicket = await BorrowBookTicket.findById(req.body.id)
             const fineForOneBookLatePerDay = await Regulation.findOne({ name: "Số tiền phạt trả sách trễ (1 cuốn/1 ngày)" })
             var fineTicket
@@ -109,7 +110,8 @@ class APIController {
                 borrowBookTicket: borrowBookTicket,
                 bookBorrow: bookBorrow,
                 fine: fineTicket ? fineTicket.fine : 0,
-                fineForOneBookLatePerDay: fineForOneBookLatePerDay.value
+                fineForOneBookLatePerDay: fineForOneBookLatePerDay.value,
+                numberOfDateToBorrwoBook : numberOfDateToBorrwoBook
             })
         } catch (error) {
             console.log(error)

@@ -58,7 +58,7 @@ function toggleEdit() {
         down = true;
     }
 }
-function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals, fine) {
+function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals, fine, numberOfDateToBorrwoBook) {
     $(document).ready(
         function () {
             if(status == "Đang xử lý"){
@@ -90,7 +90,7 @@ function OpenModal(bookBorrow, status, borrowBookTicket, numberOfRenewals, fine)
                 console.log(numberOfRenewals)
                 console.log(borrowBookTicket.numberOfRenewals)
                 console.log(borrowBookTicket.numberOfRenewals < numberOfRenewals)
-                if(borrowBookTicket.numberOfRenewals < numberOfRenewals){
+                if(borrowBookTicket.numberOfRenewals < numberOfRenewals && addDates(borrowBookTicket.dateBorrow, numberOfDateToBorrwoBook.value) >= new Date()){
                     var addButton = `<button type="submit" class="nutbam">Xác nhận gia hạn</button>`
                     $('.modal-dang-muon-sach .modal-footer').append(addButton)
                 }
@@ -271,7 +271,7 @@ $(document).ready(function(){
                     id: $(this).attr('data-book-borrowed')
                 },
                 success: function(data){
-                    OpenModal(data.bookBorrow, status, data.borrowBookTicket, data.numberOfRenewals, data.fine)
+                    OpenModal(data.bookBorrow, status, data.borrowBookTicket, data.numberOfRenewals, data.fine, data.numberOfDateToBorrwoBook)
                 },
                 error : function(err){
                     console.error(err)
@@ -306,3 +306,9 @@ $(document).ready(function(){
         }
     })
 })
+
+function addDates(date, days){
+    var result = new Date(date)
+    result.setDate(result.getDate() + days)
+    return result
+}

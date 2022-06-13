@@ -7,7 +7,7 @@ module.exports = (email, subject, amp) => {
         secure: true, // true for 465, false for other ports
         auth: {
             user: process.env.USER, // generated ethereal user
-            pass: "Vominhtuan@8121", // generated ethereal password
+            pass: process.env.PASS, // generated ethereal password
         },
     });
 
