@@ -371,7 +371,6 @@ class TrangCaNhanController {
             maxBorrowDates: maxBorrowDates.value
         })
     }
-
 }
 
 function sortObject(obj) {

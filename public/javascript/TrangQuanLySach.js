@@ -16,47 +16,44 @@ function ShowImage(event) {
     image.src = URL.createObjectURL(event.target.files[0]);
 }
 
-$(document).ready(function () {
-    $('.delete-book').each(function (j, obj) {
-        $(this).click(function () {
-            var id = $(this).attr('data-id-book')
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: true
-            })
+function deleteBook(a) {
+    var id = a.getAttribute('data-id-book')
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: true
+    })
 
-            swalWithBootstrapButtons.fire({
-                title: 'Bạn có muốn xóa không?',
-                text: "Bạn sẽ không khôi phục lại được sau khi xóa!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Có',
-                cancelButtonText: 'Không',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '/quanLySach/delete',
-                        dataType: 'json',
-                        type: 'post',
-                        data: {
-                            id: id
-                        },
-                        success: function (data) {
-                            window.location.replace(data);
-                        },
-                        error: function (err) {
-                            console.log(err)
-                        }
-                    })
+    swalWithBootstrapButtons.fire({
+        title: 'Bạn có muốn xóa không?',
+        text: "Bạn sẽ không khôi phục lại được sau khi xóa!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/quanLySach/delete',
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    window.location.replace(data);
+                },
+                error: function (err) {
+                    console.log(err)
                 }
             })
-        })
+        }
     })
-})
+}
+
 
 function OpenQRCode(a) {
     var id = a.getAttribute('data-id-book')
@@ -81,42 +78,42 @@ function OpenQRCode(a) {
     })
     $('#modalQrCode').modal('show')
 }
-function downloadQRCode(name, id){
+function downloadQRCode(name, id) {
     $.ajax({
         url: '/api/saveQRcode',
         type: 'post',
         data: {
-            id : id,
+            id: id,
             name: name
         },
-        success: function(){
-            var url = '/images/QRCode/'+name+'.png'
+        success: function () {
+            var url = '/images/QRCode/' + name + '.png'
             fetch(url, {
                 mode: 'no-cors',
             })
-            .then(response => response.blob())
-            .then(blob => {
-                let blobUrl = window.URL.createObjectURL(blob);
-                let a = document.createElement('a');
-                a.download = url.replace(/^.*[\\\/]/, '');
-                a.href = blobUrl;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                deleteImage(name)
-            })
+                .then(response => response.blob())
+                .then(blob => {
+                    let blobUrl = window.URL.createObjectURL(blob);
+                    let a = document.createElement('a');
+                    a.download = url.replace(/^.*[\\\/]/, '');
+                    a.href = blobUrl;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    deleteImage(name)
+                })
         }
     })
 }
 
-function deleteImage(name){
+function deleteImage(name) {
     $.ajax({
-        url : '/api/deleteQRcode',
-        type : 'post',
-        data : {
-            name : name
+        url: '/api/deleteQRcode',
+        type: 'post',
+        data: {
+            name: name
         },
-        success : function(data){},
+        success: function (data) { },
         error: function (err) {
             console.log(err)
         }

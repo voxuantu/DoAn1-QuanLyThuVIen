@@ -21,7 +21,7 @@ const io = new Server(server);
 const muonTraSachController = require('./controllers/staff/muonTraSachController');
 
 var cron = require('node-cron');
-cron.schedule('* * * * *', muonTraSachController.sendMailRemind);
+cron.schedule('0 8 * * 0-6', muonTraSachController.sendMailRemind);
 
 const initializePassport = require('./utils/passport-config')
 initializePassport(passport)
