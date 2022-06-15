@@ -30,10 +30,12 @@
                     </ul>
                 </div>
             </div>
-            <div class="timkiem">
-                <form action="/quanLySach/excelUpload" method="POST" enctype="multipart/form-data">
+            <div class="timkiem" style="visibility: hidden;">
+                <form id="formImportExcel" action="/quanLySach/excelUpload" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                      <label for="excel">Thêm sách từ file excle</label><input type="file" class="field" name="excel" required><br><br>
+                      <label for="excel">Thêm sách từ file excle</label>
+                      <input onchange="OnChange()" id="chooseFileDialog" type="file" class="field" name="excel" required>
+                      <br><br>
                       <input class="nutbam" type="submit" value="Thêm">
                     </div>
                 </form> 
@@ -43,19 +45,18 @@
             <div id="ql-sach">
                 <div class="timkiem mb-2" style="min-height: 500px; position: relative;">
                     <div class="row mb-2">
-                        <div class="col-sm-6">
+                        <div>
+                            <input class="field" type="text" id="searchBox" name="tuKhoa"
+                                    placeholder="Nhập từ khóa tìm kiếm...">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                             <a href="/quanLySach/create" class="nut-them-moi">
                                 <button class="nutbam">Thêm sách mới</button>
                             </a>
                             <form action="/quanLySach/downExcel" method="post">
                                 <button class="nutbam">Xuất file excel</button>
                             </form>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-end">
-                                <input class="field" type="text" id="searchBox" name="tuKhoa"
-                                    placeholder="Nhập từ khóa tìm kiếm...">
-                            </div>
+                            <a id="btnImportExcel" class="nutbam" style="cursor: pointer;" onclick="OpenChooseDialog()">Nhập file excel</a>
                         </div>
                     </div>
                     <div class="main-datatable">
@@ -124,5 +125,6 @@
 <script src="/javascript/TrangQuanLySach.js"></script>
 <script src="/javascript/TrangChu.js"></script>
 <script src="/javascript/showToolTip.js"></script>
+
 
 <%- include('../particals/footer') %>

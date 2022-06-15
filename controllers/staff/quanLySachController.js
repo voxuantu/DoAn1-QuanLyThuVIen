@@ -264,12 +264,20 @@ class QuanLySachController {
             x++;
         });
         deleteFielExcel(req.file.filename)
-        res.redirect('/quanLySach')
+        const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach', {
+            type: 'success',
+            title: 'Thành công',
+            text: 'Thêm sách từ file Excel thành công!'
+        })
+        res.json({
+            type : 'success',
+            url : redirectUrl
+        })
     }
     downloadFielExcel(req, res) {
         var wb = XLSX.utils.book_new();
-        Book.find(async (err,data) => {
-            if(err){
+        Book.find(async (err, data) => {
+            if (err) {
                 console.log(err);
             } else {
                 var arr = []
@@ -282,35 +290,35 @@ class QuanLySachController {
                     var bookPublisher = await BookPublisher.findById(temp[i].bookPublisher)
 
                     var book = {
-                        TenSach : temp[i].name,
-                        MoTa : temp[i].description,
-                        NamXuatBan : temp[i].publishedYear,
-                        TacGia : author.name,
+                        TenSach: temp[i].name,
+                        MoTa: temp[i].description,
+                        NamXuatBan: temp[i].publishedYear,
+                        TacGia: author.name,
                         TheLoai: category.name,
-                        SoTrang : temp[i].pageCount,
-                        NhaXuatBan : bookPublisher.name,
-                        GiaBia : temp[i].coverPrice,
-                        SoLuong : temp[i].quantity,
+                        SoTrang: temp[i].pageCount,
+                        NhaXuatBan: bookPublisher.name,
+                        GiaBia: temp[i].coverPrice,
+                        SoLuong: temp[i].quantity,
                     }
                     arr.push(book)
                 }
                 var ws = XLSX.utils.json_to_sheet(arr)
                 var down = "./public/uploads/Book.xlsx"
-                XLSX.utils.book_append_sheet(wb,ws,'sheet 1')
-                XLSX.writeFile(wb,down)
+                XLSX.utils.book_append_sheet(wb, ws, 'sheet 1')
+                XLSX.writeFile(wb, down)
                 res.download(down)
             }
         })
     }
 }
 
-async function getAuthorId(name){
-    var author = await Author.findOne({name : name})
-    if(author == null){
+async function getAuthorId(name) {
+    var author = await Author.findOne({ name: name })
+    if (author == null) {
         const tempAuthor = new Author({
             name: name
         })
-        await tempAuthor.save() 
+        await tempAuthor.save()
         //console.log(tempAuthor._id)
         return tempAuthor
     }
@@ -326,26 +334,26 @@ function deleteFielExcel(name) {
     }
 }
 
-async function getCategoryId(name){
-    var category = await Category.findOne({name : name})
-    if(category == null){
+async function getCategoryId(name) {
+    var category = await Category.findOne({ name: name })
+    if (category == null) {
         const tempCategory = new Category({
             name: name
         })
-        await tempCategory.save() 
+        await tempCategory.save()
         //console.log(tempCategory._id)
         return tempCategory
     }
     return category
 }
 
-async function getBookPublisherId(name){
-    var bookPublisher = await BookPublisher.findOne({name : name})
-    if(bookPublisher == null){
+async function getBookPublisherId(name) {
+    var bookPublisher = await BookPublisher.findOne({ name: name })
+    if (bookPublisher == null) {
         const tempBookPublisher = new BookPublisher({
             name: name
         })
-        await tempBookPublisher.save() 
+        await tempBookPublisher.save()
         //console.log(tempCategory._id)
         return tempBookPublisher
     }
