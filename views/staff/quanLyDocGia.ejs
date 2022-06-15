@@ -36,6 +36,15 @@
                         <a href="/quanLyDocGia/themDocGia" class="nut-them-moi">
                             <button class="nutbam">Thêm độc giả</button>
                         </a>
+                        <form id="uploadExcel" action="/quanLyDocGia/themDocGiaBangExcel" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                              <label for="excel">Thêm độc giả từ file excle</label><input type="file" class="field" name="excel" required><br><br>
+                              <input class="nutbam" type="submit" value="Thêm">
+                            </div>
+                        </form> 
+                        <form action="/quanLyDocGia/downExcel" method="post">
+                            <button class="nutbam">Xuất file excel</button>
+                        </form>
                     </div>
                     <div class="col-sm-6">
                         <div class="text-end">
@@ -95,5 +104,6 @@
 <script src="/javascript/showToolTip.js"></script>
 <script src="/javascript/validator.js"></script>
 <script src="/javascript/quanLyDocGia.js"></script>
+
 
 <%- include('../particals/footer') %>

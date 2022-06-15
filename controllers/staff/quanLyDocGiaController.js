@@ -6,7 +6,9 @@ const urlHelper = require('../../utils/url')
 const sendEmail = require('../../utils/sendEmail')
 const Regulation = require('../../models/regulation')
 const { GetHeader, GetFooter } = require('../../utils/email');
-const { rawListeners } = require('../../models/role')
+const XLSX = require("xlsx");
+const fs = require('fs')
+
 
 class QuanLyDocGiaController {
     //Load trang quản lý độc giả
@@ -86,9 +88,9 @@ class QuanLyDocGiaController {
                 console.log('user disconnected');
             });
         });
-        const numberOfReader = await LibraryCard.count();
-        var username = 'docgia' + numberOfReader
-        var password = '@DocGia' + numberOfReader
+        //const numberOfReader = await LibraryCard.count();
+        var username = (await generateAccountAndPassword()).username
+        var password = (await generateAccountAndPassword()).password
         res.render('staff/themDocGia', {
             currentUser: currentUser,
             username: username,
@@ -97,13 +99,12 @@ class QuanLyDocGiaController {
     }
     //Thêm độc giả
     async create(req, res) {
-        console.log(req.body.birth)
-        // var result = await createDocGia(req.body.username, req.body.password, req.body.displayName,
-        //     req.body.address, req.body.phone, req.body.gender, req.body.birth, req.body.email)
-        // res.json({
-        //     type : result.type,
-        //     message : result.message
-        // })
+        var result = await createDocGia(req.body.username, req.body.password, req.body.displayName,
+            req.body.address, req.body.phone, req.body.gender, req.body.birth, req.body.email)
+        res.json({
+            type: result.type,
+            message: result.message
+        })
     }
     //Chặn độc giả
     async block(req, res) {
@@ -209,9 +210,109 @@ class QuanLyDocGiaController {
             console.log(error)
         }
     }
+    //Thêm độc giả từ file excel
+    async importReaderFromExcel(req, res) {
+        var workbook = XLSX.readFile(req.file.path);
+        var sheet_namelist = workbook.SheetNames;
+        var errList = []
+        var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
+        console.log(xlData.length)
+        for (let i = 0; i < xlData.length; i++) {
+            var account = await generateAccountAndPassword()
+            var displayName = xlData[i].HoTen
+            var gender = xlData[i].GioiTinh == 'Nam' ? 1 : 0
+            var address = xlData[i].DiaChi
+            var phone = '0' + xlData[i].SoDienThoai
+            var email = xlData[i].Email
+            var birth = ExcelDateToJSDate(xlData[i].NgaySinh).toISOString()
+
+            console.log('ngay sinh : ' + birth);
+            var result = await createDocGia(account.username, account.password, displayName,
+                address, phone, gender, birth, email)
+
+            if (result.type == 'That bai') {
+                var row = {
+                    HoTen: displayName,
+                    GioiTinh: gender == 1 ? 'Nam' : 'Nữ',
+                    DiaChi: address,
+                    SoDienThoai: phone,
+                    Email: email,
+                    NgaySinh: ExcelDateToJSDate(xlData[i].NgaySinh).toDateString(),
+                    MoTaLoi: result.message
+                }
+                errList.push(row)
+            }
+        }
+
+        deleteFielExcel(req.file.filename)
+        if (errList.length > 0) {
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.json_to_sheet(errList)
+            var down = "./public/uploads/DanhSachDocGiaLoi.xlsx"
+            XLSX.utils.book_append_sheet(wb, ws, 'sheet 1')
+            XLSX.writeFile(wb, down)
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyDocGia', {
+                type: 'warning',
+                title: 'Thất bại',
+                text: 'Một số độc giả không thể thêm vào hệ thống!'
+            })
+            res.json({
+                type: 'Error',
+                url: redirectUrl
+            })
+        } else {
+            const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyDocGia', {
+                type: 'success',
+                title: 'Thành công',
+                text: 'Thêm độc giả từ file Excel thành công!'
+            })
+            res.json({
+                type: 'Success',
+                url: redirectUrl
+            })
+        }
+    }
+    //Xuất file excel độc giả
+    async downloadFielExcel(req, res) {
+        var wb = XLSX.utils.book_new();
+
+        var libraryCards = await LibraryCard.find().populate('accountId')
+
+        var arr = []
+        var temp = JSON.stringify(libraryCards)
+        temp = JSON.parse(temp)
+
+        for (let i = 0; i < temp.length; i++) {
+            var account = {
+                MaTheThuVien : temp[i].idCard,
+                HoTen : temp[i].accountId.displayName,
+                DiaChi : temp[i].accountId.address,
+                SoDienThoai : temp[i].accountId.phone,
+                Email : temp[i].accountId.email,
+                NgaySinh : new Date(temp[i].accountId.birth).toDateString(),
+                GioiTinh : temp[i].accountId.gender == 1 ? 'Nam' : 'Nữ'
+            }
+            arr.push(account)
+        }
+        var ws = XLSX.utils.json_to_sheet(arr)
+        var down = "./public/uploads/DanhSachDocGia.xlsx"
+        XLSX.utils.book_append_sheet(wb, ws, 'sheet 1')
+        XLSX.writeFile(wb, down)
+        res.download(down)
+    }
 }
 
-async function createDocGia(username,password, displayName, address, phone, gender, birth,email){
+async function generateAccountAndPassword() {
+    const numberOfReader = await LibraryCard.count();
+    var username = 'docgia' + numberOfReader
+    var password = '@DocGia' + numberOfReader
+    return {
+        username: username,
+        password: password
+    }
+}
+
+async function createDocGia(username, password, displayName, address, phone, gender, birth, email) {
     try {
         const checkPhone = await Account.findOne({ phone: phone })
         const checkEmail = await Account.findOne({ email: email })
@@ -254,7 +355,7 @@ async function createDocGia(username,password, displayName, address, phone, gend
             const newLibraryCard = new LibraryCard({
                 accountId: newAccount.id,
                 createdDate: new Date(),
-                idCard: "LBC" + (num + 1)
+                idCard: "LBC" + num
             })
             await newLibraryCard.save()
             const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLyDocGia', {
@@ -288,6 +389,34 @@ async function createDocGia(username,password, displayName, address, phone, gend
     } catch (error) {
         console.log(error)
     }
+}
+
+function deleteFielExcel(name) {
+    try {
+        var path = `./public/uploads/${name}`
+        fs.unlinkSync(path)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+function ExcelDateToJSDate(serial) {
+    var utc_days = Math.floor(serial - 25569);
+    var utc_value = utc_days * 86400;
+    var date_info = new Date(utc_value * 1000);
+
+    var fractional_day = serial - Math.floor(serial) + 0.0000001;
+
+    var total_seconds = Math.floor(86400 * fractional_day);
+
+    var seconds = total_seconds % 60;
+
+    total_seconds -= seconds;
+
+    var hours = Math.floor(total_seconds / (60 * 60));
+    var minutes = Math.floor(total_seconds / 60) % 60;
+
+    return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate(), hours, minutes, seconds);
 }
 
 module.exports = new QuanLyDocGiaController;
