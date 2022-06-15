@@ -106,6 +106,34 @@ function downloadQRCode(name, id) {
     })
 }
 
+function OpenChooseDialog(){
+    $(document).ready(function () {
+        $('#chooseFileDialog').trigger('click');
+    })
+}
+function OnChange(){
+    var form = document.getElementById('formImportExcel')
+    var formData = new FormData(form)
+    $.ajax({
+        url: '/quanLySach/excelUpload',
+        type: 'post',
+        data: formData,
+        success: function (data) {
+            console.log(data)
+            if(data.type == 'success'){
+                window.location.replace(data.url)
+                console.log('success')
+            } else {
+                Swal.fire('Thất bại!', 'Đã có lỗi xảy ra trong quá trình thêm sách!', 'error')
+                console.log('fail')
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}
+
 function deleteImage(name) {
     $.ajax({
         url: '/api/deleteQRcode',

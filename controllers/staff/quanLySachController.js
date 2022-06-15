@@ -264,7 +264,15 @@ class QuanLySachController {
             x++;
         });
         deleteFielExcel(req.file.filename)
-        res.redirect('/quanLySach')
+        const redirectUrl = urlHelper.getEncodedMessageUrl('/quanLySach', {
+            type: 'success',
+            title: 'Thành công',
+            text: 'Thêm sách từ file Excel thành công!'
+        })
+        res.json({
+            type : 'success',
+            url : redirectUrl
+        })
     }
     downloadFielExcel(req, res) {
         var wb = XLSX.utils.book_new();
