@@ -130,41 +130,47 @@ $(document).ready(
                 }
             })
         })
-    }),
-    $("form#uploadExcel").submit(function(e) {
-        e.preventDefault();    
-        var formData = new FormData(this);
-    
-        $.ajax({
-            url: '/quanLyDocGia/themDocGiaBangExcel',
-            type: 'POST',
-            data: formData,
-            success: function (data) {
-                if(data.type == 'Error'){
-                    var url = '/uploads/DanhSachDocGiaLoi.xlsx'
-                    fetch(url, {
-                        mode: 'no-cors',
-                    })
-                        .then(response => response.blob())
-                        .then(blob => {
-                            let blobUrl = window.URL.createObjectURL(blob);
-                            let a = document.createElement('a');
-                            a.download = url.replace(/^.*[\\\/]/, '');
-                            a.href = blobUrl;
-                            document.body.appendChild(a);
-                            a.click();
-                            a.remove();
-                        })
-                }
-                window.location.replace(data.url)
-            },
-            cache: false,
-            contentType: false,
-            processData: false
-        });
     })
 );
 
+function openFileDialog(){
+    $(document).ready( function () {
+        $("#fileExcel").trigger('click');
+    });
+}
+
+function onChange(){
+    var form = document.getElementById('uploadExcel')
+    var formData = new FormData(form);
+    
+    $.ajax({
+        url: '/quanLyDocGia/themDocGiaBangExcel',
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            if(data.type == 'Error'){
+                var url = '/uploads/DanhSachDocGiaLoi.xlsx'
+                fetch(url, {
+                    mode: 'no-cors',
+                })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        let blobUrl = window.URL.createObjectURL(blob);
+                        let a = document.createElement('a');
+                        a.download = url.replace(/^.*[\\\/]/, '');
+                        a.href = blobUrl;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    })
+            }
+            window.location.replace(data.url)
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}
 
 $(document).ready( function () {
     var dataTable = $('#table-doc-gia').DataTable();

@@ -559,52 +559,7 @@ html{
     background: radial-gradient(closest-side, rgba(73, 218, 131, 1), transparent);
     animation: animateShadow 0.75s ease-out forwards 0.75s;
 }
-/* upload file excel */
-.drag-area{
-    border: 2px dashed #fff;
-    height: 250px;
-    width: 350px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-.drag-area.active{
-border: 2px solid #fff;
-}
-.drag-area .icon{
-font-size: 50px;
-color: #fff;
-}
-.drag-area header{
-font-size: 30px;
-font-weight: 250;
-color: #fff;
-}
-.drag-area span{
-font-size: 14px;
-font-weight: 250;
-color: #fff;
-margin: 10px 0 15px 0;
-}
-.drag-area button{
-padding: 5px 14px;
-font-size: 14px;
-font-weight: 250;
-border: none;
-outline: none;
-background: #fff;
-color: #5256ad;
-border-radius: 5px;
-cursor: pointer;
-}
-.drag-area img{
-height: 100%;
-width: 100%;
-object-fit: cover;
-border-radius: 5px;
-}
+
   
 @keyframes animateContainer {
 	0% {

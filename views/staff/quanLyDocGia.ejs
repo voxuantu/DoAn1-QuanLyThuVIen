@@ -32,25 +32,25 @@
         <div id="ql-sach">
             <div class="timkiem mb-2" style="min-height: 600px; position: relative; padding-bottom: 10px;">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
+                    <div>
+                        <input class="field" type="text" id="searchBox" name="tuKhoa"
+                                placeholder="Nhập từ khóa tìm kiếm...">
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                         <a href="/quanLyDocGia/themDocGia" class="nut-them-moi">
                             <button class="nutbam">Thêm độc giả</button>
                         </a>
-                        <form id="uploadExcel" action="/quanLyDocGia/themDocGiaBangExcel" method="POST" enctype="multipart/form-data">
+                        <form hidden id="uploadExcel" action="/quanLyDocGia/themDocGiaBangExcel" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
-                              <label for="excel">Thêm độc giả từ file excle</label><input type="file" class="field" name="excel" required><br><br>
+                              <label for="excel">Thêm độc giả từ file excle</label>
+                              <input id="fileExcel" type="file" class="field" name="excel" required onchange="onChange()"><br><br>
                               <input class="nutbam" type="submit" value="Thêm">
                             </div>
                         </form> 
+                        <a id="uploadExcel" class="nutbam" style="cursor: pointer;" onclick="openFileDialog()">Nhập file excel</a>
                         <form action="/quanLyDocGia/downExcel" method="post">
                             <button class="nutbam">Xuất file excel</button>
                         </form>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-end">
-                            <input class="field" type="text" id="searchBox" name="tuKhoa"
-                                placeholder="Nhập từ khóa tìm kiếm...">
-                        </div>
                     </div>
                 </div>
                 <div class="main-datatable">
